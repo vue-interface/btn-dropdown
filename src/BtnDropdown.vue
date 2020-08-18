@@ -87,7 +87,7 @@
 <script>
 import Popper from 'popper.js';
 import Btn from '@vue-interface/btn';
-import BtnGroup from '@vue-interface/btn-group';
+import { BtnGroup } from '@vue-interface/btn-group';
 import { DropdownMenu } from '@vue-interface/dropdown-menu';
 import { prefix } from '@vue-interface/utils';
 
