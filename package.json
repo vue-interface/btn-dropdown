@@ -1,12 +1,12 @@
 {
   "name": "@vue-interface/btn-dropdown",
-  "version": "0.9.0",
-  "description": "A Vue dropdown menu component.",
+  "version": "0.8.0",
+  "description": "A Vue button dropdown component.",
   "main": "index.js",
   "scripts": {
     "watch": "npm run serve",
-    "serve": "vue-cli-service build --target lib --name=DropdownMenu ./main.js --watch",
-    "build": "vue-cli-service build --target lib --name=DropdownMenu ./main.js",
+    "serve": "vue-cli-service build --target lib --name=BtnDropdown ./main.vue --watch",
+    "build": "vue-cli-service build --target lib --name=BtnDropdown ./main.vue",
     "lint": "vue-cli-service lint",
     "fix": "vue-cli-service lint --fix",
     "pre-release": "npm run build; git add . -A; git commit -m 'pre-release commit'",
@@ -20,9 +20,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/vue-interface/dropdown-menu.git"
+    "url": "git+https://github.com/vue-interface/btn-dropdown.git"
   },
   "keywords": [
+    "Button",
     "Dropdown",
     "Menu",
     "Vue",
@@ -33,9 +34,9 @@
   "author": "Justin Kimbrell",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/vue-interface/dropdown-menu/issues"
+    "url": "https://github.com/vue-interface/btn-dropdown/issues"
   },
-  "homepage": "https://github.com/vue-interface/dropdown-menu/docs#readme",
+  "homepage": "https://github.com/vue-interface/btn-dropdown/docs#readme",
   "dependencies": {
     "@vue-interface/btn": "^0.9.6",
     "@vue-interface/btn-group": "^0.9.0",
