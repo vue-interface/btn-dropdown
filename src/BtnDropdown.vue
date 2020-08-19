@@ -1,53 +1,57 @@
 <template>
-    <btn-dropdown-split v-if="split" v-bind="$options.propsData">
+    <component
+        :is="$attrs.split ? 'btn-dropdown-split' : 'btn-dropdown-single'"
+        class="btn-dropdown"
+        v-bind="$attrs">
         <template #icon>
             <slot name="icon" />
         </template>
         <template #label>
             <slot name="label">
-                {{ label }}
+                {{ $attrs.label }}
             </slot>
         </template>
         <slot />
-    </btn-dropdown-split>
-    <btn-group v-else :class="{'dropdown': dropup && dropright && dropleft, 'dropup': dropup, 'dropright': dropright, 'dropleft': dropleft}" @click="onClick">
-        <btn-dropdown-action
-            :id="$attrs.id"
-            ref="button"
-            :expanded="isDropdownShowing"
-            :href="href"
-            :class="toggleClasses"
-            @click.native="toggle">
-            <slot name="icon" />
-            <slot name="label">
-                {{ label }}
-            </slot>
-        </btn-dropdown-action>
-        <dropdown-menu
-            :id="$attrs.id"
-            ref="menu"
-            :align="align"
-            :show="isDropdownShowing">
-            <slot />
-        </dropdown-menu>
-    </btn-group>
+    </component>
 </template>
 
 <script>
 import BtnDropdownSplit from './BtnDropdownSplit';
-import DropdownHandler from './DropdownHandler';
+import BtnDropdownSingle from './BtnDropdownSingle';
 
 export default {
 
     name: 'BtnDropdown',
 
     components: {
-        BtnDropdownSplit
+        BtnDropdownSplit,
+        BtnDropdownSingle
     },
-    
-    mixins: [
-        DropdownHandler
-    ]
+
+    inheritAttrs: false
 
 };
 </script>
+
+<style>
+@keyframes btnDropdownZoomIn {
+    from {
+        opacity: 0;
+        transform: scale3d(0.3, 0.3, 0.3);
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+  
+.btn-dropdown .dropdown-menu {
+    animation-duration: 125ms;
+    animation-fill-mode: both;
+    -webkit-font-smooth: subpixel-antialiased;
+}
+
+.btn-dropdown .dropdown-menu.animated {
+    animation-name: btnDropdownZoomIn;
+}
+</style>

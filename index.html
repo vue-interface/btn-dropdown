@@ -14,12 +14,13 @@
 
             <h3>Basic Usage</h3>
 
-            <btn-dropdown label="Dropdown" variant="secondary">
-                <a href="#">Action</a>
+            <btn-dropdown label="Dropdown" split variant="secondary">
+                <router-link to="/" @click="onClick">Action</router-link>
                 <a href="#">Another Action</a>
                 <a href="#">Something else here</a>
             </btn-dropdown>
 
+            <!--
             <hr>
 
             <h3>Variants</h3>
@@ -274,15 +275,32 @@
                 <a>Another Action</a>
                 <a>Something else here</a>
             </btn-dropdown>
+            -->
         </div>
 
         <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue-router/dist/vue-router.js"></script>
         <script type="text/javascript" src="./dist/BtnDropdown.umd.js"></script>
         <script type="text/javascript">
+            Vue.use(VueRouter);
+
+            const router = new VueRouter({
+                routes: [{
+                    path: '/test',
+                    name: 'Home'
+                }]
+            });
+                
             const vue = new Vue({
+                router,
                 el: '#app',
                 components: {
                     BtnDropdown
+                },
+                methods: {
+                    onClick(e) {
+                        e.stopPropagation();
+                    }
                 },
                 data() {
                     return {

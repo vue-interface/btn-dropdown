@@ -1,5 +1,5 @@
 <template>
-    <btn-group :class="{'dropdown': dropup && dropright && dropleft, 'dropup': dropup, 'dropright': dropright, 'dropleft': dropleft}" @click="onClick">
+    <btn-group :class="classes" @click="onClick">
         <btn-dropdown-action
             v-if="!dropleft"
             :id="$attrs.id"
@@ -21,14 +21,15 @@
                 aria-haspopup="true"
                 :aria-expanded="isDropdownShowing"
                 :class="toggleClasses"
-                @click.prevent="toggle"
-                @blur="onBlur" />
+                @click.prevent="toggle" />
             
             <dropdown-menu
                 :id="$attrs.id"
                 ref="menu"
                 :align="align"
-                :show="isDropdownShowing">
+                :show="isDropdownShowing"
+                @click-item="onClickItem"
+                @blur-item="onBlurItem">
                 <slot />
             </dropdown-menu>
         </btn-group>
@@ -52,8 +53,6 @@ import DropdownHandler from './DropdownHandler';
 
 export default {
 
-    name: 'BtnDropdown',
-    
     mixins: [
         DropdownHandler
     ]

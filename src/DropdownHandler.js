@@ -6,12 +6,6 @@ import DropdownMenu from '@vue-interface/dropdown-menu';
 import { prefix } from '@vue-interface/utils';
 
 const TAB_KEYCODE = 9;
-const LEFT_ARROW_KEYCODE = 37;
-const RIGHT_ARROW_KEYCODE = 39;
-const UP_ARROW_KEYCODE = 38;
-const DOWN_ARROW_KEYCODE = 40;
-
-let ignoreBlurEvent = false;
 
 export default {
 
@@ -24,6 +18,16 @@ export default {
     extends: Btn,
 
     props: {
+
+        /**
+         * Should animate the dropdown opening.
+         *
+         * @property String
+         */
+        animated: {
+            type: Boolean,
+            default: true
+        },
 
         /**
          * The button icon that appears before the label.
@@ -107,6 +111,8 @@ export default {
 
     data() {
         return {
+            popper: null,
+            triggerAnimation: false,
             isDropdownShowing: false
         };
     },
@@ -136,6 +142,15 @@ export default {
             return 'btn';
         },
 
+        classes() {
+            return {
+                'dropdown': this.dropup && this.dropright && this.dropleft,
+                'dropup': this.dropup,
+                'dropright': this.dropright,
+                'dropleft': this.dropleft
+            };
+        },
+
         actionClasses() {
             return [
                 'btn',
@@ -157,63 +172,24 @@ export default {
         }
     },
 
-    watch: {
-        isDropdownShowing(value) {
-            const target = this.$refs.split || this.$refs.button.$el;
-
-            // Hack for popper for align="right"
-            this.$refs.menu.$el.style.left = 'auto';
-            this.$refs.menu.$el.style.right = 'auto';
-
-            createPopper(target, this.$refs.menu.$el, {
-                placement: `${this.placement}-${this.align === 'left' ? 'start' : 'end'}`,
-                modifiers: [
-                    {
-                        name: 'offset',
-                        options: {
-                            offset: [0, 4],
-                        },
-                    },
-                ]
-            });
-        }
-    },
-
     mounted() {
-        this.$el.querySelectorAll('[type=submit], input, select, textarea, [tabindex]:not([tabindex="-1"]')
-            .forEach(el => {
-                if(el && el.addEventListener) {
-                    el.addEventListener('blur', event => {
-                        if(!ignoreBlurEvent) {
-                            this.focus();
-                        }
+        const toggle = this.$el.querySelector('.dropdown-toggle');
 
-                        ignoreBlurEvent = false;
-                    });
+        toggle.addEventListener('click', () => {
+            if(!this.isDropdownShowing) {
+                toggle.blur();
+            }
+        });
 
-                    el.addEventListener('focus', event => {
-                        ignoreBlurEvent = false;
-                    });
+        toggle.addEventListener('blur', this.onBlurItem);
 
-                    el.addEventListener('keydown', event => {
-                        const ignore = [
-                            LEFT_ARROW_KEYCODE,
-                            RIGHT_ARROW_KEYCODE,
-                            UP_ARROW_KEYCODE,
-                            DOWN_ARROW_KEYCODE,
-                            TAB_KEYCODE
-                        ];
+        const menu = this.$el.querySelector('.dropdown-menu');
 
-                        if(ignore.indexOf(event.keyCode) !== -1) {
-                            ignoreBlurEvent = true;
-                        }
-                    });
-
-                    el.addEventListener('mousedown', event => {
-                        ignoreBlurEvent = true;
-                    });
-                }
-            });
+        menu.addEventListener('click', e => {
+            if(e.target === menu) {
+                toggle.focus();
+            }
+        });
     },
 
     methods: {
@@ -271,6 +247,32 @@ export default {
          */
         show() {
             this.isDropdownShowing = true;
+
+            const target = this.$refs.split || this.$refs.button.$el;
+
+            // Hack for popper for align="right"
+            this.$refs.menu.$el.style.left = 'auto';
+            this.$refs.menu.$el.style.right = 'auto';
+
+            if(!this.popper) {
+                this.popper = createPopper(target, this.$refs.menu.$el, {
+                    placement: `${this.placement}-${this.align === 'left' ? 'start' : 'end'}`,
+                    onFirstUpdate: () => {
+                        this.triggerAnimation = this.animated;
+                    },
+                    modifiers: [
+                        {
+                            name: 'offset',
+                            options: {
+                                offset: [0, 4],
+                            },
+                        },
+                    ]
+                });
+            }
+            else {
+                this.popper.update();
+            }
             
             this.$emit('show');
             this.$emit('toggle', this.isDropdownShowing);
@@ -289,38 +291,26 @@ export default {
         },
 
         /**
-         * A callback function for the `click` event for the action button
+         * A callback function for the `blur-item` event.
          *
          * @return void
          */
-        onClick(event) {
-            this.hide();
-            this.$emit('click', event);
-        },
-
-        /**
-         * A callback function for the `blur` event for the action button
-         *
-         * @return void
-         */
-        onBlur(event) {
-            if(!this.$el.contains(event.relatedTarget)) {
+        onBlurItem(e) {
+            if(!this.$el.contains(e.relatedTarget)) {
                 this.hide();
             }
         },
 
         /**
-         * A callback function for the `item:click` event for the action button
+         * A callback function for the `click-item` event.
          *
          * @return void
-        onItemClick(event, item) {
-            if(!this.isFocusable(event.target)) {
+         */
+        onClickItem(e) {
+            if(!this.isFocusable(e.target)) {
                 this.hide();
             }
-
-            this.$emit('item:click', event, item);
         }
-        */
 
     }
 
