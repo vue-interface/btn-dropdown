@@ -1,20 +1,13 @@
 const plugin = require('tailwindcss/plugin');
 
 module.exports = {
-    purge: {
-        content: [
-            './src/**/*.vue',
-            './node_modules/@vue-interface/**/src/**/*.vue'
-        ],
-        options: {
-            whitelistPatterns: [/^bg-/]
-        }
-    },
+    purge: false,
     corePlugins: {
         container: false,
     },
     plugins: [
-        require('@vue-interface/btn/tailwindcss'),
         require('@vue-interface/dropdown-menu/tailwindcss'),
+        require('@vue-interface/btn/tailwindcss'),
+        require('@vue-interface/btn-group/tailwindcss'),
     ]
 };
