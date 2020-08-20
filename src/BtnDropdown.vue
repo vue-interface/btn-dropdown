@@ -1,12 +1,13 @@
 <template>
     <component
-        :is="$attrs.split ? 'btn-dropdown-split' : 'btn-dropdown-single'"
+        :is="$attrs.split === undefined ? 'btn-dropdown-single' : 'btn-dropdown-split'"
         class="btn-dropdown"
-        v-bind="$attrs">
+        v-bind="$attrs"
+        @click="e => $emit('click', e)">
         <template #icon>
             <slot name="icon" />
         </template>
-        <template #label>
+        <template v-if="$attrs.label || this.$slots.label" #label>
             <slot name="label">
                 {{ $attrs.label }}
             </slot>
@@ -44,9 +45,43 @@ export default {
         opacity: 1;
     }
 }
+
+.btn-dropdown .dropdown-toggle {
+    display: flex;
+    transition: all 125ms ease-in;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-dropdown.rounded-circle > .btn:last-child,
+.btn-dropdown.rounded-circle > .btn-group:last-child .dropdown-toggle {
+    border-top-right-radius: 1000rem;
+    border-bottom-right-radius: 1000rem;
+}
+
+.btn-dropdown.rounded-circle > .btn:first-child,
+.btn-dropdown.rounded-circle > .btn-group:first-child .dropdown-toggle {
+    border-top-left-radius: 1000rem;
+    border-bottom-left-radius: 1000rem;
+}
+
+.btn-dropdown .rounded-circle {
+    border-radius: 1000rem;
+}
+
+.btn-dropdown .rotate-90 {
+    transform: rotate(90deg);
+}
   
+.btn-dropdown.hide-caret .dropdown-toggle::after,
+.btn-dropdown.icon-only .dropdown-toggle::after,
+.btn-dropdown.hide-caret .dropdown-toggle::before,
+.btn-dropdown.icon-only .dropdown-toggle::before {
+    display: none;
+}
+
 .btn-dropdown .dropdown-menu {
-    animation-duration: 125ms;
+    animation-duration: 75ms;
     animation-fill-mode: both;
     -webkit-font-smooth: subpixel-antialiased;
 }

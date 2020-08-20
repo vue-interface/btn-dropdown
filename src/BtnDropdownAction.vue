@@ -1,7 +1,8 @@
 <template>
     <component
-        :is="href ? 'a' : 'button'"
+        :is="is"
         :id="id"
+        v-bind="to ? { to } : { href }"
         aria-haspopup="true"
         :aria-expanded="expanded">
         <slot />
@@ -16,7 +17,21 @@ export default {
             default: false
         },
         id: String,
-        href: String
+        href: String,
+        to: [String, Object]
+    },
+    computed: {
+        is() {
+            if(this.to) {
+                return 'router-link';
+            }
+
+            if(this.href) {
+                return 'a';
+            }
+
+            return 'button';
+        },
     }
 };
 </script>

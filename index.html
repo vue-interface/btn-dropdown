@@ -14,7 +14,10 @@
 
             <h3>Basic Usage</h3>
 
-            <btn-dropdown label="Dropdown" split variant="secondary">
+            <btn-dropdown variant="secondary" to="/test" circle rotate split @click="onClickAction">
+                <template #icon>
+                    ...
+                </template>
                 <router-link to="/" @click="onClick">Action</router-link>
                 <a href="#">Another Action</a>
                 <a href="#">Something else here</a>
@@ -298,6 +301,9 @@
                     BtnDropdown
                 },
                 methods: {
+                    onClickAction() {
+                        console.log('onClickAction');
+                    },
                     onClick(e) {
                         e.stopPropagation();
                     }

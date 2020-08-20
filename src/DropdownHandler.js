@@ -20,41 +20,6 @@ export default {
     props: {
 
         /**
-         * Should animate the dropdown opening.
-         *
-         * @property String
-         */
-        animated: {
-            type: Boolean,
-            default: true
-        },
-
-        /**
-         * The button icon that appears before the label.
-         *
-         * @property String
-         */
-        autoclose: Boolean,
-
-        /**
-         * The toggle button's label. If not defined as an attribute,
-         * you can override with the component's slot (inner html).
-         *
-         * @property String
-         */
-        label: String,
-
-        /**
-         * The button type attribute.
-         *
-         * @property String
-         */
-        type: {
-            type: String,
-            default: 'button'
-        },
-
-        /**
          * Display the dropdown menu aligned left or right
          *
          * @property String
@@ -68,11 +33,38 @@ export default {
         },
 
         /**
-         * Display the dropdown button with a split toggle button.
+         * Should animate the dropdown opening.
+         *
+         * @property {Boolean}
+         */
+        animated: {
+            type: Boolean,
+            default: true
+        },
+
+        /**
+         * The button icon that appears before the label.
+         *
+         * @property {Boolean}
+         */
+        autoclose: Boolean,
+
+        /**
+         * Show the caret.
+         *
+         * @property {Boolean}
+         */
+        caret: {
+            type: Boolean,
+            default: true
+        },
+
+        /**
+         * Should display the toggle button as a circle.
          *
          * @property Boolean
          */
-        split: {
+        circle: {
             type: Boolean,
             default: false
         },
@@ -105,7 +97,73 @@ export default {
         dropleft: {
             type: Boolean,
             default: false
-        }
+        },
+
+        /**
+         * The action height.
+         *
+         * @property {String}
+         */
+        height: String,
+
+        /**
+         * The href action.
+         *
+         * @property {String}
+         */
+        href: String,
+
+        /**
+         * The toggle button's label. If not defined as an attribute,
+         * you can override with the component's slot (inner html).
+         *
+         * @property {String}
+         */
+        label: String,
+
+        /**
+         * Should rotate the toggle button when opened.
+         *
+         * @property {Boolean}
+         */
+        rotate: {
+            type: Boolean,
+            default: false
+        },
+
+        /**
+         * Display the dropdown button with a split toggle button.
+         *
+         * @property {Boolean}
+         */
+        split: {
+            type: Boolean,
+            default: false
+        },
+
+        /**
+         * The "to" path, used for vue-router.
+         *
+         * @property {String|Object}
+         */
+        to: [String, Object],
+
+        /**
+         * The button type attribute.
+         *
+         * @property {String}
+         */
+        type: {
+            type: String,
+            default: 'button'
+        },
+
+        /**
+         * The action width.
+         *
+         * @property {String}
+         */
+        width: String,
 
     },
 
@@ -147,7 +205,12 @@ export default {
                 'dropdown': this.dropup && this.dropright && this.dropleft,
                 'dropup': this.dropup,
                 'dropright': this.dropright,
-                'dropleft': this.dropleft
+                'dropleft': this.dropleft,
+                'icon-only': !this.split && !!this.$slots.icon && !this.$slots.label,
+                'hide-caret': !this.caret,
+                'expanded': this.isDropdownShowing,
+                'rounded-circle': this.split && this.circle,
+                'rotate-90': this.split && this.rotate && this.isDropdownShowing,
             };
         },
 
@@ -159,6 +222,13 @@ export default {
             ].join(' ');
         },
 
+        toggleStyle() {
+            return {
+                width: this.width,
+                height: this.height,
+            };
+        },
+
         toggleClasses() {
             return [
                 'btn',
@@ -167,6 +237,8 @@ export default {
                 this.sizeableClass,
                 this.active ? 'active' : '',
                 this.block ? 'btn-block' : '',
+                !this.split && this.circle ? 'rounded-circle' : '',
+                !this.split && this.rotate && this.isDropdownShowing ? 'rotate-90' : '',
                 (this.split ? 'dropdown-toggle-split' : '')
             ].join(' ');
         }
@@ -299,6 +371,10 @@ export default {
             if(!this.$el.contains(e.relatedTarget)) {
                 this.hide();
             }
+        },
+
+        onClickAction(e) {
+            console.log(123);
         },
 
         /**

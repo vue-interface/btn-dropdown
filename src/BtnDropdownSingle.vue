@@ -5,6 +5,8 @@
             ref="button"
             :expanded="isDropdownShowing"
             :href="href"
+            :to="to"
+            :style="toggleStyle"
             :class="toggleClasses"
             @click.native="toggle">
             <slot name="icon" />

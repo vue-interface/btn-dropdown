@@ -6,7 +6,9 @@
             ref="button"
             :expanded="isDropdownShowing"
             :href="href"
-            :class="actionClasses">
+            :to="to"
+            :class="actionClasses"
+            @click.native="onClickAction">
             <slot name="icon" />
             <slot name="label">
                 {{ label }}
@@ -39,7 +41,9 @@
             ref="button"
             :expanded="isDropdownShowing"
             :href="href"
-            :class="actionClasses">
+            :to="to"
+            :class="actionClasses"
+            @click.native="onClickAction">
             <slot name="icon" />
             <slot name="label">
                 {{ label }}
