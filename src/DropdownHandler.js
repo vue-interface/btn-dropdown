@@ -244,6 +244,10 @@ export default {
         }
     },
 
+    beforeDestroy() {
+        this.popper && this.popper.destroy();
+    },
+
     mounted() {
         const toggle = this.$el.querySelector('.dropdown-toggle');
 
@@ -345,9 +349,6 @@ export default {
             else {
                 this.popper.update();
             }
-            
-            this.$emit('show');
-            this.$emit('toggle', this.isDropdownShowing);
         },
 
         /**
@@ -357,9 +358,6 @@ export default {
          */
         hide() {
             this.isDropdownShowing = false;
-            
-            this.$emit('hide');
-            this.$emit('toggle', this.isDropdownShowing);
         },
 
         /**
@@ -388,6 +386,15 @@ export default {
             }
         }
 
+    },
+
+    watch: {
+        isDropdownShowing(value) {
+            this.$nextTick(() => {
+                this.$emit(value ? 'show' : 'hide');
+                this.$emit('toggle', value);
+            });
+        }
     }
 
 };

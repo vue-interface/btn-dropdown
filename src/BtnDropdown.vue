@@ -3,7 +3,11 @@
         :is="$attrs.split === undefined ? 'btn-dropdown-single' : 'btn-dropdown-split'"
         class="btn-dropdown"
         v-bind="$attrs"
-        @click="e => $emit('click', e)">
+        @click="(...args) => this.$emit('click', ...args)"
+        @dropdown="(...args) => this.$emit('dropdown', ...args)"
+        @show="(...args) => this.$emit('show', ...args)"
+        @hide="(...args) => this.$emit('hide', ...args)"
+        @toggle="(...args) => this.$emit('toggle', ...args)">
         <template #icon>
             <slot name="icon" />
         </template>
