@@ -8,7 +8,7 @@
             :href="href"
             :to="to"
             :class="actionClasses"
-            @click.native="onClickAction">
+            @click.native="e => $emit('click', e)">
             <slot name="icon" />
             <slot name="label">
                 {{ label }}
@@ -23,7 +23,7 @@
                 aria-haspopup="true"
                 :aria-expanded="isDropdownShowing"
                 :class="toggleClasses"
-                @click.prevent="toggle" />
+                @click="onClickToggle" />
             
             <dropdown-menu
                 :id="$attrs.id"
@@ -44,7 +44,7 @@
             :href="href"
             :to="to"
             :class="actionClasses"
-            @click.native="onClickAction">
+            @click.native="e => $emit('click', e)">
             <slot name="icon" />
             <slot name="label">
                 {{ label }}

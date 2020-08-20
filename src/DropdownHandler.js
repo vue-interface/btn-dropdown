@@ -312,8 +312,6 @@ export default {
          */
         toggle(e) {
             !this.isDropdownShowing ? this.show() : this.hide();
-
-            e.preventDefault();
         },
 
         /**
@@ -371,10 +369,6 @@ export default {
             }
         },
 
-        onClickAction(e) {
-            console.log(123);
-        },
-
         /**
          * A callback function for the `click-item` event.
          *
@@ -383,6 +377,19 @@ export default {
         onClickItem(e) {
             if(!this.isFocusable(e.target)) {
                 this.hide();
+            }
+        },
+
+        /**
+         * A callback function for the `click-toggle` event.
+         *
+         * @return void
+         */
+        onClickToggle(e) {
+            this.$emit('click-toggle', e);
+
+            if(!e.defaultPrevented) {
+                this.toggle();
             }
         }
 

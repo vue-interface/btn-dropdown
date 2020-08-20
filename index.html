@@ -14,8 +14,14 @@
 
             <h3>Basic Usage</h3>
 
-            <btn-dropdown variant="secondary" label="Dropdown">
-                <router-link to="/" @click="onClick">Action</router-link>
+            <btn-dropdown variant="secondary" label="Dropdown" @click-toggle="onToggle">
+                <router-link to="/" @click="onClickItem">Action</router-link>
+                <a href="#">Another Action</a>
+                <a href="#">Something else here</a>
+            </btn-dropdown>
+
+            <btn-dropdown variant="secondary" label="Dropdown" split @click="onClick" @click-toggle="onToggle">
+                <router-link to="/" @click="onClickItem">Action</router-link>
                 <a href="#">Another Action</a>
                 <a href="#">Something else here</a>
             </btn-dropdown>
@@ -298,6 +304,14 @@
                 },
                 methods: {
                     onClick(e) {
+                        console.log('click', e);
+                    },
+                    onToggle(e) {
+                        console.log('toggle', e);
+
+                        // e.preventDefault() will stop the toggle.
+                    },
+                    onClickItem(e) {
                         e.stopPropagation();
                     }
                 },

@@ -4,6 +4,7 @@
         class="btn-dropdown"
         v-bind="$attrs"
         @click="(...args) => this.$emit('click', ...args)"
+        @click-toggle="(...args) => this.$emit('click-toggle', ...args)"
         @dropdown="(...args) => this.$emit('dropdown', ...args)"
         @show="(...args) => this.$emit('show', ...args)"
         @hide="(...args) => this.$emit('hide', ...args)"
@@ -87,7 +88,6 @@ export default {
 .btn-dropdown .dropdown-menu {
     animation-duration: 125ms;
     animation-fill-mode: both;
-    -webkit-font-smooth: subpixel-antialiased;
 }
 
 .btn-dropdown .dropdown-menu.animated {

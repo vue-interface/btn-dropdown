@@ -1,5 +1,5 @@
 <template>
-    <btn-group :class="classes" @click="onClick">
+    <btn-group :class="classes">
         <btn-dropdown-action
             :id="$attrs.id"
             ref="button"
@@ -8,7 +8,7 @@
             :to="to"
             :style="toggleStyle"
             :class="toggleClasses"
-            @click.native="toggle">
+            @click.native="onClickToggle">
             <slot name="icon" />
             <slot name="label">
                 {{ label }}

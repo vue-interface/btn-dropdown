@@ -4,7 +4,8 @@
         :id="id"
         v-bind="to ? { to } : { href }"
         aria-haspopup="true"
-        :aria-expanded="expanded">
+        :aria-expanded="expanded"
+        :type="is === 'button' ? 'button': undefined">
         <slot />
     </component>
 </template>
