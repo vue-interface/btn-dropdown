@@ -30,6 +30,7 @@
                 ref="menu"
                 :align="align"
                 :show="isDropdownShowing"
+                :class="{animated: triggerAnimation}"
                 @click-item="onClickItem"
                 @blur-item="onBlurItem">
                 <slot />

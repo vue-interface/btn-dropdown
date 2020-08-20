@@ -85,7 +85,7 @@ export default {
 }
 
 .btn-dropdown .dropdown-menu {
-    animation-duration: 75ms;
+    animation-duration: 125ms;
     animation-fill-mode: both;
     -webkit-font-smooth: subpixel-antialiased;
 }
