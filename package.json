@@ -40,12 +40,12 @@
   "dependencies": {
     "@popperjs/core": "^2.4.4",
     "@vue-interface/btn": "^0.9.6",
-    "@vue-interface/btn-group": "^0.9.0",
-    "@vue-interface/dropdown-menu": "^0.9.3",
+    "@vue-interface/btn-group": "^0.9.1",
+    "@vue-interface/dropdown-menu": "^0.9.5",
     "@vue-interface/utils": "^0.9.13",
     "core-js": "^3.6.4",
-    "tailwindcss": "^1.6.0",
-    "vue": "^2.6.11"
+    "tailwindcss": "^1.7.3",
+    "vue": "^2.6.12"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.0",
@@ -57,7 +57,7 @@
     "eslint-plugin-vue": "^6.2.2",
     "markdown-it-meta": "0.0.1",
     "postcss-cli": "^7.1.1",
-    "vue-template-compiler": "^2.6.11",
+    "vue-template-compiler": "^2.6.12",
     "vuepress": "^1.5.2",
     "vuepress-plugin-template-constants": "^0.2.1",
     "webpack-manifest-plugin": "^2.2.0"
