@@ -349,7 +349,7 @@ export default {
                         {
                             name: 'offset',
                             options: {
-                                offset: [0, 4],
+                                offset: [0, !this.nav ? 4 : 0],
                             },
                         },
                     ]
