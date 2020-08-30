@@ -114,6 +114,13 @@ export default {
         href: String,
 
         /**
+         * Is the dropdown a nav item?
+         *
+         * @property {Boolean}
+         */
+        nav: Boolean,
+
+        /**
          * The toggle button's label. If not defined as an attribute,
          * you can override with the component's slot (inner html).
          *
@@ -216,9 +223,9 @@ export default {
 
         actionClasses() {
             return [
-                'btn',
-                prefix(this.size, 'btn'),
-                prefix(this.variant, 'btn')
+                !this.nav && 'btn',
+                !this.nav && prefix(this.size, 'btn'),
+                !this.nav && prefix(this.variant, 'btn')
             ].join(' ');
         },
 
@@ -231,12 +238,12 @@ export default {
 
         toggleClasses() {
             return [
-                'btn',
+                !this.nav && 'btn',
                 'dropdown-toggle',
-                this.variantClass,
-                this.sizeableClass,
+                !this.nav && this.variantClass,
+                !this.nav && this.sizeableClass,
                 this.active ? 'active' : '',
-                this.block ? 'btn-block' : '',
+                !this.nav && this.block ? 'btn-block' : '',
                 !this.split && this.circle ? 'rounded-circle' : '',
                 !this.split && this.rotate && this.isDropdownShowing ? 'rotate-90' : '',
                 (this.split ? 'dropdown-toggle-split' : '')
