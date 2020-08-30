@@ -226,7 +226,9 @@ export default {
                 !this.nav && 'btn',
                 !this.nav && prefix(this.size, 'btn'),
                 !this.nav && prefix(this.variant, 'btn')
-            ].join(' ');
+            ]
+                .filter(value => !!value)
+                .join(' ');
         },
 
         toggleStyle() {
@@ -247,7 +249,9 @@ export default {
                 !this.split && this.circle ? 'rounded-circle' : '',
                 !this.split && this.rotate && this.isDropdownShowing ? 'rotate-90' : '',
                 (this.split ? 'dropdown-toggle-split' : '')
-            ].join(' ');
+            ]
+                .filter(value => !!value)
+                .join(' ');
         }
     },
 
@@ -329,7 +333,7 @@ export default {
         show() {
             this.isDropdownShowing = true;
 
-            const target = this.$refs.split || this.$refs.button.$el;
+            const target = this.$refs.split || this.$el;
 
             // Hack for popper for align="right"
             this.$refs.menu.$el.style.left = 'auto';
