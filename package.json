@@ -39,12 +39,12 @@
   "homepage": "https://github.com/vue-interface/btn-dropdown/docs#readme",
   "dependencies": {
     "@popperjs/core": "^2.4.4",
-    "@vue-interface/btn": "^0.9.6",
+    "@vue-interface/btn": "^0.9.7",
     "@vue-interface/btn-group": "^0.9.1",
     "@vue-interface/dropdown-menu": "^0.9.7",
     "@vue-interface/utils": "^0.9.16",
     "core-js": "^3.6.4",
-    "tailwindcss": "^1.7.3",
+    "tailwindcss": "^1.7.6",
     "vue": "^2.6.12"
   },
   "devDependencies": {
