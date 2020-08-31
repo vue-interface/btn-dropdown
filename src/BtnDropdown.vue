@@ -51,6 +51,18 @@ export default {
     }
 }
 
+.btn-dropdown {
+    position: relative;
+}
+
+.btn-dropdown.nav-link .dropdown-toggle {
+    background: none;
+    border: 0;
+    padding: .5rem .25em;
+    margin-left: .25rem;
+    margin-right: -.25rem;
+}
+
 .btn-dropdown .dropdown-toggle {
     display: flex;
     transition: all 125ms ease-in;

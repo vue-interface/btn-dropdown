@@ -209,6 +209,7 @@ export default {
 
         classes() {
             return {
+                'nav-link': this.nav && this.split,
                 'dropdown': this.dropup && this.dropright && this.dropleft,
                 'dropup': this.dropup,
                 'dropright': this.dropright,
@@ -240,16 +241,16 @@ export default {
 
         toggleClasses() {
             return [
-                this.nav && 'nav-link',
+                this.nav && !this.split && 'nav-link',
                 !this.nav && 'btn',
-                'dropdown-toggle',
                 !this.nav && this.variantClass,
-                !this.nav && this.sizeableClass,
+                this.sizeableClass,
                 this.active ? 'active' : '',
-                !this.nav && this.block ? 'btn-block' : '',
+                this.block ? 'btn-block' : '',
                 !this.split && this.circle ? 'rounded-circle' : '',
                 !this.split && this.rotate && this.isDropdownShowing ? 'rotate-90' : '',
-                (this.split ? 'dropdown-toggle-split' : '')
+                (this.split ? 'dropdown-toggle-split' : ''),
+                'dropdown-toggle',
             ]
                 .filter(value => !!value)
                 .join(' ');
@@ -350,7 +351,7 @@ export default {
                         {
                             name: 'offset',
                             options: {
-                                offset: [0, !this.nav ? 4 : 0],
+                                offset: [0, !this.nav ? 4 : 1],
                             },
                         },
                     ]
