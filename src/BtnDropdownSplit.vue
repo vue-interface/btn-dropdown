@@ -1,5 +1,5 @@
 <template>
-    <btn-group :class="classes" @click="onClick">
+    <btn-group :class="classes" class="btn-dropdown-split" @click="onClick">
         <btn-dropdown-action
             v-if="!dropleft"
             :id="$attrs.id"

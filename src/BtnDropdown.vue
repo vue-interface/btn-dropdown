@@ -1,6 +1,6 @@
 <template>
     <component
-        :is="$attrs.split === undefined ? 'btn-dropdown-single' : 'btn-dropdown-split'"
+        :is="$attrs.split === undefined || !!$attrs.nav ? 'btn-dropdown-single' : 'btn-dropdown-split'"
         class="btn-dropdown"
         v-bind="$attrs"
         @click="(...args) => this.$emit('click', ...args)"
@@ -51,16 +51,9 @@ export default {
     }
 }
 
+
 .btn-dropdown {
     position: relative;
-}
-
-.btn-dropdown.nav-link .dropdown-toggle {
-    background: none;
-    border: 0;
-    padding: .5rem .25em;
-    margin-left: .25rem;
-    margin-right: -.25rem;
 }
 
 .btn-dropdown .dropdown-toggle {
@@ -68,6 +61,11 @@ export default {
     transition: all 125ms ease-in;
     align-items: center;
     justify-content: center;
+}
+
+.nav-item .btn-group,
+.nav-item .btn-dropdown .dropdown-toggle {
+    display: block;
 }
 
 .btn-dropdown.rounded-circle > .btn:last-child,

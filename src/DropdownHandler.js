@@ -209,16 +209,15 @@ export default {
 
         classes() {
             return {
-                'nav-link': this.nav && this.split,
                 'dropdown': this.dropup && this.dropright && this.dropleft,
                 'dropup': this.dropup,
                 'dropright': this.dropright,
                 'dropleft': this.dropleft,
-                'icon-only': !this.split && !!this.$slots.icon && !this.$slots.label,
+                'icon-only': !this.nav && !this.split && !!this.$slots.icon && !this.$slots.label,
                 'hide-caret': !this.caret,
                 'expanded': this.isDropdownShowing,
-                'rounded-circle': this.split && this.circle,
-                'rotate-90': this.split && this.rotate && this.isDropdownShowing,
+                'rounded-circle': !this.nav && this.split && this.circle,
+                'rotate-90': !this.nav && this.split && this.rotate && this.isDropdownShowing,
             };
         },
 
@@ -241,7 +240,7 @@ export default {
 
         toggleClasses() {
             return [
-                this.nav && !this.split && 'nav-link',
+                this.nav && 'nav-link',
                 !this.nav && 'btn',
                 !this.nav && this.variantClass,
                 this.sizeableClass,
@@ -249,7 +248,7 @@ export default {
                 this.block ? 'btn-block' : '',
                 !this.split && this.circle ? 'rounded-circle' : '',
                 !this.split && this.rotate && this.isDropdownShowing ? 'rotate-90' : '',
-                (this.split ? 'dropdown-toggle-split' : ''),
+                !this.nav && this.split ? 'dropdown-toggle-split' : '',
                 'dropdown-toggle',
             ]
                 .filter(value => !!value)
@@ -341,7 +340,7 @@ export default {
             this.$refs.menu.$el.style.left = 'auto';
             this.$refs.menu.$el.style.right = 'auto';
 
-            if(!this.popper) {
+            if(!this.nav && !this.popper) {
                 this.popper = createPopper(target, this.$refs.menu.$el, {
                     placement: `${this.placement}-${this.align === 'left' ? 'start' : 'end'}`,
                     onFirstUpdate: () => {
@@ -357,7 +356,7 @@ export default {
                     ]
                 });
             }
-            else {
+            else if(this.popper) {
                 this.popper.update();
             }
         },
