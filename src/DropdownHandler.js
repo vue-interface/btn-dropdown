@@ -240,6 +240,7 @@ export default {
 
         toggleClasses() {
             return [
+                this.nav && 'nav-link',
                 !this.nav && 'btn',
                 'dropdown-toggle',
                 !this.nav && this.variantClass,
