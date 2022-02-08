@@ -1,55 +1,62 @@
 <template>
     <btn-group :class="classes" class="btn-dropdown-split" @click="onClick">
-        <btn-dropdown-action
-            v-if="!dropleft"
-            :id="$attrs.id"
-            ref="button"
-            :expanded="isDropdownShowing"
-            :href="href"
-            :to="to"
-            :class="actionClasses"
-            @click.native="e => $emit('click', e)">
-            <slot name="icon" />
-            <slot name="label">
-                {{ label }}
-            </slot>
-        </btn-dropdown-action>
-        <btn-group>
-            <button
-                v-if="split"
+        <slot v-if="!dropleft" name="button" v-bind="this">
+            <btn-dropdown-action
+                v-if="!dropleft"
                 :id="$attrs.id"
-                ref="split"
-                type="button"
-                aria-haspopup="true"
-                :aria-expanded="isDropdownShowing"
-                :class="toggleClasses"
-                @click="onClickToggle" />
+                ref="button"
+                :expanded="expanded"
+                :href="href"
+                :to="to"
+                :class="actionClasses"
+                @click.native="e => $emit('click', e)">
+                <slot name="icon" />
+                <slot name="label">
+                    {{ label }}
+                </slot>
+            </btn-dropdown-action>
+        </slot>
+
+        <btn-group ref="split">
+            <slot name="split" v-bind="this">
+                <button
+                    v-if="split"
+                    :id="$attrs.id"
+                    type="button"
+                    aria-haspopup="true"
+                    :aria-expanded="expanded"
+                    :class="toggleClasses"
+                    @blur="onBlur"
+                    @click="onClickToggle" />
+            </slot>
             
             <dropdown-menu
                 :id="$attrs.id"
                 ref="menu"
                 :align="align"
-                :show="isDropdownShowing"
+                :show="expanded"
                 :class="{animated: triggerAnimation}"
                 @click-item="onClickItem"
-                @blur-item="onBlurItem">
+                @blur-item="onBlur">
                 <slot />
             </dropdown-menu>
         </btn-group>
-        <btn-dropdown-action
-            v-if="dropleft"
-            :id="$attrs.id"
-            ref="button"
-            :expanded="isDropdownShowing"
-            :href="href"
-            :to="to"
-            :class="actionClasses"
-            @click.native="e => $emit('click', e)">
-            <slot name="icon" />
-            <slot name="label">
-                {{ label }}
-            </slot>
-        </btn-dropdown-action>
+        <slot v-if="dropleft" name="button" v-bind="this">
+            <btn-dropdown-action
+                v-if="dropleft"
+                :id="$attrs.id"
+                ref="button"
+                :expanded="expanded"
+                :href="href"
+                :to="to"
+                :class="actionClasses"
+                @click.native="e => $emit('click', e)">
+                <slot name="icon" />
+                <slot name="label">
+                    {{ label }}
+                </slot>
+            </btn-dropdown-action>
+        </slot>
     </btn-group>
 </template>
 

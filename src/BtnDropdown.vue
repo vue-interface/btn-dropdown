@@ -17,13 +17,19 @@
                 {{ $attrs.label }}
             </slot>
         </template>
+        <template #button="slot">
+            <slot name="button" v-bind="slot" />
+        </template>
+        <template #split="slot">
+            <slot name="split" v-bind="slot" />
+        </template>
         <slot />
     </component>
 </template>
 
 <script>
-import BtnDropdownSplit from './BtnDropdownSplit';
-import BtnDropdownSingle from './BtnDropdownSingle';
+import BtnDropdownSplit from './BtnDropdownSplit.vue';
+import BtnDropdownSingle from './BtnDropdownSingle.vue';
 
 export default {
 
@@ -43,10 +49,9 @@ export default {
 @keyframes btnDropdownZoomIn {
     from {
         opacity: 0;
-        transform: scale3d(0.3, 0.3, 0.3);
     }
 
-    50% {
+    to {
         opacity: 1;
     }
 }
@@ -70,18 +75,18 @@ export default {
 
 .btn-dropdown.rounded-circle > .btn:last-child,
 .btn-dropdown.rounded-circle > .btn-group:last-child .dropdown-toggle {
-    border-top-right-radius: 1000rem;
-    border-bottom-right-radius: 1000rem;
+    border-top-right-radius: 100%;
+    border-bottom-right-radius: 100%;
 }
 
 .btn-dropdown.rounded-circle > .btn:first-child,
 .btn-dropdown.rounded-circle > .btn-group:first-child .dropdown-toggle {
-    border-top-left-radius: 1000rem;
-    border-bottom-left-radius: 1000rem;
+    border-top-left-radius: 100%;
+    border-bottom-left-radius: 100%;
 }
 
 .btn-dropdown .rounded-circle {
-    border-radius: 1000rem;
+    border-radius: 100%;
 }
 
 .btn-dropdown .rotate-90 {
@@ -96,7 +101,8 @@ export default {
 }
 
 .btn-dropdown .dropdown-menu {
-    animation-duration: 125ms;
+    animation-timing-function: ease-in-out;
+    animation-duration: 200ms;
     animation-fill-mode: both;
 }
 

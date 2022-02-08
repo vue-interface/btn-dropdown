@@ -1,9 +1,8 @@
-import BtnDropdownAction from './BtnDropdownAction';
 import { createPopper } from '@popperjs/core';
-import Btn from '@vue-interface/btn';
+import { Btn } from '@vue-interface/btn';
 import { BtnGroup } from '@vue-interface/btn-group';
-import DropdownMenu from '@vue-interface/dropdown-menu';
-import { prefix } from '@vue-interface/utils';
+import { DropdownMenu } from '@vue-interface/dropdown-menu';
+import BtnDropdownAction from './BtnDropdownAction.vue';
 
 const TAB_KEYCODE = 9;
 
@@ -42,12 +41,7 @@ export default {
             default: true
         },
 
-        /**
-         * The button icon that appears before the label.
-         *
-         * @property {Boolean}
-         */
-        autoclose: Boolean,
+        // buttonClass: String,
 
         /**
          * Show the caret.
@@ -64,10 +58,11 @@ export default {
          *
          * @property Boolean
          */
-        circle: {
-            type: Boolean,
-            default: false
-        },
+        
+        // circle: {
+        //     type: Boolean,
+        //     default: false
+        // },
 
         /**
          * Display as a dropup instead of a dropdown.
@@ -128,6 +123,11 @@ export default {
          */
         label: String,
 
+        offset: {
+            type: Number,
+            default: 5,
+        },
+
         /**
          * Should rotate the toggle button when opened.
          *
@@ -178,7 +178,7 @@ export default {
         return {
             popper: null,
             triggerAnimation: false,
-            isDropdownShowing: false
+            expanded: false
         };
     },
 
@@ -215,17 +215,17 @@ export default {
                 'dropleft': this.dropleft,
                 'icon-only': !this.nav && !this.split && !!this.$slots.icon && !this.$slots.label,
                 'hide-caret': !this.caret,
-                'expanded': this.isDropdownShowing,
-                'rounded-circle': !this.nav && this.split && this.circle,
-                'rotate-90': !this.nav && this.split && this.rotate && this.isDropdownShowing,
+                'expanded': this.expanded,
+                // 'rounded-circle': !this.nav && this.split && this.circle,
+                'rotate-90': !this.nav && this.split && this.rotate && this.expanded,
             };
         },
 
         actionClasses() {
             return [
                 !this.nav && 'btn',
-                !this.nav && prefix(this.size, 'btn'),
-                !this.nav && prefix(this.variant, 'btn')
+                !this.nav && this.size && this.sizeableClass,
+                !this.nav && this.variant && this.variantClass,
             ]
                 .filter(value => !!value)
                 .join(' ');
@@ -240,14 +240,15 @@ export default {
 
         toggleClasses() {
             return [
+                // this.buttonClass,
                 this.nav && 'nav-link',
                 !this.nav && 'btn',
                 !this.nav && this.variantClass,
                 this.sizeableClass,
                 this.active ? 'active' : '',
                 this.block ? 'btn-block' : '',
-                !this.split && this.circle ? 'rounded-circle' : '',
-                !this.split && this.rotate && this.isDropdownShowing ? 'rotate-90' : '',
+                // !this.split && this.circle ? 'rounded-circle p-0' : '',
+                !this.split && this.rotate && this.expanded ? 'rotate-90' : '',
                 !this.nav && this.split ? 'dropdown-toggle-split' : '',
                 'dropdown-toggle',
             ]
@@ -261,23 +262,23 @@ export default {
     },
 
     mounted() {
-        const toggle = this.$el.querySelector('.dropdown-toggle');
+        // const toggle = this.$el.querySelector('.dropdown-toggle');
 
-        toggle.addEventListener('click', () => {
-            if(!this.isDropdownShowing) {
-                toggle.blur();
-            }
-        });
+        // toggle.addEventListener('click', () => {
+        //     if(!this.expanded) {
+        //         toggle.blur();
+        //     }
+        // });
 
-        toggle.addEventListener('blur', this.onBlurItem);
+        // toggle.addEventListener('blur', this.onBlurItem);
 
-        const menu = this.$el.querySelector('.dropdown-menu');
+        // const menu = this.$el.querySelector('.dropdown-menu');
 
-        menu.addEventListener('click', e => {
-            if(e.target === menu) {
-                toggle.focus();
-            }
-        });
+        // menu.addEventListener('click', e => {
+        //     if(e.target === menu) {
+        //         toggle.focus();
+        //     }
+        // });
     },
 
     methods: {
@@ -323,7 +324,7 @@ export default {
          * @return void
          */
         toggle(e) {
-            !this.isDropdownShowing ? this.show() : this.hide();
+            !this.expanded ? this.show() : this.hide();
         },
 
         /**
@@ -332,13 +333,13 @@ export default {
          * @return void
          */
         show() {
-            this.isDropdownShowing = true;
+            this.expanded = true;
 
-            const target = this.$refs.split || this.$el;
+            const target = this.$refs.split && this.$refs.split.$el || this.$el;
 
             // Hack for popper for align="right"
-            this.$refs.menu.$el.style.left = 'auto';
-            this.$refs.menu.$el.style.right = 'auto';
+            // this.$refs.menu.$el.style.left = 'auto';
+            // this.$refs.menu.$el.style.right = 'auto';
 
             if(!this.nav && !this.popper) {
                 this.popper = createPopper(target, this.$refs.menu.$el, {
@@ -350,7 +351,8 @@ export default {
                         {
                             name: 'offset',
                             options: {
-                                offset: [0, !this.nav ? 4 : 1],
+                                offset: [0, !this.nav ? this.offset : 1]
+                                // offset: ['.125rem', !this.nav ? 4 : 1],
                             },
                         },
                     ]
@@ -367,7 +369,7 @@ export default {
          * @return void
          */
         hide() {
-            this.isDropdownShowing = false;
+            this.expanded = false;
         },
 
         /**
@@ -375,7 +377,7 @@ export default {
          *
          * @return void
          */
-        onBlurItem(e) {
+        onBlur(e) {
             if(!this.$el.contains(e.relatedTarget)) {
                 this.hide();
             }
@@ -408,7 +410,7 @@ export default {
     },
 
     watch: {
-        isDropdownShowing(value) {
+        expanded(value) {
             this.$nextTick(() => {
                 this.$emit(value ? 'show' : 'hide');
                 this.$emit('toggle', value);

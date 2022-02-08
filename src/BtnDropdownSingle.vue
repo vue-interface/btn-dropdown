@@ -1,27 +1,30 @@
 <template>
     <btn-group :class="classes">
-        <btn-dropdown-action
-            :id="$attrs.id"
-            ref="button"
-            :expanded="isDropdownShowing"
-            :href="href"
-            :to="to"
-            :style="toggleStyle"
-            :class="toggleClasses"
-            @click.native="onClickToggle">
-            <slot name="icon" />
-            <slot name="label">
-                {{ label }}
-            </slot>
-        </btn-dropdown-action>
+        <slot name="button" v-bind="this">
+            <btn-dropdown-action
+                :id="$attrs.id"
+                ref="button"
+                :expanded="expanded"
+                :href="href"
+                :to="to"
+                :style="toggleStyle"
+                :class="toggleClasses"
+                @blur.native="onBlur"
+                @click.native="onClickToggle">
+                <slot name="icon" />
+                <slot name="label">
+                    {{ label }}
+                </slot>
+            </btn-dropdown-action>
+        </slot>
         <dropdown-menu
             :id="$attrs.id"
             ref="menu"
             :align="align"
-            :show="isDropdownShowing"
+            :show="expanded"
             :class="{animated: triggerAnimation}"
-            @click-item="onClickItem"
-            @blur-item="onBlurItem">
+            @blur-item="onBlur"
+            @click-item="onClickItem">
             <slot />
         </dropdown-menu>
     </btn-group>
