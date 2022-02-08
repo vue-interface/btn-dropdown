@@ -19,12 +19,6 @@
             
             <h2 class="text-2xl mt-6 mb-3">Custom Buttons</h2>
 
-            <btn-dropdown variant="primary" label="Dropdown" @click-toggle="onToggle">
-                <a href="#/test" @click="onClickItem">Action</a>
-                <a href="#">Another Action</a>
-                <a href="#">Something else here</a>
-            </btn-dropdown>
-
             <btn-dropdown>
                 <template #button="{ onBlur, onClickToggle }">
                     <button class="bg-gray-100 p-2 rounded-full outline-none active:ring-4 focus:ring-4 ring-blue-500/50" @blur="onBlur" @click="onClickToggle">
