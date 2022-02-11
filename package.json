@@ -4,10 +4,10 @@
   "description": "A Vue button dropdown component.",
   "files": [
     "dist",
-    "tailwindcss"
+    "src"
   ],
   "main": "./dist/btn-dropdown.umd.js",
-  "module": "./dist/btn-dropdown.es.js",
+  "module": "./index.js",
   "browserslist": "last 2 versions, > 0.5%, ie >= 11",
   "scripts": {
     "dev": "vite",

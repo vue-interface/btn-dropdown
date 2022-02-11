@@ -418,7 +418,7 @@
                 <a href="#">Something else here</a>
             </btn-dropdown>
 
-            <btn-dropdown align="right" label="Align Right (Split" variant="secondary" split>
+            <btn-dropdown align="right" label="Align Right (Split)" variant="secondary" split>
                 <a href="#">Action</a>
                 <a href="#">Another Action</a>
                 <a href="#">Something else here</a>
@@ -471,6 +471,9 @@
             import './index.css';
             import Vue from 'vue/dist/vue';
             import { BtnDropdown } from './index.js';
+            
+            Vue.config.devtools = false;
+            Vue.config.productionTip = false;
               
             const vue = new Vue({
                 el: '#app',
