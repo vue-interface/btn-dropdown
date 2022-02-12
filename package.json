@@ -3,6 +3,7 @@
   "version": "1.0.2",
   "description": "A Vue button dropdown component.",
   "files": [
+    "index.js",
     "dist",
     "src"
   ],
