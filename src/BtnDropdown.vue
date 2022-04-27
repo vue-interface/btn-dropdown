@@ -72,7 +72,7 @@ export default {
 .nav-item .btn-dropdown .dropdown-toggle {
     display: block;
 }
-
+/* 
 .btn-dropdown.rounded-circle > .btn:last-child,
 .btn-dropdown.rounded-circle > .btn-group:last-child .dropdown-toggle {
     border-top-right-radius: 100%;
@@ -87,7 +87,7 @@ export default {
 
 .btn-dropdown .rounded-circle {
     border-radius: 100%;
-}
+} */
 
 .btn-dropdown .rotate-90 {
     transform: rotate(90deg);
