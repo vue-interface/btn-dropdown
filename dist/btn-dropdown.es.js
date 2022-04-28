@@ -1801,6 +1801,7 @@ var DropdownHandler = {
       type: Boolean,
       default: true
     },
+    buttonClass: [Object, String],
     caret: {
       type: Boolean,
       default: true
@@ -1879,7 +1880,13 @@ var DropdownHandler = {
       };
     },
     actionClasses() {
-      return [!this.nav && "btn", !this.nav && this.size && this.sizeableClass, !this.nav && this.variant && this.variantClass].filter((value) => !!value).join(" ");
+      return Object.assign({
+        "btn": !this.nav,
+        [this.variantClass]: !this.nav && !!this.variant,
+        [this.sizeableClass]: !!this.size
+      }, typeof this.buttonClass === "object" ? this.buttonClass : {
+        [this.buttonClass]: !!this.buttonClass
+      });
     },
     toggleStyle() {
       return {
@@ -1888,23 +1895,23 @@ var DropdownHandler = {
       };
     },
     toggleClasses() {
-      return [
-        this.nav && "nav-link",
-        !this.nav && "btn",
-        !this.nav && this.variantClass,
-        this.sizeableClass,
-        this.active ? "active" : "",
-        this.block ? "btn-block" : "",
-        !this.split && this.rotate && this.expanded ? "rotate-90" : "",
-        !this.nav && this.split ? "dropdown-toggle-split" : "",
-        "dropdown-toggle"
-      ].filter((value) => !!value).join(" ");
+      return Object.assign({
+        "active": this.active,
+        "btn": !this.nav,
+        "btn-block": !!this.block,
+        "nav-link": !!this.nav,
+        "rotate-90": !this.split && this.rotate && this.expanded,
+        "dropdown-toggle": true,
+        "dropdown-toggle-split": !this.nav && this.split,
+        [this.variantClass]: !this.nav && !!this.variant,
+        [this.sizeableClass]: !!this.size
+      }, typeof this.buttonClass === "object" ? this.buttonClass : {
+        [this.buttonClass]: !!this.buttonClass
+      });
     }
   },
   beforeDestroy() {
     this.popper && this.popper.destroy();
-  },
-  mounted() {
   },
   methods: {
     focus() {

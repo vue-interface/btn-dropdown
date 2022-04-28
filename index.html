@@ -19,7 +19,19 @@
             
             <h2 class="text-2xl mt-6 mb-3">Custom Buttons</h2>
 
-            <btn-dropdown>
+            <btn-dropdown variant="primary" label="Dropdown" button-class="rounded-full" @click-toggle="onToggle">
+                <a href="#/test" @click="onClickItem">Action</a>
+                <a href="#">Another Action</a>
+                <a href="#">Something else here</a>
+            </btn-dropdown>
+
+            <btn-dropdown split variant="primary" label="Dropdown" button-class="rounded-full" @click-toggle="onToggle">
+                <a href="#/test" @click="onClickItem">Action</a>
+                <a href="#">Another Action</a>
+                <a href="#">Something else here</a>
+            </btn-dropdown>
+
+            <btn-dropdown class="ml-3">
                 <template #button="{ onBlur, onClickToggle }">
                     <button class="bg-gray-100 p-2 rounded-full outline-none active:ring-4 focus:ring-4 ring-blue-500/50" @blur="onBlur" @click="onClickToggle">
                         <svg version="1.0" class="w-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512.000000 512.000000" preserveAspectRatio="xMidYMid meet">

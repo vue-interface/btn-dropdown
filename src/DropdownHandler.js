@@ -41,7 +41,12 @@ export default {
             default: true
         },
 
-        // buttonClass: String,
+        /**
+         * Additional button classes.
+         * 
+         * @property {Object|String}
+         */
+        buttonClass: [Object, String],
 
         /**
          * Show the caret.
@@ -216,19 +221,18 @@ export default {
                 'icon-only': !this.nav && !this.split && !!this.$slots.icon && !this.$slots.label,
                 'hide-caret': !this.caret,
                 'expanded': this.expanded,
-                // 'rounded-circle': !this.nav && this.split && this.circle,
                 'rotate-90': !this.nav && this.split && this.rotate && this.expanded,
             };
         },
 
         actionClasses() {
-            return [
-                !this.nav && 'btn',
-                !this.nav && this.size && this.sizeableClass,
-                !this.nav && this.variant && this.variantClass,
-            ]
-                .filter(value => !!value)
-                .join(' ');
+            return Object.assign({
+                'btn': !this.nav,
+                [this.variantClass]: !this.nav && !!this.variant,
+                [this.sizeableClass]: !!this.size,
+            }, typeof this.buttonClass === 'object' ? this.buttonClass : {
+                [this.buttonClass]: !!this.buttonClass
+            });
         },
 
         toggleStyle() {
@@ -239,46 +243,24 @@ export default {
         },
 
         toggleClasses() {
-            return [
-                // this.buttonClass,
-                this.nav && 'nav-link',
-                !this.nav && 'btn',
-                !this.nav && this.variantClass,
-                this.sizeableClass,
-                this.active ? 'active' : '',
-                this.block ? 'btn-block' : '',
-                // !this.split && this.circle ? 'rounded-circle p-0' : '',
-                !this.split && this.rotate && this.expanded ? 'rotate-90' : '',
-                !this.nav && this.split ? 'dropdown-toggle-split' : '',
-                'dropdown-toggle',
-            ]
-                .filter(value => !!value)
-                .join(' ');
+            return Object.assign({
+                'active': this.active,
+                'btn': !this.nav,
+                'btn-block': !!this.block,
+                'nav-link': !!this.nav,
+                'rotate-90': !this.split && this.rotate && this.expanded,
+                'dropdown-toggle': true,
+                'dropdown-toggle-split': !this.nav && this.split,
+                [this.variantClass]: !this.nav && !!this.variant,
+                [this.sizeableClass]: !!this.size,
+            }, typeof this.buttonClass === 'object' ? this.buttonClass : {
+                [this.buttonClass]: !!this.buttonClass
+            });
         }
     },
 
     beforeDestroy() {
         this.popper && this.popper.destroy();
-    },
-
-    mounted() {
-        // const toggle = this.$el.querySelector('.dropdown-toggle');
-
-        // toggle.addEventListener('click', () => {
-        //     if(!this.expanded) {
-        //         toggle.blur();
-        //     }
-        // });
-
-        // toggle.addEventListener('blur', this.onBlurItem);
-
-        // const menu = this.$el.querySelector('.dropdown-menu');
-
-        // menu.addEventListener('click', e => {
-        //     if(e.target === menu) {
-        //         toggle.focus();
-        //     }
-        // });
     },
 
     methods: {
