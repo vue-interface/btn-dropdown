@@ -382,6 +382,8 @@ export default {
          * @return void
          */
         onClickToggle(e) {
+            e.target.focus();
+            
             this.$emit('click-toggle', e);
 
             if(!e.defaultPrevented) {
