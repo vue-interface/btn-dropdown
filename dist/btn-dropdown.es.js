@@ -1,84 +1,49 @@
-var top = "top";
-var bottom = "bottom";
-var right = "right";
-var left = "left";
-var auto = "auto";
-var basePlacements = [top, bottom, right, left];
-var start = "start";
-var end = "end";
-var clippingParents = "clippingParents";
-var viewport = "viewport";
-var popper = "popper";
-var reference = "reference";
-var variationPlacements = /* @__PURE__ */ basePlacements.reduce(function(acc, placement) {
-  return acc.concat([placement + "-" + start, placement + "-" + end]);
-}, []);
-var placements = /* @__PURE__ */ [].concat(basePlacements, [auto]).reduce(function(acc, placement) {
-  return acc.concat([placement, placement + "-" + start, placement + "-" + end]);
-}, []);
-var beforeRead = "beforeRead";
-var read = "read";
-var afterRead = "afterRead";
-var beforeMain = "beforeMain";
-var main = "main";
-var afterMain = "afterMain";
-var beforeWrite = "beforeWrite";
-var write = "write";
-var afterWrite = "afterWrite";
-var modifierPhases = [beforeRead, read, afterRead, beforeMain, main, afterMain, beforeWrite, write, afterWrite];
-function getNodeName(element) {
-  return element ? (element.nodeName || "").toLowerCase() : null;
+import { openBlock as W, createBlock as ee, resolveDynamicComponent as He, mergeProps as ge, withCtx as B, renderSlot as P, createTextVNode as be, toDisplayString as ye, createElementBlock as Xe, normalizeClass as F, h as Nt, resolveComponent as te, createVNode as we, normalizeProps as ie, createCommentVNode as de, guardReactiveProps as Re, normalizeStyle as Mt, createSlots as Lt } from "vue";
+var R = "top", I = "bottom", N = "right", j = "left", ze = "auto", $e = [R, I, N, j], ae = "start", xe = "end", Vt = "clippingParents", wt = "viewport", ve = "popper", qt = "reference", st = /* @__PURE__ */ $e.reduce(function(e, t) {
+  return e.concat([t + "-" + ae, t + "-" + xe]);
+}, []), xt = /* @__PURE__ */ [].concat($e, [ze]).reduce(function(e, t) {
+  return e.concat([t, t + "-" + ae, t + "-" + xe]);
+}, []), Ft = "beforeRead", Wt = "read", Ht = "afterRead", Xt = "beforeMain", Yt = "main", Ut = "afterMain", Gt = "beforeWrite", Jt = "write", Kt = "afterWrite", qe = [Ft, Wt, Ht, Xt, Yt, Ut, Gt, Jt, Kt];
+function H(e) {
+  return e ? (e.nodeName || "").toLowerCase() : null;
 }
-function getWindow(node) {
-  if (node == null) {
+function M(e) {
+  if (e == null)
     return window;
+  if (e.toString() !== "[object Window]") {
+    var t = e.ownerDocument;
+    return t && t.defaultView || window;
   }
-  if (node.toString() !== "[object Window]") {
-    var ownerDocument = node.ownerDocument;
-    return ownerDocument ? ownerDocument.defaultView || window : window;
-  }
-  return node;
+  return e;
 }
-function isElement(node) {
-  var OwnElement = getWindow(node).Element;
-  return node instanceof OwnElement || node instanceof Element;
+function ne(e) {
+  var t = M(e).Element;
+  return e instanceof t || e instanceof Element;
 }
-function isHTMLElement(node) {
-  var OwnElement = getWindow(node).HTMLElement;
-  return node instanceof OwnElement || node instanceof HTMLElement;
+function T(e) {
+  var t = M(e).HTMLElement;
+  return e instanceof t || e instanceof HTMLElement;
 }
-function isShadowRoot(node) {
-  if (typeof ShadowRoot === "undefined") {
-    return false;
-  }
-  var OwnElement = getWindow(node).ShadowRoot;
-  return node instanceof OwnElement || node instanceof ShadowRoot;
+function Ye(e) {
+  if (typeof ShadowRoot > "u")
+    return !1;
+  var t = M(e).ShadowRoot;
+  return e instanceof t || e instanceof ShadowRoot;
 }
-function applyStyles(_ref) {
-  var state = _ref.state;
-  Object.keys(state.elements).forEach(function(name) {
-    var style = state.styles[name] || {};
-    var attributes = state.attributes[name] || {};
-    var element = state.elements[name];
-    if (!isHTMLElement(element) || !getNodeName(element)) {
-      return;
-    }
-    Object.assign(element.style, style);
-    Object.keys(attributes).forEach(function(name2) {
-      var value = attributes[name2];
-      if (value === false) {
-        element.removeAttribute(name2);
-      } else {
-        element.setAttribute(name2, value === true ? "" : value);
-      }
-    });
+function Qt(e) {
+  var t = e.state;
+  Object.keys(t.elements).forEach(function(r) {
+    var n = t.styles[r] || {}, o = t.attributes[r] || {}, i = t.elements[r];
+    !T(i) || !H(i) || (Object.assign(i.style, n), Object.keys(o).forEach(function(a) {
+      var l = o[a];
+      l === !1 ? i.removeAttribute(a) : i.setAttribute(a, l === !0 ? "" : l);
+    }));
   });
 }
-function effect$2(_ref2) {
-  var state = _ref2.state;
-  var initialStyles = {
+function Zt(e) {
+  var t = e.state, r = {
     popper: {
-      position: state.options.strategy,
+      position: t.options.strategy,
       left: "0",
       top: "0",
       margin: "0"
@@ -88,167 +53,124 @@ function effect$2(_ref2) {
     },
     reference: {}
   };
-  Object.assign(state.elements.popper.style, initialStyles.popper);
-  state.styles = initialStyles;
-  if (state.elements.arrow) {
-    Object.assign(state.elements.arrow.style, initialStyles.arrow);
-  }
-  return function() {
-    Object.keys(state.elements).forEach(function(name) {
-      var element = state.elements[name];
-      var attributes = state.attributes[name] || {};
-      var styleProperties = Object.keys(state.styles.hasOwnProperty(name) ? state.styles[name] : initialStyles[name]);
-      var style = styleProperties.reduce(function(style2, property) {
-        style2[property] = "";
-        return style2;
+  return Object.assign(t.elements.popper.style, r.popper), t.styles = r, t.elements.arrow && Object.assign(t.elements.arrow.style, r.arrow), function() {
+    Object.keys(t.elements).forEach(function(n) {
+      var o = t.elements[n], i = t.attributes[n] || {}, a = Object.keys(t.styles.hasOwnProperty(n) ? t.styles[n] : r[n]), l = a.reduce(function(s, f) {
+        return s[f] = "", s;
       }, {});
-      if (!isHTMLElement(element) || !getNodeName(element)) {
-        return;
-      }
-      Object.assign(element.style, style);
-      Object.keys(attributes).forEach(function(attribute) {
-        element.removeAttribute(attribute);
-      });
+      !T(o) || !H(o) || (Object.assign(o.style, l), Object.keys(i).forEach(function(s) {
+        o.removeAttribute(s);
+      }));
     });
   };
 }
-var applyStyles$1 = {
+const _t = {
   name: "applyStyles",
-  enabled: true,
+  enabled: !0,
   phase: "write",
-  fn: applyStyles,
-  effect: effect$2,
+  fn: Qt,
+  effect: Zt,
   requires: ["computeStyles"]
 };
-function getBasePlacement(placement) {
-  return placement.split("-")[0];
+function V(e) {
+  return e.split("-")[0];
 }
-var max = Math.max;
-var min = Math.min;
-var round = Math.round;
-function getBoundingClientRect(element, includeScale) {
-  if (includeScale === void 0) {
-    includeScale = false;
-  }
-  var rect = element.getBoundingClientRect();
-  var scaleX = 1;
-  var scaleY = 1;
-  if (isHTMLElement(element) && includeScale) {
-    var offsetHeight = element.offsetHeight;
-    var offsetWidth = element.offsetWidth;
-    if (offsetWidth > 0) {
-      scaleX = round(rect.width) / offsetWidth || 1;
-    }
-    if (offsetHeight > 0) {
-      scaleY = round(rect.height) / offsetHeight || 1;
-    }
-  }
+var re = Math.max, je = Math.min, se = Math.round;
+function Fe() {
+  var e = navigator.userAgentData;
+  return e != null && e.brands ? e.brands.map(function(t) {
+    return t.brand + "/" + t.version;
+  }).join(" ") : navigator.userAgent;
+}
+function Ot() {
+  return !/^((?!chrome|android).)*safari/i.test(Fe());
+}
+function le(e, t, r) {
+  t === void 0 && (t = !1), r === void 0 && (r = !1);
+  var n = e.getBoundingClientRect(), o = 1, i = 1;
+  t && T(e) && (o = e.offsetWidth > 0 && se(n.width) / e.offsetWidth || 1, i = e.offsetHeight > 0 && se(n.height) / e.offsetHeight || 1);
+  var a = ne(e) ? M(e) : window, l = a.visualViewport, s = !Ot() && r, f = (n.left + (s && l ? l.offsetLeft : 0)) / o, p = (n.top + (s && l ? l.offsetTop : 0)) / i, h = n.width / o, y = n.height / i;
   return {
-    width: rect.width / scaleX,
-    height: rect.height / scaleY,
-    top: rect.top / scaleY,
-    right: rect.right / scaleX,
-    bottom: rect.bottom / scaleY,
-    left: rect.left / scaleX,
-    x: rect.left / scaleX,
-    y: rect.top / scaleY
+    width: h,
+    height: y,
+    top: p,
+    right: f + h,
+    bottom: p + y,
+    left: f,
+    x: f,
+    y: p
   };
 }
-function getLayoutRect(element) {
-  var clientRect = getBoundingClientRect(element);
-  var width = element.offsetWidth;
-  var height = element.offsetHeight;
-  if (Math.abs(clientRect.width - width) <= 1) {
-    width = clientRect.width;
-  }
-  if (Math.abs(clientRect.height - height) <= 1) {
-    height = clientRect.height;
-  }
-  return {
-    x: element.offsetLeft,
-    y: element.offsetTop,
-    width,
-    height
+function Ue(e) {
+  var t = le(e), r = e.offsetWidth, n = e.offsetHeight;
+  return Math.abs(t.width - r) <= 1 && (r = t.width), Math.abs(t.height - n) <= 1 && (n = t.height), {
+    x: e.offsetLeft,
+    y: e.offsetTop,
+    width: r,
+    height: n
   };
 }
-function contains(parent, child) {
-  var rootNode = child.getRootNode && child.getRootNode();
-  if (parent.contains(child)) {
-    return true;
-  } else if (rootNode && isShadowRoot(rootNode)) {
-    var next = child;
+function $t(e, t) {
+  var r = t.getRootNode && t.getRootNode();
+  if (e.contains(t))
+    return !0;
+  if (r && Ye(r)) {
+    var n = t;
     do {
-      if (next && parent.isSameNode(next)) {
-        return true;
-      }
-      next = next.parentNode || next.host;
-    } while (next);
+      if (n && e.isSameNode(n))
+        return !0;
+      n = n.parentNode || n.host;
+    } while (n);
   }
-  return false;
+  return !1;
 }
-function getComputedStyle(element) {
-  return getWindow(element).getComputedStyle(element);
+function q(e) {
+  return M(e).getComputedStyle(e);
 }
-function isTableElement(element) {
-  return ["table", "td", "th"].indexOf(getNodeName(element)) >= 0;
+function er(e) {
+  return ["table", "td", "th"].indexOf(H(e)) >= 0;
 }
-function getDocumentElement(element) {
-  return ((isElement(element) ? element.ownerDocument : element.document) || window.document).documentElement;
+function U(e) {
+  return ((ne(e) ? e.ownerDocument : e.document) || window.document).documentElement;
 }
-function getParentNode(element) {
-  if (getNodeName(element) === "html") {
-    return element;
-  }
-  return element.assignedSlot || element.parentNode || (isShadowRoot(element) ? element.host : null) || getDocumentElement(element);
+function Te(e) {
+  return H(e) === "html" ? e : e.assignedSlot || e.parentNode || (Ye(e) ? e.host : null) || U(e);
 }
-function getTrueOffsetParent(element) {
-  if (!isHTMLElement(element) || getComputedStyle(element).position === "fixed") {
-    return null;
-  }
-  return element.offsetParent;
+function lt(e) {
+  return !T(e) || q(e).position === "fixed" ? null : e.offsetParent;
 }
-function getContainingBlock(element) {
-  var isFirefox = navigator.userAgent.toLowerCase().indexOf("firefox") !== -1;
-  var isIE = navigator.userAgent.indexOf("Trident") !== -1;
-  if (isIE && isHTMLElement(element)) {
-    var elementCss = getComputedStyle(element);
-    if (elementCss.position === "fixed") {
+function tr(e) {
+  var t = /firefox/i.test(Fe()), r = /Trident/i.test(Fe());
+  if (r && T(e)) {
+    var n = q(e);
+    if (n.position === "fixed")
       return null;
-    }
   }
-  var currentNode = getParentNode(element);
-  while (isHTMLElement(currentNode) && ["html", "body"].indexOf(getNodeName(currentNode)) < 0) {
-    var css = getComputedStyle(currentNode);
-    if (css.transform !== "none" || css.perspective !== "none" || css.contain === "paint" || ["transform", "perspective"].indexOf(css.willChange) !== -1 || isFirefox && css.willChange === "filter" || isFirefox && css.filter && css.filter !== "none") {
-      return currentNode;
-    } else {
-      currentNode = currentNode.parentNode;
-    }
+  var o = Te(e);
+  for (Ye(o) && (o = o.host); T(o) && ["html", "body"].indexOf(H(o)) < 0; ) {
+    var i = q(o);
+    if (i.transform !== "none" || i.perspective !== "none" || i.contain === "paint" || ["transform", "perspective"].indexOf(i.willChange) !== -1 || t && i.willChange === "filter" || t && i.filter && i.filter !== "none")
+      return o;
+    o = o.parentNode;
   }
   return null;
 }
-function getOffsetParent(element) {
-  var window2 = getWindow(element);
-  var offsetParent = getTrueOffsetParent(element);
-  while (offsetParent && isTableElement(offsetParent) && getComputedStyle(offsetParent).position === "static") {
-    offsetParent = getTrueOffsetParent(offsetParent);
-  }
-  if (offsetParent && (getNodeName(offsetParent) === "html" || getNodeName(offsetParent) === "body" && getComputedStyle(offsetParent).position === "static")) {
-    return window2;
-  }
-  return offsetParent || getContainingBlock(element) || window2;
+function Ce(e) {
+  for (var t = M(e), r = lt(e); r && er(r) && q(r).position === "static"; )
+    r = lt(r);
+  return r && (H(r) === "html" || H(r) === "body" && q(r).position === "static") ? t : r || tr(e) || t;
 }
-function getMainAxisFromPlacement(placement) {
-  return ["top", "bottom"].indexOf(placement) >= 0 ? "x" : "y";
+function Ge(e) {
+  return ["top", "bottom"].indexOf(e) >= 0 ? "x" : "y";
 }
-function within(min$1, value, max$1) {
-  return max(min$1, min(value, max$1));
+function he(e, t, r) {
+  return re(e, je(t, r));
 }
-function withinMaxClamp(min2, value, max2) {
-  var v = within(min2, value, max2);
-  return v > max2 ? max2 : v;
+function rr(e, t, r) {
+  var n = he(e, t, r);
+  return n > r ? r : n;
 }
-function getFreshSideObject() {
+function Ct() {
   return {
     top: 0,
     right: 0,
@@ -256,1319 +178,923 @@ function getFreshSideObject() {
     left: 0
   };
 }
-function mergePaddingObject(paddingObject) {
-  return Object.assign({}, getFreshSideObject(), paddingObject);
+function Pt(e) {
+  return Object.assign({}, Ct(), e);
 }
-function expandToHashMap(value, keys) {
-  return keys.reduce(function(hashMap, key) {
-    hashMap[key] = value;
-    return hashMap;
+function Et(e, t) {
+  return t.reduce(function(r, n) {
+    return r[n] = e, r;
   }, {});
 }
-var toPaddingObject = function toPaddingObject2(padding, state) {
-  padding = typeof padding === "function" ? padding(Object.assign({}, state.rects, {
-    placement: state.placement
-  })) : padding;
-  return mergePaddingObject(typeof padding !== "number" ? padding : expandToHashMap(padding, basePlacements));
+var nr = function(t, r) {
+  return t = typeof t == "function" ? t(Object.assign({}, r.rects, {
+    placement: r.placement
+  })) : t, Pt(typeof t != "number" ? t : Et(t, $e));
 };
-function arrow(_ref) {
-  var _state$modifiersData$;
-  var state = _ref.state, name = _ref.name, options = _ref.options;
-  var arrowElement = state.elements.arrow;
-  var popperOffsets2 = state.modifiersData.popperOffsets;
-  var basePlacement = getBasePlacement(state.placement);
-  var axis = getMainAxisFromPlacement(basePlacement);
-  var isVertical = [left, right].indexOf(basePlacement) >= 0;
-  var len = isVertical ? "height" : "width";
-  if (!arrowElement || !popperOffsets2) {
-    return;
+function or(e) {
+  var t, r = e.state, n = e.name, o = e.options, i = r.elements.arrow, a = r.modifiersData.popperOffsets, l = V(r.placement), s = Ge(l), f = [j, N].indexOf(l) >= 0, p = f ? "height" : "width";
+  if (!(!i || !a)) {
+    var h = nr(o.padding, r), y = Ue(i), u = s === "y" ? R : j, x = s === "y" ? I : N, m = r.rects.reference[p] + r.rects.reference[s] - a[s] - r.rects.popper[p], v = a[s] - r.rects.reference[s], w = Ce(i), C = w ? s === "y" ? w.clientHeight || 0 : w.clientWidth || 0 : 0, $ = m / 2 - v / 2, c = h[u], g = C - y[p] - h[x], d = C / 2 - y[p] / 2 + $, O = he(c, d, g), E = s;
+    r.modifiersData[n] = (t = {}, t[E] = O, t.centerOffset = O - d, t);
   }
-  var paddingObject = toPaddingObject(options.padding, state);
-  var arrowRect = getLayoutRect(arrowElement);
-  var minProp = axis === "y" ? top : left;
-  var maxProp = axis === "y" ? bottom : right;
-  var endDiff = state.rects.reference[len] + state.rects.reference[axis] - popperOffsets2[axis] - state.rects.popper[len];
-  var startDiff = popperOffsets2[axis] - state.rects.reference[axis];
-  var arrowOffsetParent = getOffsetParent(arrowElement);
-  var clientSize = arrowOffsetParent ? axis === "y" ? arrowOffsetParent.clientHeight || 0 : arrowOffsetParent.clientWidth || 0 : 0;
-  var centerToReference = endDiff / 2 - startDiff / 2;
-  var min2 = paddingObject[minProp];
-  var max2 = clientSize - arrowRect[len] - paddingObject[maxProp];
-  var center = clientSize / 2 - arrowRect[len] / 2 + centerToReference;
-  var offset2 = within(min2, center, max2);
-  var axisProp = axis;
-  state.modifiersData[name] = (_state$modifiersData$ = {}, _state$modifiersData$[axisProp] = offset2, _state$modifiersData$.centerOffset = offset2 - center, _state$modifiersData$);
 }
-function effect$1(_ref2) {
-  var state = _ref2.state, options = _ref2.options;
-  var _options$element = options.element, arrowElement = _options$element === void 0 ? "[data-popper-arrow]" : _options$element;
-  if (arrowElement == null) {
-    return;
-  }
-  if (typeof arrowElement === "string") {
-    arrowElement = state.elements.popper.querySelector(arrowElement);
-    if (!arrowElement) {
+function ir(e) {
+  var t = e.state, r = e.options, n = r.element, o = n === void 0 ? "[data-popper-arrow]" : n;
+  if (o != null && !(typeof o == "string" && (o = t.elements.popper.querySelector(o), !o))) {
+    if (process.env.NODE_ENV !== "production" && (T(o) || console.error(['Popper: "arrow" element must be an HTMLElement (not an SVGElement).', "To use an SVG arrow, wrap it in an HTMLElement that will be used as", "the arrow."].join(" "))), !$t(t.elements.popper, o)) {
+      process.env.NODE_ENV !== "production" && console.error(['Popper: "arrow" modifier\'s `element` must be a child of the popper', "element."].join(" "));
       return;
     }
+    t.elements.arrow = o;
   }
-  if (!contains(state.elements.popper, arrowElement)) {
-    return;
-  }
-  state.elements.arrow = arrowElement;
 }
-var arrow$1 = {
+const ar = {
   name: "arrow",
-  enabled: true,
+  enabled: !0,
   phase: "main",
-  fn: arrow,
-  effect: effect$1,
+  fn: or,
+  effect: ir,
   requires: ["popperOffsets"],
   requiresIfExists: ["preventOverflow"]
 };
-function getVariation(placement) {
-  return placement.split("-")[1];
+function pe(e) {
+  return e.split("-")[1];
 }
-var unsetSides = {
+var sr = {
   top: "auto",
   right: "auto",
   bottom: "auto",
   left: "auto"
 };
-function roundOffsetsByDPR(_ref) {
-  var x = _ref.x, y = _ref.y;
-  var win = window;
-  var dpr = win.devicePixelRatio || 1;
+function lr(e) {
+  var t = e.x, r = e.y, n = window, o = n.devicePixelRatio || 1;
   return {
-    x: round(x * dpr) / dpr || 0,
-    y: round(y * dpr) / dpr || 0
+    x: se(t * o) / o || 0,
+    y: se(r * o) / o || 0
   };
 }
-function mapToStyles(_ref2) {
-  var _Object$assign2;
-  var popper2 = _ref2.popper, popperRect = _ref2.popperRect, placement = _ref2.placement, variation = _ref2.variation, offsets = _ref2.offsets, position = _ref2.position, gpuAcceleration = _ref2.gpuAcceleration, adaptive = _ref2.adaptive, roundOffsets = _ref2.roundOffsets, isFixed = _ref2.isFixed;
-  var _offsets$x = offsets.x, x = _offsets$x === void 0 ? 0 : _offsets$x, _offsets$y = offsets.y, y = _offsets$y === void 0 ? 0 : _offsets$y;
-  var _ref3 = typeof roundOffsets === "function" ? roundOffsets({
-    x,
-    y
+function pt(e) {
+  var t, r = e.popper, n = e.popperRect, o = e.placement, i = e.variation, a = e.offsets, l = e.position, s = e.gpuAcceleration, f = e.adaptive, p = e.roundOffsets, h = e.isFixed, y = a.x, u = y === void 0 ? 0 : y, x = a.y, m = x === void 0 ? 0 : x, v = typeof p == "function" ? p({
+    x: u,
+    y: m
   }) : {
-    x,
-    y
+    x: u,
+    y: m
   };
-  x = _ref3.x;
-  y = _ref3.y;
-  var hasX = offsets.hasOwnProperty("x");
-  var hasY = offsets.hasOwnProperty("y");
-  var sideX = left;
-  var sideY = top;
-  var win = window;
-  if (adaptive) {
-    var offsetParent = getOffsetParent(popper2);
-    var heightProp = "clientHeight";
-    var widthProp = "clientWidth";
-    if (offsetParent === getWindow(popper2)) {
-      offsetParent = getDocumentElement(popper2);
-      if (getComputedStyle(offsetParent).position !== "static" && position === "absolute") {
-        heightProp = "scrollHeight";
-        widthProp = "scrollWidth";
-      }
+  u = v.x, m = v.y;
+  var w = a.hasOwnProperty("x"), C = a.hasOwnProperty("y"), $ = j, c = R, g = window;
+  if (f) {
+    var d = Ce(r), O = "clientHeight", E = "clientWidth";
+    if (d === M(r) && (d = U(r), q(d).position !== "static" && l === "absolute" && (O = "scrollHeight", E = "scrollWidth")), d = d, o === R || (o === j || o === N) && i === xe) {
+      c = I;
+      var S = h && d === g && g.visualViewport ? g.visualViewport.height : d[O];
+      m -= S - n.height, m *= s ? 1 : -1;
     }
-    offsetParent = offsetParent;
-    if (placement === top || (placement === left || placement === right) && variation === end) {
-      sideY = bottom;
-      var offsetY = isFixed && win.visualViewport ? win.visualViewport.height : offsetParent[heightProp];
-      y -= offsetY - popperRect.height;
-      y *= gpuAcceleration ? 1 : -1;
-    }
-    if (placement === left || (placement === top || placement === bottom) && variation === end) {
-      sideX = right;
-      var offsetX = isFixed && win.visualViewport ? win.visualViewport.width : offsetParent[widthProp];
-      x -= offsetX - popperRect.width;
-      x *= gpuAcceleration ? 1 : -1;
+    if (o === j || (o === R || o === I) && i === xe) {
+      $ = N;
+      var k = h && d === g && g.visualViewport ? g.visualViewport.width : d[E];
+      u -= k - n.width, u *= s ? 1 : -1;
     }
   }
-  var commonStyles = Object.assign({
-    position
-  }, adaptive && unsetSides);
-  var _ref4 = roundOffsets === true ? roundOffsetsByDPR({
-    x,
-    y
+  var b = Object.assign({
+    position: l
+  }, f && sr), D = p === !0 ? lr({
+    x: u,
+    y: m
   }) : {
-    x,
-    y
+    x: u,
+    y: m
   };
-  x = _ref4.x;
-  y = _ref4.y;
-  if (gpuAcceleration) {
-    var _Object$assign;
-    return Object.assign({}, commonStyles, (_Object$assign = {}, _Object$assign[sideY] = hasY ? "0" : "", _Object$assign[sideX] = hasX ? "0" : "", _Object$assign.transform = (win.devicePixelRatio || 1) <= 1 ? "translate(" + x + "px, " + y + "px)" : "translate3d(" + x + "px, " + y + "px, 0)", _Object$assign));
+  if (u = D.x, m = D.y, s) {
+    var A;
+    return Object.assign({}, b, (A = {}, A[c] = C ? "0" : "", A[$] = w ? "0" : "", A.transform = (g.devicePixelRatio || 1) <= 1 ? "translate(" + u + "px, " + m + "px)" : "translate3d(" + u + "px, " + m + "px, 0)", A));
   }
-  return Object.assign({}, commonStyles, (_Object$assign2 = {}, _Object$assign2[sideY] = hasY ? y + "px" : "", _Object$assign2[sideX] = hasX ? x + "px" : "", _Object$assign2.transform = "", _Object$assign2));
+  return Object.assign({}, b, (t = {}, t[c] = C ? m + "px" : "", t[$] = w ? u + "px" : "", t.transform = "", t));
 }
-function computeStyles(_ref5) {
-  var state = _ref5.state, options = _ref5.options;
-  var _options$gpuAccelerat = options.gpuAcceleration, gpuAcceleration = _options$gpuAccelerat === void 0 ? true : _options$gpuAccelerat, _options$adaptive = options.adaptive, adaptive = _options$adaptive === void 0 ? true : _options$adaptive, _options$roundOffsets = options.roundOffsets, roundOffsets = _options$roundOffsets === void 0 ? true : _options$roundOffsets;
-  var commonStyles = {
-    placement: getBasePlacement(state.placement),
-    variation: getVariation(state.placement),
-    popper: state.elements.popper,
-    popperRect: state.rects.popper,
-    gpuAcceleration,
-    isFixed: state.options.strategy === "fixed"
+function pr(e) {
+  var t = e.state, r = e.options, n = r.gpuAcceleration, o = n === void 0 ? !0 : n, i = r.adaptive, a = i === void 0 ? !0 : i, l = r.roundOffsets, s = l === void 0 ? !0 : l;
+  if (process.env.NODE_ENV !== "production") {
+    var f = q(t.elements.popper).transitionProperty || "";
+    a && ["transform", "top", "right", "bottom", "left"].some(function(h) {
+      return f.indexOf(h) >= 0;
+    }) && console.warn(["Popper: Detected CSS transitions on at least one of the following", 'CSS properties: "transform", "top", "right", "bottom", "left".', `
+
+`, 'Disable the "computeStyles" modifier\'s `adaptive` option to allow', "for smooth transitions, or remove these properties from the CSS", "transition declaration on the popper element if only transitioning", "opacity or background-color for example.", `
+
+`, "We recommend using the popper element as a wrapper around an inner", "element that can have any CSS property transitioned for animations."].join(" "));
+  }
+  var p = {
+    placement: V(t.placement),
+    variation: pe(t.placement),
+    popper: t.elements.popper,
+    popperRect: t.rects.popper,
+    gpuAcceleration: o,
+    isFixed: t.options.strategy === "fixed"
   };
-  if (state.modifiersData.popperOffsets != null) {
-    state.styles.popper = Object.assign({}, state.styles.popper, mapToStyles(Object.assign({}, commonStyles, {
-      offsets: state.modifiersData.popperOffsets,
-      position: state.options.strategy,
-      adaptive,
-      roundOffsets
-    })));
-  }
-  if (state.modifiersData.arrow != null) {
-    state.styles.arrow = Object.assign({}, state.styles.arrow, mapToStyles(Object.assign({}, commonStyles, {
-      offsets: state.modifiersData.arrow,
-      position: "absolute",
-      adaptive: false,
-      roundOffsets
-    })));
-  }
-  state.attributes.popper = Object.assign({}, state.attributes.popper, {
-    "data-popper-placement": state.placement
+  t.modifiersData.popperOffsets != null && (t.styles.popper = Object.assign({}, t.styles.popper, pt(Object.assign({}, p, {
+    offsets: t.modifiersData.popperOffsets,
+    position: t.options.strategy,
+    adaptive: a,
+    roundOffsets: s
+  })))), t.modifiersData.arrow != null && (t.styles.arrow = Object.assign({}, t.styles.arrow, pt(Object.assign({}, p, {
+    offsets: t.modifiersData.arrow,
+    position: "absolute",
+    adaptive: !1,
+    roundOffsets: s
+  })))), t.attributes.popper = Object.assign({}, t.attributes.popper, {
+    "data-popper-placement": t.placement
   });
 }
-var computeStyles$1 = {
+const fr = {
   name: "computeStyles",
-  enabled: true,
+  enabled: !0,
   phase: "beforeWrite",
-  fn: computeStyles,
+  fn: pr,
   data: {}
 };
-var passive = {
-  passive: true
+var De = {
+  passive: !0
 };
-function effect(_ref) {
-  var state = _ref.state, instance = _ref.instance, options = _ref.options;
-  var _options$scroll = options.scroll, scroll = _options$scroll === void 0 ? true : _options$scroll, _options$resize = options.resize, resize = _options$resize === void 0 ? true : _options$resize;
-  var window2 = getWindow(state.elements.popper);
-  var scrollParents = [].concat(state.scrollParents.reference, state.scrollParents.popper);
-  if (scroll) {
-    scrollParents.forEach(function(scrollParent) {
-      scrollParent.addEventListener("scroll", instance.update, passive);
-    });
-  }
-  if (resize) {
-    window2.addEventListener("resize", instance.update, passive);
-  }
-  return function() {
-    if (scroll) {
-      scrollParents.forEach(function(scrollParent) {
-        scrollParent.removeEventListener("scroll", instance.update, passive);
-      });
-    }
-    if (resize) {
-      window2.removeEventListener("resize", instance.update, passive);
-    }
+function ur(e) {
+  var t = e.state, r = e.instance, n = e.options, o = n.scroll, i = o === void 0 ? !0 : o, a = n.resize, l = a === void 0 ? !0 : a, s = M(t.elements.popper), f = [].concat(t.scrollParents.reference, t.scrollParents.popper);
+  return i && f.forEach(function(p) {
+    p.addEventListener("scroll", r.update, De);
+  }), l && s.addEventListener("resize", r.update, De), function() {
+    i && f.forEach(function(p) {
+      p.removeEventListener("scroll", r.update, De);
+    }), l && s.removeEventListener("resize", r.update, De);
   };
 }
-var eventListeners = {
+const cr = {
   name: "eventListeners",
-  enabled: true,
+  enabled: !0,
   phase: "write",
-  fn: function fn() {
+  fn: function() {
   },
-  effect,
+  effect: ur,
   data: {}
 };
-var hash$1 = {
+var dr = {
   left: "right",
   right: "left",
   bottom: "top",
   top: "bottom"
 };
-function getOppositePlacement(placement) {
-  return placement.replace(/left|right|bottom|top/g, function(matched) {
-    return hash$1[matched];
+function Ae(e) {
+  return e.replace(/left|right|bottom|top/g, function(t) {
+    return dr[t];
   });
 }
-var hash = {
+var vr = {
   start: "end",
   end: "start"
 };
-function getOppositeVariationPlacement(placement) {
-  return placement.replace(/start|end/g, function(matched) {
-    return hash[matched];
+function ft(e) {
+  return e.replace(/start|end/g, function(t) {
+    return vr[t];
   });
 }
-function getWindowScroll(node) {
-  var win = getWindow(node);
-  var scrollLeft = win.pageXOffset;
-  var scrollTop = win.pageYOffset;
+function Je(e) {
+  var t = M(e), r = t.pageXOffset, n = t.pageYOffset;
   return {
-    scrollLeft,
-    scrollTop
+    scrollLeft: r,
+    scrollTop: n
   };
 }
-function getWindowScrollBarX(element) {
-  return getBoundingClientRect(getDocumentElement(element)).left + getWindowScroll(element).scrollLeft;
+function Ke(e) {
+  return le(U(e)).left + Je(e).scrollLeft;
 }
-function getViewportRect(element) {
-  var win = getWindow(element);
-  var html = getDocumentElement(element);
-  var visualViewport = win.visualViewport;
-  var width = html.clientWidth;
-  var height = html.clientHeight;
-  var x = 0;
-  var y = 0;
-  if (visualViewport) {
-    width = visualViewport.width;
-    height = visualViewport.height;
-    if (!/^((?!chrome|android).)*safari/i.test(navigator.userAgent)) {
-      x = visualViewport.offsetLeft;
-      y = visualViewport.offsetTop;
-    }
+function hr(e, t) {
+  var r = M(e), n = U(e), o = r.visualViewport, i = n.clientWidth, a = n.clientHeight, l = 0, s = 0;
+  if (o) {
+    i = o.width, a = o.height;
+    var f = Ot();
+    (f || !f && t === "fixed") && (l = o.offsetLeft, s = o.offsetTop);
   }
   return {
-    width,
-    height,
-    x: x + getWindowScrollBarX(element),
-    y
+    width: i,
+    height: a,
+    x: l + Ke(e),
+    y: s
   };
 }
-function getDocumentRect(element) {
-  var _element$ownerDocumen;
-  var html = getDocumentElement(element);
-  var winScroll = getWindowScroll(element);
-  var body = (_element$ownerDocumen = element.ownerDocument) == null ? void 0 : _element$ownerDocumen.body;
-  var width = max(html.scrollWidth, html.clientWidth, body ? body.scrollWidth : 0, body ? body.clientWidth : 0);
-  var height = max(html.scrollHeight, html.clientHeight, body ? body.scrollHeight : 0, body ? body.clientHeight : 0);
-  var x = -winScroll.scrollLeft + getWindowScrollBarX(element);
-  var y = -winScroll.scrollTop;
-  if (getComputedStyle(body || html).direction === "rtl") {
-    x += max(html.clientWidth, body ? body.clientWidth : 0) - width;
-  }
-  return {
-    width,
-    height,
-    x,
-    y
+function mr(e) {
+  var t, r = U(e), n = Je(e), o = (t = e.ownerDocument) == null ? void 0 : t.body, i = re(r.scrollWidth, r.clientWidth, o ? o.scrollWidth : 0, o ? o.clientWidth : 0), a = re(r.scrollHeight, r.clientHeight, o ? o.scrollHeight : 0, o ? o.clientHeight : 0), l = -n.scrollLeft + Ke(e), s = -n.scrollTop;
+  return q(o || r).direction === "rtl" && (l += re(r.clientWidth, o ? o.clientWidth : 0) - i), {
+    width: i,
+    height: a,
+    x: l,
+    y: s
   };
 }
-function isScrollParent(element) {
-  var _getComputedStyle = getComputedStyle(element), overflow = _getComputedStyle.overflow, overflowX = _getComputedStyle.overflowX, overflowY = _getComputedStyle.overflowY;
-  return /auto|scroll|overlay|hidden/.test(overflow + overflowY + overflowX);
+function Qe(e) {
+  var t = q(e), r = t.overflow, n = t.overflowX, o = t.overflowY;
+  return /auto|scroll|overlay|hidden/.test(r + o + n);
 }
-function getScrollParent(node) {
-  if (["html", "body", "#document"].indexOf(getNodeName(node)) >= 0) {
-    return node.ownerDocument.body;
-  }
-  if (isHTMLElement(node) && isScrollParent(node)) {
-    return node;
-  }
-  return getScrollParent(getParentNode(node));
+function St(e) {
+  return ["html", "body", "#document"].indexOf(H(e)) >= 0 ? e.ownerDocument.body : T(e) && Qe(e) ? e : St(Te(e));
 }
-function listScrollParents(element, list) {
-  var _element$ownerDocumen;
-  if (list === void 0) {
-    list = [];
-  }
-  var scrollParent = getScrollParent(element);
-  var isBody = scrollParent === ((_element$ownerDocumen = element.ownerDocument) == null ? void 0 : _element$ownerDocumen.body);
-  var win = getWindow(scrollParent);
-  var target = isBody ? [win].concat(win.visualViewport || [], isScrollParent(scrollParent) ? scrollParent : []) : scrollParent;
-  var updatedList = list.concat(target);
-  return isBody ? updatedList : updatedList.concat(listScrollParents(getParentNode(target)));
+function me(e, t) {
+  var r;
+  t === void 0 && (t = []);
+  var n = St(e), o = n === ((r = e.ownerDocument) == null ? void 0 : r.body), i = M(n), a = o ? [i].concat(i.visualViewport || [], Qe(n) ? n : []) : n, l = t.concat(a);
+  return o ? l : l.concat(me(Te(a)));
 }
-function rectToClientRect(rect) {
-  return Object.assign({}, rect, {
-    left: rect.x,
-    top: rect.y,
-    right: rect.x + rect.width,
-    bottom: rect.y + rect.height
+function We(e) {
+  return Object.assign({}, e, {
+    left: e.x,
+    top: e.y,
+    right: e.x + e.width,
+    bottom: e.y + e.height
   });
 }
-function getInnerBoundingClientRect(element) {
-  var rect = getBoundingClientRect(element);
-  rect.top = rect.top + element.clientTop;
-  rect.left = rect.left + element.clientLeft;
-  rect.bottom = rect.top + element.clientHeight;
-  rect.right = rect.left + element.clientWidth;
-  rect.width = element.clientWidth;
-  rect.height = element.clientHeight;
-  rect.x = rect.left;
-  rect.y = rect.top;
-  return rect;
+function gr(e, t) {
+  var r = le(e, !1, t === "fixed");
+  return r.top = r.top + e.clientTop, r.left = r.left + e.clientLeft, r.bottom = r.top + e.clientHeight, r.right = r.left + e.clientWidth, r.width = e.clientWidth, r.height = e.clientHeight, r.x = r.left, r.y = r.top, r;
 }
-function getClientRectFromMixedType(element, clippingParent) {
-  return clippingParent === viewport ? rectToClientRect(getViewportRect(element)) : isElement(clippingParent) ? getInnerBoundingClientRect(clippingParent) : rectToClientRect(getDocumentRect(getDocumentElement(element)));
+function ut(e, t, r) {
+  return t === wt ? We(hr(e, r)) : ne(t) ? gr(t, r) : We(mr(U(e)));
 }
-function getClippingParents(element) {
-  var clippingParents2 = listScrollParents(getParentNode(element));
-  var canEscapeClipping = ["absolute", "fixed"].indexOf(getComputedStyle(element).position) >= 0;
-  var clipperElement = canEscapeClipping && isHTMLElement(element) ? getOffsetParent(element) : element;
-  if (!isElement(clipperElement)) {
-    return [];
-  }
-  return clippingParents2.filter(function(clippingParent) {
-    return isElement(clippingParent) && contains(clippingParent, clipperElement) && getNodeName(clippingParent) !== "body";
-  });
+function br(e) {
+  var t = me(Te(e)), r = ["absolute", "fixed"].indexOf(q(e).position) >= 0, n = r && T(e) ? Ce(e) : e;
+  return ne(n) ? t.filter(function(o) {
+    return ne(o) && $t(o, n) && H(o) !== "body";
+  }) : [];
 }
-function getClippingRect(element, boundary, rootBoundary) {
-  var mainClippingParents = boundary === "clippingParents" ? getClippingParents(element) : [].concat(boundary);
-  var clippingParents2 = [].concat(mainClippingParents, [rootBoundary]);
-  var firstClippingParent = clippingParents2[0];
-  var clippingRect = clippingParents2.reduce(function(accRect, clippingParent) {
-    var rect = getClientRectFromMixedType(element, clippingParent);
-    accRect.top = max(rect.top, accRect.top);
-    accRect.right = min(rect.right, accRect.right);
-    accRect.bottom = min(rect.bottom, accRect.bottom);
-    accRect.left = max(rect.left, accRect.left);
-    return accRect;
-  }, getClientRectFromMixedType(element, firstClippingParent));
-  clippingRect.width = clippingRect.right - clippingRect.left;
-  clippingRect.height = clippingRect.bottom - clippingRect.top;
-  clippingRect.x = clippingRect.left;
-  clippingRect.y = clippingRect.top;
-  return clippingRect;
+function yr(e, t, r, n) {
+  var o = t === "clippingParents" ? br(e) : [].concat(t), i = [].concat(o, [r]), a = i[0], l = i.reduce(function(s, f) {
+    var p = ut(e, f, n);
+    return s.top = re(p.top, s.top), s.right = je(p.right, s.right), s.bottom = je(p.bottom, s.bottom), s.left = re(p.left, s.left), s;
+  }, ut(e, a, n));
+  return l.width = l.right - l.left, l.height = l.bottom - l.top, l.x = l.left, l.y = l.top, l;
 }
-function computeOffsets(_ref) {
-  var reference2 = _ref.reference, element = _ref.element, placement = _ref.placement;
-  var basePlacement = placement ? getBasePlacement(placement) : null;
-  var variation = placement ? getVariation(placement) : null;
-  var commonX = reference2.x + reference2.width / 2 - element.width / 2;
-  var commonY = reference2.y + reference2.height / 2 - element.height / 2;
-  var offsets;
-  switch (basePlacement) {
-    case top:
-      offsets = {
-        x: commonX,
-        y: reference2.y - element.height
+function kt(e) {
+  var t = e.reference, r = e.element, n = e.placement, o = n ? V(n) : null, i = n ? pe(n) : null, a = t.x + t.width / 2 - r.width / 2, l = t.y + t.height / 2 - r.height / 2, s;
+  switch (o) {
+    case R:
+      s = {
+        x: a,
+        y: t.y - r.height
       };
       break;
-    case bottom:
-      offsets = {
-        x: commonX,
-        y: reference2.y + reference2.height
+    case I:
+      s = {
+        x: a,
+        y: t.y + t.height
       };
       break;
-    case right:
-      offsets = {
-        x: reference2.x + reference2.width,
-        y: commonY
+    case N:
+      s = {
+        x: t.x + t.width,
+        y: l
       };
       break;
-    case left:
-      offsets = {
-        x: reference2.x - element.width,
-        y: commonY
+    case j:
+      s = {
+        x: t.x - r.width,
+        y: l
       };
       break;
     default:
-      offsets = {
-        x: reference2.x,
-        y: reference2.y
+      s = {
+        x: t.x,
+        y: t.y
       };
   }
-  var mainAxis = basePlacement ? getMainAxisFromPlacement(basePlacement) : null;
-  if (mainAxis != null) {
-    var len = mainAxis === "y" ? "height" : "width";
-    switch (variation) {
-      case start:
-        offsets[mainAxis] = offsets[mainAxis] - (reference2[len] / 2 - element[len] / 2);
+  var f = o ? Ge(o) : null;
+  if (f != null) {
+    var p = f === "y" ? "height" : "width";
+    switch (i) {
+      case ae:
+        s[f] = s[f] - (t[p] / 2 - r[p] / 2);
         break;
-      case end:
-        offsets[mainAxis] = offsets[mainAxis] + (reference2[len] / 2 - element[len] / 2);
+      case xe:
+        s[f] = s[f] + (t[p] / 2 - r[p] / 2);
         break;
     }
   }
-  return offsets;
+  return s;
 }
-function detectOverflow(state, options) {
-  if (options === void 0) {
-    options = {};
-  }
-  var _options = options, _options$placement = _options.placement, placement = _options$placement === void 0 ? state.placement : _options$placement, _options$boundary = _options.boundary, boundary = _options$boundary === void 0 ? clippingParents : _options$boundary, _options$rootBoundary = _options.rootBoundary, rootBoundary = _options$rootBoundary === void 0 ? viewport : _options$rootBoundary, _options$elementConte = _options.elementContext, elementContext = _options$elementConte === void 0 ? popper : _options$elementConte, _options$altBoundary = _options.altBoundary, altBoundary = _options$altBoundary === void 0 ? false : _options$altBoundary, _options$padding = _options.padding, padding = _options$padding === void 0 ? 0 : _options$padding;
-  var paddingObject = mergePaddingObject(typeof padding !== "number" ? padding : expandToHashMap(padding, basePlacements));
-  var altContext = elementContext === popper ? reference : popper;
-  var popperRect = state.rects.popper;
-  var element = state.elements[altBoundary ? altContext : elementContext];
-  var clippingClientRect = getClippingRect(isElement(element) ? element : element.contextElement || getDocumentElement(state.elements.popper), boundary, rootBoundary);
-  var referenceClientRect = getBoundingClientRect(state.elements.reference);
-  var popperOffsets2 = computeOffsets({
-    reference: referenceClientRect,
-    element: popperRect,
+function Oe(e, t) {
+  t === void 0 && (t = {});
+  var r = t, n = r.placement, o = n === void 0 ? e.placement : n, i = r.strategy, a = i === void 0 ? e.strategy : i, l = r.boundary, s = l === void 0 ? Vt : l, f = r.rootBoundary, p = f === void 0 ? wt : f, h = r.elementContext, y = h === void 0 ? ve : h, u = r.altBoundary, x = u === void 0 ? !1 : u, m = r.padding, v = m === void 0 ? 0 : m, w = Pt(typeof v != "number" ? v : Et(v, $e)), C = y === ve ? qt : ve, $ = e.rects.popper, c = e.elements[x ? C : y], g = yr(ne(c) ? c : c.contextElement || U(e.elements.popper), s, p, a), d = le(e.elements.reference), O = kt({
+    reference: d,
+    element: $,
     strategy: "absolute",
-    placement
-  });
-  var popperClientRect = rectToClientRect(Object.assign({}, popperRect, popperOffsets2));
-  var elementClientRect = elementContext === popper ? popperClientRect : referenceClientRect;
-  var overflowOffsets = {
-    top: clippingClientRect.top - elementClientRect.top + paddingObject.top,
-    bottom: elementClientRect.bottom - clippingClientRect.bottom + paddingObject.bottom,
-    left: clippingClientRect.left - elementClientRect.left + paddingObject.left,
-    right: elementClientRect.right - clippingClientRect.right + paddingObject.right
-  };
-  var offsetData = state.modifiersData.offset;
-  if (elementContext === popper && offsetData) {
-    var offset2 = offsetData[placement];
-    Object.keys(overflowOffsets).forEach(function(key) {
-      var multiply = [right, bottom].indexOf(key) >= 0 ? 1 : -1;
-      var axis = [top, bottom].indexOf(key) >= 0 ? "y" : "x";
-      overflowOffsets[key] += offset2[axis] * multiply;
+    placement: o
+  }), E = We(Object.assign({}, $, O)), S = y === ve ? E : d, k = {
+    top: g.top - S.top + w.top,
+    bottom: S.bottom - g.bottom + w.bottom,
+    left: g.left - S.left + w.left,
+    right: S.right - g.right + w.right
+  }, b = e.modifiersData.offset;
+  if (y === ve && b) {
+    var D = b[o];
+    Object.keys(k).forEach(function(A) {
+      var G = [N, I].indexOf(A) >= 0 ? 1 : -1, J = [R, I].indexOf(A) >= 0 ? "y" : "x";
+      k[A] += D[J] * G;
     });
   }
-  return overflowOffsets;
+  return k;
 }
-function computeAutoPlacement(state, options) {
-  if (options === void 0) {
-    options = {};
-  }
-  var _options = options, placement = _options.placement, boundary = _options.boundary, rootBoundary = _options.rootBoundary, padding = _options.padding, flipVariations = _options.flipVariations, _options$allowedAutoP = _options.allowedAutoPlacements, allowedAutoPlacements = _options$allowedAutoP === void 0 ? placements : _options$allowedAutoP;
-  var variation = getVariation(placement);
-  var placements$1 = variation ? flipVariations ? variationPlacements : variationPlacements.filter(function(placement2) {
-    return getVariation(placement2) === variation;
-  }) : basePlacements;
-  var allowedPlacements = placements$1.filter(function(placement2) {
-    return allowedAutoPlacements.indexOf(placement2) >= 0;
+function wr(e, t) {
+  t === void 0 && (t = {});
+  var r = t, n = r.placement, o = r.boundary, i = r.rootBoundary, a = r.padding, l = r.flipVariations, s = r.allowedAutoPlacements, f = s === void 0 ? xt : s, p = pe(n), h = p ? l ? st : st.filter(function(x) {
+    return pe(x) === p;
+  }) : $e, y = h.filter(function(x) {
+    return f.indexOf(x) >= 0;
   });
-  if (allowedPlacements.length === 0) {
-    allowedPlacements = placements$1;
-  }
-  var overflows = allowedPlacements.reduce(function(acc, placement2) {
-    acc[placement2] = detectOverflow(state, {
-      placement: placement2,
-      boundary,
-      rootBoundary,
-      padding
-    })[getBasePlacement(placement2)];
-    return acc;
+  y.length === 0 && (y = h, process.env.NODE_ENV !== "production" && console.error(["Popper: The `allowedAutoPlacements` option did not allow any", "placements. Ensure the `placement` option matches the variation", "of the allowed placements.", 'For example, "auto" cannot be used to allow "bottom-start".', 'Use "auto-start" instead.'].join(" ")));
+  var u = y.reduce(function(x, m) {
+    return x[m] = Oe(e, {
+      placement: m,
+      boundary: o,
+      rootBoundary: i,
+      padding: a
+    })[V(m)], x;
   }, {});
-  return Object.keys(overflows).sort(function(a, b) {
-    return overflows[a] - overflows[b];
+  return Object.keys(u).sort(function(x, m) {
+    return u[x] - u[m];
   });
 }
-function getExpandedFallbackPlacements(placement) {
-  if (getBasePlacement(placement) === auto) {
+function xr(e) {
+  if (V(e) === ze)
     return [];
-  }
-  var oppositePlacement = getOppositePlacement(placement);
-  return [getOppositeVariationPlacement(placement), oppositePlacement, getOppositeVariationPlacement(oppositePlacement)];
+  var t = Ae(e);
+  return [ft(e), t, ft(t)];
 }
-function flip(_ref) {
-  var state = _ref.state, options = _ref.options, name = _ref.name;
-  if (state.modifiersData[name]._skip) {
-    return;
-  }
-  var _options$mainAxis = options.mainAxis, checkMainAxis = _options$mainAxis === void 0 ? true : _options$mainAxis, _options$altAxis = options.altAxis, checkAltAxis = _options$altAxis === void 0 ? true : _options$altAxis, specifiedFallbackPlacements = options.fallbackPlacements, padding = options.padding, boundary = options.boundary, rootBoundary = options.rootBoundary, altBoundary = options.altBoundary, _options$flipVariatio = options.flipVariations, flipVariations = _options$flipVariatio === void 0 ? true : _options$flipVariatio, allowedAutoPlacements = options.allowedAutoPlacements;
-  var preferredPlacement = state.options.placement;
-  var basePlacement = getBasePlacement(preferredPlacement);
-  var isBasePlacement = basePlacement === preferredPlacement;
-  var fallbackPlacements = specifiedFallbackPlacements || (isBasePlacement || !flipVariations ? [getOppositePlacement(preferredPlacement)] : getExpandedFallbackPlacements(preferredPlacement));
-  var placements2 = [preferredPlacement].concat(fallbackPlacements).reduce(function(acc, placement2) {
-    return acc.concat(getBasePlacement(placement2) === auto ? computeAutoPlacement(state, {
-      placement: placement2,
-      boundary,
-      rootBoundary,
-      padding,
-      flipVariations,
-      allowedAutoPlacements
-    }) : placement2);
-  }, []);
-  var referenceRect = state.rects.reference;
-  var popperRect = state.rects.popper;
-  var checksMap = /* @__PURE__ */ new Map();
-  var makeFallbackChecks = true;
-  var firstFittingPlacement = placements2[0];
-  for (var i = 0; i < placements2.length; i++) {
-    var placement = placements2[i];
-    var _basePlacement = getBasePlacement(placement);
-    var isStartVariation = getVariation(placement) === start;
-    var isVertical = [top, bottom].indexOf(_basePlacement) >= 0;
-    var len = isVertical ? "width" : "height";
-    var overflow = detectOverflow(state, {
-      placement,
-      boundary,
-      rootBoundary,
-      altBoundary,
-      padding
-    });
-    var mainVariationSide = isVertical ? isStartVariation ? right : left : isStartVariation ? bottom : top;
-    if (referenceRect[len] > popperRect[len]) {
-      mainVariationSide = getOppositePlacement(mainVariationSide);
-    }
-    var altVariationSide = getOppositePlacement(mainVariationSide);
-    var checks = [];
-    if (checkMainAxis) {
-      checks.push(overflow[_basePlacement] <= 0);
-    }
-    if (checkAltAxis) {
-      checks.push(overflow[mainVariationSide] <= 0, overflow[altVariationSide] <= 0);
-    }
-    if (checks.every(function(check) {
-      return check;
-    })) {
-      firstFittingPlacement = placement;
-      makeFallbackChecks = false;
-      break;
-    }
-    checksMap.set(placement, checks);
-  }
-  if (makeFallbackChecks) {
-    var numberOfChecks = flipVariations ? 3 : 1;
-    var _loop = function _loop2(_i2) {
-      var fittingPlacement = placements2.find(function(placement2) {
-        var checks2 = checksMap.get(placement2);
-        if (checks2) {
-          return checks2.slice(0, _i2).every(function(check) {
-            return check;
-          });
-        }
-      });
-      if (fittingPlacement) {
-        firstFittingPlacement = fittingPlacement;
-        return "break";
-      }
-    };
-    for (var _i = numberOfChecks; _i > 0; _i--) {
-      var _ret = _loop(_i);
-      if (_ret === "break")
+function Or(e) {
+  var t = e.state, r = e.options, n = e.name;
+  if (!t.modifiersData[n]._skip) {
+    for (var o = r.mainAxis, i = o === void 0 ? !0 : o, a = r.altAxis, l = a === void 0 ? !0 : a, s = r.fallbackPlacements, f = r.padding, p = r.boundary, h = r.rootBoundary, y = r.altBoundary, u = r.flipVariations, x = u === void 0 ? !0 : u, m = r.allowedAutoPlacements, v = t.options.placement, w = V(v), C = w === v, $ = s || (C || !x ? [Ae(v)] : xr(v)), c = [v].concat($).reduce(function(oe, X) {
+      return oe.concat(V(X) === ze ? wr(t, {
+        placement: X,
+        boundary: p,
+        rootBoundary: h,
+        padding: f,
+        flipVariations: x,
+        allowedAutoPlacements: m
+      }) : X);
+    }, []), g = t.rects.reference, d = t.rects.popper, O = /* @__PURE__ */ new Map(), E = !0, S = c[0], k = 0; k < c.length; k++) {
+      var b = c[k], D = V(b), A = pe(b) === ae, G = [R, I].indexOf(D) >= 0, J = G ? "width" : "height", z = Oe(t, {
+        placement: b,
+        boundary: p,
+        rootBoundary: h,
+        altBoundary: y,
+        padding: f
+      }), L = G ? A ? N : j : A ? I : R;
+      g[J] > d[J] && (L = Ae(L));
+      var Pe = Ae(L), K = [];
+      if (i && K.push(z[D] <= 0), l && K.push(z[L] <= 0, z[Pe] <= 0), K.every(function(oe) {
+        return oe;
+      })) {
+        S = b, E = !1;
         break;
+      }
+      O.set(b, K);
     }
-  }
-  if (state.placement !== firstFittingPlacement) {
-    state.modifiersData[name]._skip = true;
-    state.placement = firstFittingPlacement;
-    state.reset = true;
+    if (E)
+      for (var Ee = x ? 3 : 1, Ie = function(X) {
+        var ce = c.find(function(ke) {
+          var Q = O.get(ke);
+          if (Q)
+            return Q.slice(0, X).every(function(Ne) {
+              return Ne;
+            });
+        });
+        if (ce)
+          return S = ce, "break";
+      }, ue = Ee; ue > 0; ue--) {
+        var Se = Ie(ue);
+        if (Se === "break")
+          break;
+      }
+    t.placement !== S && (t.modifiersData[n]._skip = !0, t.placement = S, t.reset = !0);
   }
 }
-var flip$1 = {
+const $r = {
   name: "flip",
-  enabled: true,
+  enabled: !0,
   phase: "main",
-  fn: flip,
+  fn: Or,
   requiresIfExists: ["offset"],
   data: {
-    _skip: false
+    _skip: !1
   }
 };
-function getSideOffsets(overflow, rect, preventedOffsets) {
-  if (preventedOffsets === void 0) {
-    preventedOffsets = {
-      x: 0,
-      y: 0
-    };
-  }
-  return {
-    top: overflow.top - rect.height - preventedOffsets.y,
-    right: overflow.right - rect.width + preventedOffsets.x,
-    bottom: overflow.bottom - rect.height + preventedOffsets.y,
-    left: overflow.left - rect.width - preventedOffsets.x
+function ct(e, t, r) {
+  return r === void 0 && (r = {
+    x: 0,
+    y: 0
+  }), {
+    top: e.top - t.height - r.y,
+    right: e.right - t.width + r.x,
+    bottom: e.bottom - t.height + r.y,
+    left: e.left - t.width - r.x
   };
 }
-function isAnySideFullyClipped(overflow) {
-  return [top, right, bottom, left].some(function(side) {
-    return overflow[side] >= 0;
+function dt(e) {
+  return [R, N, I, j].some(function(t) {
+    return e[t] >= 0;
   });
 }
-function hide(_ref) {
-  var state = _ref.state, name = _ref.name;
-  var referenceRect = state.rects.reference;
-  var popperRect = state.rects.popper;
-  var preventedOffsets = state.modifiersData.preventOverflow;
-  var referenceOverflow = detectOverflow(state, {
+function Cr(e) {
+  var t = e.state, r = e.name, n = t.rects.reference, o = t.rects.popper, i = t.modifiersData.preventOverflow, a = Oe(t, {
     elementContext: "reference"
-  });
-  var popperAltOverflow = detectOverflow(state, {
-    altBoundary: true
-  });
-  var referenceClippingOffsets = getSideOffsets(referenceOverflow, referenceRect);
-  var popperEscapeOffsets = getSideOffsets(popperAltOverflow, popperRect, preventedOffsets);
-  var isReferenceHidden = isAnySideFullyClipped(referenceClippingOffsets);
-  var hasPopperEscaped = isAnySideFullyClipped(popperEscapeOffsets);
-  state.modifiersData[name] = {
-    referenceClippingOffsets,
-    popperEscapeOffsets,
-    isReferenceHidden,
-    hasPopperEscaped
-  };
-  state.attributes.popper = Object.assign({}, state.attributes.popper, {
-    "data-popper-reference-hidden": isReferenceHidden,
-    "data-popper-escaped": hasPopperEscaped
+  }), l = Oe(t, {
+    altBoundary: !0
+  }), s = ct(a, n), f = ct(l, o, i), p = dt(s), h = dt(f);
+  t.modifiersData[r] = {
+    referenceClippingOffsets: s,
+    popperEscapeOffsets: f,
+    isReferenceHidden: p,
+    hasPopperEscaped: h
+  }, t.attributes.popper = Object.assign({}, t.attributes.popper, {
+    "data-popper-reference-hidden": p,
+    "data-popper-escaped": h
   });
 }
-var hide$1 = {
+const Pr = {
   name: "hide",
-  enabled: true,
+  enabled: !0,
   phase: "main",
   requiresIfExists: ["preventOverflow"],
-  fn: hide
+  fn: Cr
 };
-function distanceAndSkiddingToXY(placement, rects, offset2) {
-  var basePlacement = getBasePlacement(placement);
-  var invertDistance = [left, top].indexOf(basePlacement) >= 0 ? -1 : 1;
-  var _ref = typeof offset2 === "function" ? offset2(Object.assign({}, rects, {
-    placement
-  })) : offset2, skidding = _ref[0], distance = _ref[1];
-  skidding = skidding || 0;
-  distance = (distance || 0) * invertDistance;
-  return [left, right].indexOf(basePlacement) >= 0 ? {
-    x: distance,
-    y: skidding
+function Er(e, t, r) {
+  var n = V(e), o = [j, R].indexOf(n) >= 0 ? -1 : 1, i = typeof r == "function" ? r(Object.assign({}, t, {
+    placement: e
+  })) : r, a = i[0], l = i[1];
+  return a = a || 0, l = (l || 0) * o, [j, N].indexOf(n) >= 0 ? {
+    x: l,
+    y: a
   } : {
-    x: skidding,
-    y: distance
+    x: a,
+    y: l
   };
 }
-function offset(_ref2) {
-  var state = _ref2.state, options = _ref2.options, name = _ref2.name;
-  var _options$offset = options.offset, offset2 = _options$offset === void 0 ? [0, 0] : _options$offset;
-  var data = placements.reduce(function(acc, placement) {
-    acc[placement] = distanceAndSkiddingToXY(placement, state.rects, offset2);
-    return acc;
-  }, {});
-  var _data$state$placement = data[state.placement], x = _data$state$placement.x, y = _data$state$placement.y;
-  if (state.modifiersData.popperOffsets != null) {
-    state.modifiersData.popperOffsets.x += x;
-    state.modifiersData.popperOffsets.y += y;
-  }
-  state.modifiersData[name] = data;
+function Sr(e) {
+  var t = e.state, r = e.options, n = e.name, o = r.offset, i = o === void 0 ? [0, 0] : o, a = xt.reduce(function(p, h) {
+    return p[h] = Er(h, t.rects, i), p;
+  }, {}), l = a[t.placement], s = l.x, f = l.y;
+  t.modifiersData.popperOffsets != null && (t.modifiersData.popperOffsets.x += s, t.modifiersData.popperOffsets.y += f), t.modifiersData[n] = a;
 }
-var offset$1 = {
+const kr = {
   name: "offset",
-  enabled: true,
+  enabled: !0,
   phase: "main",
   requires: ["popperOffsets"],
-  fn: offset
+  fn: Sr
 };
-function popperOffsets(_ref) {
-  var state = _ref.state, name = _ref.name;
-  state.modifiersData[name] = computeOffsets({
-    reference: state.rects.reference,
-    element: state.rects.popper,
+function Br(e) {
+  var t = e.state, r = e.name;
+  t.modifiersData[r] = kt({
+    reference: t.rects.reference,
+    element: t.rects.popper,
     strategy: "absolute",
-    placement: state.placement
+    placement: t.placement
   });
 }
-var popperOffsets$1 = {
+const Dr = {
   name: "popperOffsets",
-  enabled: true,
+  enabled: !0,
   phase: "read",
-  fn: popperOffsets,
+  fn: Br,
   data: {}
 };
-function getAltAxis(axis) {
-  return axis === "x" ? "y" : "x";
+function Ar(e) {
+  return e === "x" ? "y" : "x";
 }
-function preventOverflow(_ref) {
-  var state = _ref.state, options = _ref.options, name = _ref.name;
-  var _options$mainAxis = options.mainAxis, checkMainAxis = _options$mainAxis === void 0 ? true : _options$mainAxis, _options$altAxis = options.altAxis, checkAltAxis = _options$altAxis === void 0 ? false : _options$altAxis, boundary = options.boundary, rootBoundary = options.rootBoundary, altBoundary = options.altBoundary, padding = options.padding, _options$tether = options.tether, tether = _options$tether === void 0 ? true : _options$tether, _options$tetherOffset = options.tetherOffset, tetherOffset = _options$tetherOffset === void 0 ? 0 : _options$tetherOffset;
-  var overflow = detectOverflow(state, {
-    boundary,
-    rootBoundary,
-    padding,
-    altBoundary
-  });
-  var basePlacement = getBasePlacement(state.placement);
-  var variation = getVariation(state.placement);
-  var isBasePlacement = !variation;
-  var mainAxis = getMainAxisFromPlacement(basePlacement);
-  var altAxis = getAltAxis(mainAxis);
-  var popperOffsets2 = state.modifiersData.popperOffsets;
-  var referenceRect = state.rects.reference;
-  var popperRect = state.rects.popper;
-  var tetherOffsetValue = typeof tetherOffset === "function" ? tetherOffset(Object.assign({}, state.rects, {
-    placement: state.placement
-  })) : tetherOffset;
-  var normalizedTetherOffsetValue = typeof tetherOffsetValue === "number" ? {
-    mainAxis: tetherOffsetValue,
-    altAxis: tetherOffsetValue
+function Rr(e) {
+  var t = e.state, r = e.options, n = e.name, o = r.mainAxis, i = o === void 0 ? !0 : o, a = r.altAxis, l = a === void 0 ? !1 : a, s = r.boundary, f = r.rootBoundary, p = r.altBoundary, h = r.padding, y = r.tether, u = y === void 0 ? !0 : y, x = r.tetherOffset, m = x === void 0 ? 0 : x, v = Oe(t, {
+    boundary: s,
+    rootBoundary: f,
+    padding: h,
+    altBoundary: p
+  }), w = V(t.placement), C = pe(t.placement), $ = !C, c = Ge(w), g = Ar(c), d = t.modifiersData.popperOffsets, O = t.rects.reference, E = t.rects.popper, S = typeof m == "function" ? m(Object.assign({}, t.rects, {
+    placement: t.placement
+  })) : m, k = typeof S == "number" ? {
+    mainAxis: S,
+    altAxis: S
   } : Object.assign({
     mainAxis: 0,
     altAxis: 0
-  }, tetherOffsetValue);
-  var offsetModifierState = state.modifiersData.offset ? state.modifiersData.offset[state.placement] : null;
-  var data = {
+  }, S), b = t.modifiersData.offset ? t.modifiersData.offset[t.placement] : null, D = {
     x: 0,
     y: 0
   };
-  if (!popperOffsets2) {
-    return;
+  if (!!d) {
+    if (i) {
+      var A, G = c === "y" ? R : j, J = c === "y" ? I : N, z = c === "y" ? "height" : "width", L = d[c], Pe = L + v[G], K = L - v[J], Ee = u ? -E[z] / 2 : 0, Ie = C === ae ? O[z] : E[z], ue = C === ae ? -E[z] : -O[z], Se = t.elements.arrow, oe = u && Se ? Ue(Se) : {
+        width: 0,
+        height: 0
+      }, X = t.modifiersData["arrow#persistent"] ? t.modifiersData["arrow#persistent"].padding : Ct(), ce = X[G], ke = X[J], Q = he(0, O[z], oe[z]), Ne = $ ? O[z] / 2 - Ee - Q - ce - k.mainAxis : Ie - Q - ce - k.mainAxis, At = $ ? -O[z] / 2 + Ee + Q + ke + k.mainAxis : ue + Q + ke + k.mainAxis, Me = t.elements.arrow && Ce(t.elements.arrow), Rt = Me ? c === "y" ? Me.clientTop || 0 : Me.clientLeft || 0 : 0, Ze = (A = b == null ? void 0 : b[c]) != null ? A : 0, jt = L + Ne - Ze - Rt, zt = L + At - Ze, _e = he(u ? je(Pe, jt) : Pe, L, u ? re(K, zt) : K);
+      d[c] = _e, D[c] = _e - L;
+    }
+    if (l) {
+      var et, Tt = c === "x" ? R : j, It = c === "x" ? I : N, Z = d[g], Be = g === "y" ? "height" : "width", tt = Z + v[Tt], rt = Z - v[It], Le = [R, j].indexOf(w) !== -1, nt = (et = b == null ? void 0 : b[g]) != null ? et : 0, ot = Le ? tt : Z - O[Be] - E[Be] - nt + k.altAxis, it = Le ? Z + O[Be] + E[Be] - nt - k.altAxis : rt, at = u && Le ? rr(ot, Z, it) : he(u ? ot : tt, Z, u ? it : rt);
+      d[g] = at, D[g] = at - Z;
+    }
+    t.modifiersData[n] = D;
   }
-  if (checkMainAxis) {
-    var _offsetModifierState$;
-    var mainSide = mainAxis === "y" ? top : left;
-    var altSide = mainAxis === "y" ? bottom : right;
-    var len = mainAxis === "y" ? "height" : "width";
-    var offset2 = popperOffsets2[mainAxis];
-    var min$1 = offset2 + overflow[mainSide];
-    var max$1 = offset2 - overflow[altSide];
-    var additive = tether ? -popperRect[len] / 2 : 0;
-    var minLen = variation === start ? referenceRect[len] : popperRect[len];
-    var maxLen = variation === start ? -popperRect[len] : -referenceRect[len];
-    var arrowElement = state.elements.arrow;
-    var arrowRect = tether && arrowElement ? getLayoutRect(arrowElement) : {
-      width: 0,
-      height: 0
-    };
-    var arrowPaddingObject = state.modifiersData["arrow#persistent"] ? state.modifiersData["arrow#persistent"].padding : getFreshSideObject();
-    var arrowPaddingMin = arrowPaddingObject[mainSide];
-    var arrowPaddingMax = arrowPaddingObject[altSide];
-    var arrowLen = within(0, referenceRect[len], arrowRect[len]);
-    var minOffset = isBasePlacement ? referenceRect[len] / 2 - additive - arrowLen - arrowPaddingMin - normalizedTetherOffsetValue.mainAxis : minLen - arrowLen - arrowPaddingMin - normalizedTetherOffsetValue.mainAxis;
-    var maxOffset = isBasePlacement ? -referenceRect[len] / 2 + additive + arrowLen + arrowPaddingMax + normalizedTetherOffsetValue.mainAxis : maxLen + arrowLen + arrowPaddingMax + normalizedTetherOffsetValue.mainAxis;
-    var arrowOffsetParent = state.elements.arrow && getOffsetParent(state.elements.arrow);
-    var clientOffset = arrowOffsetParent ? mainAxis === "y" ? arrowOffsetParent.clientTop || 0 : arrowOffsetParent.clientLeft || 0 : 0;
-    var offsetModifierValue = (_offsetModifierState$ = offsetModifierState == null ? void 0 : offsetModifierState[mainAxis]) != null ? _offsetModifierState$ : 0;
-    var tetherMin = offset2 + minOffset - offsetModifierValue - clientOffset;
-    var tetherMax = offset2 + maxOffset - offsetModifierValue;
-    var preventedOffset = within(tether ? min(min$1, tetherMin) : min$1, offset2, tether ? max(max$1, tetherMax) : max$1);
-    popperOffsets2[mainAxis] = preventedOffset;
-    data[mainAxis] = preventedOffset - offset2;
-  }
-  if (checkAltAxis) {
-    var _offsetModifierState$2;
-    var _mainSide = mainAxis === "x" ? top : left;
-    var _altSide = mainAxis === "x" ? bottom : right;
-    var _offset = popperOffsets2[altAxis];
-    var _len = altAxis === "y" ? "height" : "width";
-    var _min = _offset + overflow[_mainSide];
-    var _max = _offset - overflow[_altSide];
-    var isOriginSide = [top, left].indexOf(basePlacement) !== -1;
-    var _offsetModifierValue = (_offsetModifierState$2 = offsetModifierState == null ? void 0 : offsetModifierState[altAxis]) != null ? _offsetModifierState$2 : 0;
-    var _tetherMin = isOriginSide ? _min : _offset - referenceRect[_len] - popperRect[_len] - _offsetModifierValue + normalizedTetherOffsetValue.altAxis;
-    var _tetherMax = isOriginSide ? _offset + referenceRect[_len] + popperRect[_len] - _offsetModifierValue - normalizedTetherOffsetValue.altAxis : _max;
-    var _preventedOffset = tether && isOriginSide ? withinMaxClamp(_tetherMin, _offset, _tetherMax) : within(tether ? _tetherMin : _min, _offset, tether ? _tetherMax : _max);
-    popperOffsets2[altAxis] = _preventedOffset;
-    data[altAxis] = _preventedOffset - _offset;
-  }
-  state.modifiersData[name] = data;
 }
-var preventOverflow$1 = {
+const jr = {
   name: "preventOverflow",
-  enabled: true,
+  enabled: !0,
   phase: "main",
-  fn: preventOverflow,
+  fn: Rr,
   requiresIfExists: ["offset"]
 };
-function getHTMLElementScroll(element) {
+function zr(e) {
   return {
-    scrollLeft: element.scrollLeft,
-    scrollTop: element.scrollTop
+    scrollLeft: e.scrollLeft,
+    scrollTop: e.scrollTop
   };
 }
-function getNodeScroll(node) {
-  if (node === getWindow(node) || !isHTMLElement(node)) {
-    return getWindowScroll(node);
-  } else {
-    return getHTMLElementScroll(node);
-  }
+function Tr(e) {
+  return e === M(e) || !T(e) ? Je(e) : zr(e);
 }
-function isElementScaled(element) {
-  var rect = element.getBoundingClientRect();
-  var scaleX = round(rect.width) / element.offsetWidth || 1;
-  var scaleY = round(rect.height) / element.offsetHeight || 1;
-  return scaleX !== 1 || scaleY !== 1;
+function Ir(e) {
+  var t = e.getBoundingClientRect(), r = se(t.width) / e.offsetWidth || 1, n = se(t.height) / e.offsetHeight || 1;
+  return r !== 1 || n !== 1;
 }
-function getCompositeRect(elementOrVirtualElement, offsetParent, isFixed) {
-  if (isFixed === void 0) {
-    isFixed = false;
-  }
-  var isOffsetParentAnElement = isHTMLElement(offsetParent);
-  var offsetParentIsScaled = isHTMLElement(offsetParent) && isElementScaled(offsetParent);
-  var documentElement = getDocumentElement(offsetParent);
-  var rect = getBoundingClientRect(elementOrVirtualElement, offsetParentIsScaled);
-  var scroll = {
+function Nr(e, t, r) {
+  r === void 0 && (r = !1);
+  var n = T(t), o = T(t) && Ir(t), i = U(t), a = le(e, o, r), l = {
     scrollLeft: 0,
     scrollTop: 0
-  };
-  var offsets = {
+  }, s = {
     x: 0,
     y: 0
   };
-  if (isOffsetParentAnElement || !isOffsetParentAnElement && !isFixed) {
-    if (getNodeName(offsetParent) !== "body" || isScrollParent(documentElement)) {
-      scroll = getNodeScroll(offsetParent);
-    }
-    if (isHTMLElement(offsetParent)) {
-      offsets = getBoundingClientRect(offsetParent, true);
-      offsets.x += offsetParent.clientLeft;
-      offsets.y += offsetParent.clientTop;
-    } else if (documentElement) {
-      offsets.x = getWindowScrollBarX(documentElement);
-    }
-  }
-  return {
-    x: rect.left + scroll.scrollLeft - offsets.x,
-    y: rect.top + scroll.scrollTop - offsets.y,
-    width: rect.width,
-    height: rect.height
+  return (n || !n && !r) && ((H(t) !== "body" || Qe(i)) && (l = Tr(t)), T(t) ? (s = le(t, !0), s.x += t.clientLeft, s.y += t.clientTop) : i && (s.x = Ke(i))), {
+    x: a.left + l.scrollLeft - s.x,
+    y: a.top + l.scrollTop - s.y,
+    width: a.width,
+    height: a.height
   };
 }
-function order(modifiers) {
-  var map = /* @__PURE__ */ new Map();
-  var visited = /* @__PURE__ */ new Set();
-  var result = [];
-  modifiers.forEach(function(modifier) {
-    map.set(modifier.name, modifier);
+function Mr(e) {
+  var t = /* @__PURE__ */ new Map(), r = /* @__PURE__ */ new Set(), n = [];
+  e.forEach(function(i) {
+    t.set(i.name, i);
   });
-  function sort(modifier) {
-    visited.add(modifier.name);
-    var requires = [].concat(modifier.requires || [], modifier.requiresIfExists || []);
-    requires.forEach(function(dep) {
-      if (!visited.has(dep)) {
-        var depModifier = map.get(dep);
-        if (depModifier) {
-          sort(depModifier);
-        }
+  function o(i) {
+    r.add(i.name);
+    var a = [].concat(i.requires || [], i.requiresIfExists || []);
+    a.forEach(function(l) {
+      if (!r.has(l)) {
+        var s = t.get(l);
+        s && o(s);
       }
-    });
-    result.push(modifier);
+    }), n.push(i);
   }
-  modifiers.forEach(function(modifier) {
-    if (!visited.has(modifier.name)) {
-      sort(modifier);
-    }
-  });
-  return result;
+  return e.forEach(function(i) {
+    r.has(i.name) || o(i);
+  }), n;
 }
-function orderModifiers(modifiers) {
-  var orderedModifiers = order(modifiers);
-  return modifierPhases.reduce(function(acc, phase) {
-    return acc.concat(orderedModifiers.filter(function(modifier) {
-      return modifier.phase === phase;
+function Lr(e) {
+  var t = Mr(e);
+  return qe.reduce(function(r, n) {
+    return r.concat(t.filter(function(o) {
+      return o.phase === n;
     }));
   }, []);
 }
-function debounce(fn2) {
-  var pending;
+function Vr(e) {
+  var t;
   return function() {
-    if (!pending) {
-      pending = new Promise(function(resolve) {
-        Promise.resolve().then(function() {
-          pending = void 0;
-          resolve(fn2());
-        });
+    return t || (t = new Promise(function(r) {
+      Promise.resolve().then(function() {
+        t = void 0, r(e());
       });
-    }
-    return pending;
+    })), t;
   };
 }
-function mergeByName(modifiers) {
-  var merged = modifiers.reduce(function(merged2, current) {
-    var existing = merged2[current.name];
-    merged2[current.name] = existing ? Object.assign({}, existing, current, {
-      options: Object.assign({}, existing.options, current.options),
-      data: Object.assign({}, existing.data, current.data)
-    }) : current;
-    return merged2;
-  }, {});
-  return Object.keys(merged).map(function(key) {
-    return merged[key];
+function Y(e) {
+  for (var t = arguments.length, r = new Array(t > 1 ? t - 1 : 0), n = 1; n < t; n++)
+    r[n - 1] = arguments[n];
+  return [].concat(r).reduce(function(o, i) {
+    return o.replace(/%s/, i);
+  }, e);
+}
+var _ = 'Popper: modifier "%s" provided an invalid %s property, expected %s but got %s', qr = 'Popper: modifier "%s" requires "%s", but "%s" modifier is not available', vt = ["name", "enabled", "phase", "fn", "effect", "requires", "options"];
+function Fr(e) {
+  e.forEach(function(t) {
+    [].concat(Object.keys(t), vt).filter(function(r, n, o) {
+      return o.indexOf(r) === n;
+    }).forEach(function(r) {
+      switch (r) {
+        case "name":
+          typeof t.name != "string" && console.error(Y(_, String(t.name), '"name"', '"string"', '"' + String(t.name) + '"'));
+          break;
+        case "enabled":
+          typeof t.enabled != "boolean" && console.error(Y(_, t.name, '"enabled"', '"boolean"', '"' + String(t.enabled) + '"'));
+          break;
+        case "phase":
+          qe.indexOf(t.phase) < 0 && console.error(Y(_, t.name, '"phase"', "either " + qe.join(", "), '"' + String(t.phase) + '"'));
+          break;
+        case "fn":
+          typeof t.fn != "function" && console.error(Y(_, t.name, '"fn"', '"function"', '"' + String(t.fn) + '"'));
+          break;
+        case "effect":
+          t.effect != null && typeof t.effect != "function" && console.error(Y(_, t.name, '"effect"', '"function"', '"' + String(t.fn) + '"'));
+          break;
+        case "requires":
+          t.requires != null && !Array.isArray(t.requires) && console.error(Y(_, t.name, '"requires"', '"array"', '"' + String(t.requires) + '"'));
+          break;
+        case "requiresIfExists":
+          Array.isArray(t.requiresIfExists) || console.error(Y(_, t.name, '"requiresIfExists"', '"array"', '"' + String(t.requiresIfExists) + '"'));
+          break;
+        case "options":
+        case "data":
+          break;
+        default:
+          console.error('PopperJS: an invalid property has been provided to the "' + t.name + '" modifier, valid properties are ' + vt.map(function(n) {
+            return '"' + n + '"';
+          }).join(", ") + '; but "' + r + '" was provided.');
+      }
+      t.requires && t.requires.forEach(function(n) {
+        e.find(function(o) {
+          return o.name === n;
+        }) == null && console.error(Y(qr, String(t.name), n, n));
+      });
+    });
   });
 }
-var DEFAULT_OPTIONS = {
+function Wr(e, t) {
+  var r = /* @__PURE__ */ new Set();
+  return e.filter(function(n) {
+    var o = t(n);
+    if (!r.has(o))
+      return r.add(o), !0;
+  });
+}
+function Hr(e) {
+  var t = e.reduce(function(r, n) {
+    var o = r[n.name];
+    return r[n.name] = o ? Object.assign({}, o, n, {
+      options: Object.assign({}, o.options, n.options),
+      data: Object.assign({}, o.data, n.data)
+    }) : n, r;
+  }, {});
+  return Object.keys(t).map(function(r) {
+    return t[r];
+  });
+}
+var ht = "Popper: Invalid reference or popper argument provided. They must be either a DOM element or virtual element.", Xr = "Popper: An infinite loop in the modifiers cycle has been detected! The cycle has been interrupted to prevent a browser crash.", mt = {
   placement: "bottom",
   modifiers: [],
   strategy: "absolute"
 };
-function areValidElements() {
-  for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-    args[_key] = arguments[_key];
-  }
-  return !args.some(function(element) {
-    return !(element && typeof element.getBoundingClientRect === "function");
+function gt() {
+  for (var e = arguments.length, t = new Array(e), r = 0; r < e; r++)
+    t[r] = arguments[r];
+  return !t.some(function(n) {
+    return !(n && typeof n.getBoundingClientRect == "function");
   });
 }
-function popperGenerator(generatorOptions) {
-  if (generatorOptions === void 0) {
-    generatorOptions = {};
-  }
-  var _generatorOptions = generatorOptions, _generatorOptions$def = _generatorOptions.defaultModifiers, defaultModifiers2 = _generatorOptions$def === void 0 ? [] : _generatorOptions$def, _generatorOptions$def2 = _generatorOptions.defaultOptions, defaultOptions = _generatorOptions$def2 === void 0 ? DEFAULT_OPTIONS : _generatorOptions$def2;
-  return function createPopper2(reference2, popper2, options) {
-    if (options === void 0) {
-      options = defaultOptions;
-    }
-    var state = {
+function Yr(e) {
+  e === void 0 && (e = {});
+  var t = e, r = t.defaultModifiers, n = r === void 0 ? [] : r, o = t.defaultOptions, i = o === void 0 ? mt : o;
+  return function(l, s, f) {
+    f === void 0 && (f = i);
+    var p = {
       placement: "bottom",
       orderedModifiers: [],
-      options: Object.assign({}, DEFAULT_OPTIONS, defaultOptions),
+      options: Object.assign({}, mt, i),
       modifiersData: {},
       elements: {
-        reference: reference2,
-        popper: popper2
+        reference: l,
+        popper: s
       },
       attributes: {},
       styles: {}
-    };
-    var effectCleanupFns = [];
-    var isDestroyed = false;
-    var instance = {
-      state,
-      setOptions: function setOptions(setOptionsAction) {
-        var options2 = typeof setOptionsAction === "function" ? setOptionsAction(state.options) : setOptionsAction;
-        cleanupModifierEffects();
-        state.options = Object.assign({}, defaultOptions, state.options, options2);
-        state.scrollParents = {
-          reference: isElement(reference2) ? listScrollParents(reference2) : reference2.contextElement ? listScrollParents(reference2.contextElement) : [],
-          popper: listScrollParents(popper2)
+    }, h = [], y = !1, u = {
+      state: p,
+      setOptions: function(w) {
+        var C = typeof w == "function" ? w(p.options) : w;
+        m(), p.options = Object.assign({}, i, p.options, C), p.scrollParents = {
+          reference: ne(l) ? me(l) : l.contextElement ? me(l.contextElement) : [],
+          popper: me(s)
         };
-        var orderedModifiers = orderModifiers(mergeByName([].concat(defaultModifiers2, state.options.modifiers)));
-        state.orderedModifiers = orderedModifiers.filter(function(m) {
-          return m.enabled;
-        });
-        runModifierEffects();
-        return instance.update();
-      },
-      forceUpdate: function forceUpdate() {
-        if (isDestroyed) {
-          return;
-        }
-        var _state$elements = state.elements, reference3 = _state$elements.reference, popper3 = _state$elements.popper;
-        if (!areValidElements(reference3, popper3)) {
-          return;
-        }
-        state.rects = {
-          reference: getCompositeRect(reference3, getOffsetParent(popper3), state.options.strategy === "fixed"),
-          popper: getLayoutRect(popper3)
-        };
-        state.reset = false;
-        state.placement = state.options.placement;
-        state.orderedModifiers.forEach(function(modifier) {
-          return state.modifiersData[modifier.name] = Object.assign({}, modifier.data);
-        });
-        for (var index = 0; index < state.orderedModifiers.length; index++) {
-          if (state.reset === true) {
-            state.reset = false;
-            index = -1;
-            continue;
+        var $ = Lr(Hr([].concat(n, p.options.modifiers)));
+        if (p.orderedModifiers = $.filter(function(b) {
+          return b.enabled;
+        }), process.env.NODE_ENV !== "production") {
+          var c = Wr([].concat($, p.options.modifiers), function(b) {
+            var D = b.name;
+            return D;
+          });
+          if (Fr(c), V(p.options.placement) === ze) {
+            var g = p.orderedModifiers.find(function(b) {
+              var D = b.name;
+              return D === "flip";
+            });
+            g || console.error(['Popper: "auto" placements require the "flip" modifier be', "present and enabled to work."].join(" "));
           }
-          var _state$orderedModifie = state.orderedModifiers[index], fn2 = _state$orderedModifie.fn, _state$orderedModifie2 = _state$orderedModifie.options, _options = _state$orderedModifie2 === void 0 ? {} : _state$orderedModifie2, name = _state$orderedModifie.name;
-          if (typeof fn2 === "function") {
-            state = fn2({
-              state,
-              options: _options,
-              name,
-              instance
-            }) || state;
+          var d = q(s), O = d.marginTop, E = d.marginRight, S = d.marginBottom, k = d.marginLeft;
+          [O, E, S, k].some(function(b) {
+            return parseFloat(b);
+          }) && console.warn(['Popper: CSS "margin" styles cannot be used to apply padding', "between the popper and its reference element or boundary.", "To replicate margin, use the `offset` modifier, as well as", "the `padding` option in the `preventOverflow` and `flip`", "modifiers."].join(" "));
+        }
+        return x(), u.update();
+      },
+      forceUpdate: function() {
+        if (!y) {
+          var w = p.elements, C = w.reference, $ = w.popper;
+          if (!gt(C, $)) {
+            process.env.NODE_ENV !== "production" && console.error(ht);
+            return;
+          }
+          p.rects = {
+            reference: Nr(C, Ce($), p.options.strategy === "fixed"),
+            popper: Ue($)
+          }, p.reset = !1, p.placement = p.options.placement, p.orderedModifiers.forEach(function(b) {
+            return p.modifiersData[b.name] = Object.assign({}, b.data);
+          });
+          for (var c = 0, g = 0; g < p.orderedModifiers.length; g++) {
+            if (process.env.NODE_ENV !== "production" && (c += 1, c > 100)) {
+              console.error(Xr);
+              break;
+            }
+            if (p.reset === !0) {
+              p.reset = !1, g = -1;
+              continue;
+            }
+            var d = p.orderedModifiers[g], O = d.fn, E = d.options, S = E === void 0 ? {} : E, k = d.name;
+            typeof O == "function" && (p = O({
+              state: p,
+              options: S,
+              name: k,
+              instance: u
+            }) || p);
           }
         }
       },
-      update: debounce(function() {
-        return new Promise(function(resolve) {
-          instance.forceUpdate();
-          resolve(state);
+      update: Vr(function() {
+        return new Promise(function(v) {
+          u.forceUpdate(), v(p);
         });
       }),
-      destroy: function destroy() {
-        cleanupModifierEffects();
-        isDestroyed = true;
+      destroy: function() {
+        m(), y = !0;
       }
     };
-    if (!areValidElements(reference2, popper2)) {
-      return instance;
-    }
-    instance.setOptions(options).then(function(state2) {
-      if (!isDestroyed && options.onFirstUpdate) {
-        options.onFirstUpdate(state2);
-      }
+    if (!gt(l, s))
+      return process.env.NODE_ENV !== "production" && console.error(ht), u;
+    u.setOptions(f).then(function(v) {
+      !y && f.onFirstUpdate && f.onFirstUpdate(v);
     });
-    function runModifierEffects() {
-      state.orderedModifiers.forEach(function(_ref3) {
-        var name = _ref3.name, _ref3$options = _ref3.options, options2 = _ref3$options === void 0 ? {} : _ref3$options, effect2 = _ref3.effect;
-        if (typeof effect2 === "function") {
-          var cleanupFn = effect2({
-            state,
-            name,
-            instance,
-            options: options2
-          });
-          var noopFn = function noopFn2() {
+    function x() {
+      p.orderedModifiers.forEach(function(v) {
+        var w = v.name, C = v.options, $ = C === void 0 ? {} : C, c = v.effect;
+        if (typeof c == "function") {
+          var g = c({
+            state: p,
+            name: w,
+            instance: u,
+            options: $
+          }), d = function() {
           };
-          effectCleanupFns.push(cleanupFn || noopFn);
+          h.push(g || d);
         }
       });
     }
-    function cleanupModifierEffects() {
-      effectCleanupFns.forEach(function(fn2) {
-        return fn2();
-      });
-      effectCleanupFns = [];
+    function m() {
+      h.forEach(function(v) {
+        return v();
+      }), h = [];
     }
-    return instance;
+    return u;
   };
 }
-var defaultModifiers = [eventListeners, popperOffsets$1, computeStyles$1, applyStyles$1, offset$1, flip$1, preventOverflow$1, arrow$1, hide$1];
-var createPopper = /* @__PURE__ */ popperGenerator({
-  defaultModifiers
+var Ur = [cr, Dr, fr, _t, kr, $r, jr, ar, Pr], Gr = /* @__PURE__ */ Yr({
+  defaultModifiers: Ur
 });
-var Sizeable$1 = {
+const Jr = {
   props: {
+    componentPrefix: String,
     size: String,
-    sizePrefix: {
-      type: String,
-      default() {
-        return this.$options.name && this.$options.name.toLowerCase();
-      }
-    }
+    sizePrefix: String
   },
   computed: {
     sizeableClassPrefix() {
-      return this.sizePrefix;
+      return this.sizePrefix || this.componentPrefix;
+    },
+    hasSizeablePrefix() {
+      return this.size && !!this.size.match(
+        new RegExp(`^${this.sizeableClassPrefix}`)
+      );
     },
     sizeableClass() {
-      if (!this.size || !this.sizeableClassPrefix) {
-        return "";
-      }
-      return `${this.sizeableClassPrefix}-${this.size}`;
+      return this.size ? !this.sizeableClassPrefix || this.hasSizeablePrefix ? this.size : `${this.sizeableClassPrefix}-${this.size}` : "";
     }
   }
-};
-var Variant = {
+}, Kr = {
   props: {
+    componentPrefix: String,
     variant: String,
-    variantPrefix: {
-      type: String,
-      default() {
-        return this.$options.name && this.$options.name.toLowerCase();
-      }
-    }
+    variantPrefix: String
   },
   computed: {
     variantClassPrefix() {
-      return this.variantPrefix;
+      return this.variantPrefix || this.componentPrefix;
+    },
+    hasVariantPrefix() {
+      return this.variant && !!this.variant.match(
+        new RegExp(`^${this.variantClassPrefix}`)
+      );
     },
     variantClass() {
-      if (!this.variant || !this.variantClassPrefix) {
-        return "";
-      }
-      return `${this.variantClassPrefix}-${this.variant}`;
+      return this.variant ? !this.variantClassPrefix || this.hasVariantPrefix ? this.variant : `${this.variantClassPrefix}-${this.variant}` : "";
     }
   }
-};
-var render$5 = function() {
-  var _vm = this;
-  var _h = _vm.$createElement;
-  var _c = _vm._self._c || _h;
-  return _vm.to ? _c("router-link", {
-    class: _vm.classes,
-    attrs: {
-      "to": _vm.to,
-      "disabled": _vm.disabled,
-      "role": "button"
-    },
-    on: {
-      "click": _vm.onClick
-    }
-  }, [_vm._t("default")], 2) : _vm.href ? _c("a", {
-    class: _vm.classes,
-    attrs: {
-      "href": _vm.href,
-      "disabled": _vm.disabled,
-      "role": "button"
-    },
-    on: {
-      "click": _vm.onClick
-    }
-  }, [_vm._t("default")], 2) : _vm.label ? _c("label", {
-    class: _vm.classes,
-    attrs: {
-      "disabled": _vm.disabled,
-      "role": "button"
-    },
-    on: {
-      "click": _vm.onClick
-    }
-  }, [_vm._t("default")], 2) : _c("button", {
-    class: _vm.classes,
-    attrs: {
-      "type": _vm.type,
-      "disabled": _vm.disabled
-    },
-    on: {
-      "click": _vm.onClick
-    }
-  }, [_vm._t("default")], 2);
-};
-var staticRenderFns$5 = [];
-function normalizeComponent$2(scriptExports, render2, staticRenderFns2, functionalTemplate, injectStyles, scopeId, moduleIdentifier, shadowMode) {
-  var options = typeof scriptExports === "function" ? scriptExports.options : scriptExports;
-  if (render2) {
-    options.render = render2;
-    options.staticRenderFns = staticRenderFns2;
-    options._compiled = true;
-  }
-  if (functionalTemplate) {
-    options.functional = true;
-  }
-  if (scopeId) {
-    options._scopeId = "data-v-" + scopeId;
-  }
-  var hook;
-  if (moduleIdentifier) {
-    hook = function(context) {
-      context = context || this.$vnode && this.$vnode.ssrContext || this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext;
-      if (!context && typeof __VUE_SSR_CONTEXT__ !== "undefined") {
-        context = __VUE_SSR_CONTEXT__;
-      }
-      if (injectStyles) {
-        injectStyles.call(this, context);
-      }
-      if (context && context._registeredComponents) {
-        context._registeredComponents.add(moduleIdentifier);
-      }
-    };
-    options._ssrRegister = hook;
-  } else if (injectStyles) {
-    hook = shadowMode ? function() {
-      injectStyles.call(this, (options.functional ? this.parent : this).$root.$options.shadowRoot);
-    } : injectStyles;
-  }
-  if (hook) {
-    if (options.functional) {
-      options._injectStyles = hook;
-      var originalRender = options.render;
-      options.render = function renderWithStyleInjection(h, context) {
-        hook.call(context);
-        return originalRender(h, context);
-      };
-    } else {
-      var existing = options.beforeCreate;
-      options.beforeCreate = existing ? [].concat(existing, hook) : [hook];
-    }
-  }
-  return {
-    exports: scriptExports,
-    options
-  };
-}
-const __vue2_script$6 = {
+}, Qr = {
   name: "Btn",
-  mixins: [Sizeable$1, Variant],
+  mixins: [
+    Jr,
+    Kr
+  ],
   props: {
     active: Boolean,
     block: Boolean,
+    componentPrefix: {
+      type: String,
+      default: "btn"
+    },
     disabled: Boolean,
-    href: String,
-    label: Boolean,
+    label: String,
     outline: Boolean,
-    to: [Object, String],
-    type: String
+    tag: String,
+    variant: {
+      type: String,
+      default: "primary"
+    }
   },
   computed: {
-    variantClassPrefix() {
-      return this.variantPrefix + (this.outline ? "-outline" : "");
-    },
     classes() {
-      return ["btn", this.variantClass, this.sizeableClass, this.block ? "btn-block" : "", this.active ? "active" : ""];
-    }
-  },
-  methods: {
-    onClick(event) {
-      if (!this.disabled) {
-        this.$emit("click", event);
-      } else {
-        event.preventDefault();
-      }
+      return [
+        "btn",
+        this.variantClass,
+        this.sizeableClass,
+        this.active && "active",
+        this.block && "btn-block",
+        this.disabled && "disabled"
+      ];
+    },
+    component() {
+      return this.tag ? this.tag : this.$attrs.href ? "a" : "button";
+    },
+    variantClassPrefix() {
+      return (this.variantPrefix || this.componentPrefix) + (this.outline ? "-outline" : "");
     }
   }
+}, fe = (e, t) => {
+  const r = e.__vccOpts || e;
+  for (const [n, o] of t)
+    r[n] = o;
+  return r;
 };
-const __cssModules$6 = {};
-var __component__$6 = /* @__PURE__ */ normalizeComponent$2(__vue2_script$6, render$5, staticRenderFns$5, false, __vue2_injectStyles$6, null, null, null);
-function __vue2_injectStyles$6(context) {
-  for (let o in __cssModules$6) {
-    this[o] = __cssModules$6[o];
-  }
+function Zr(e, t, r, n, o, i) {
+  return W(), ee(He(i.component), ge(e.$attrs, {
+    disabled: r.disabled,
+    class: i.classes,
+    role: "button"
+  }), {
+    default: B(() => [
+      P(e.$slots, "default", {}, () => [
+        be(ye(r.label), 1)
+      ])
+    ]),
+    _: 3
+  }, 16, ["disabled", "class"]);
 }
-var Btn = /* @__PURE__ */ function() {
-  return __component__$6.exports;
-}();
-var Sizeable = {
+const _r = /* @__PURE__ */ fe(Qr, [["render", Zr]]), en = {
   props: {
+    componentPrefix: String,
     size: String,
-    sizePrefix: {
-      type: String,
-      default() {
-        return this.$options.name && this.$options.name.toLowerCase();
-      }
-    }
+    sizePrefix: String
   },
   computed: {
     sizeableClassPrefix() {
-      return this.sizePrefix;
+      return this.sizePrefix || this.componentPrefix;
+    },
+    hasSizeablePrefix() {
+      return this.size && !!this.size.match(new RegExp(`^${this.sizeableClassPrefix}`));
     },
     sizeableClass() {
-      if (!this.size || !this.sizeableClassPrefix) {
-        return "";
-      }
-      return `${this.sizeableClassPrefix}-${this.size}`;
+      return this.size ? !this.sizeableClassPrefix || this.hasSizeablePrefix ? this.size : `${this.sizeableClassPrefix}-${this.size}` : "";
     }
   }
-};
-var render$2$1 = function() {
-  var _vm = this;
-  var _h = _vm.$createElement;
-  var _c = _vm._self._c || _h;
-  return _c("div", {
-    class: _vm.classes,
-    attrs: {
-      "data-toggle": _vm.toggle ? "buttons" : false,
-      "role": "group"
-    }
-  }, [_vm._t("default")], 2);
-};
-var staticRenderFns$2$1 = [];
-function normalizeComponent$1(scriptExports, render2, staticRenderFns2, functionalTemplate, injectStyles, scopeId, moduleIdentifier, shadowMode) {
-  var options = typeof scriptExports === "function" ? scriptExports.options : scriptExports;
-  if (render2) {
-    options.render = render2;
-    options.staticRenderFns = staticRenderFns2;
-    options._compiled = true;
-  }
-  if (functionalTemplate) {
-    options.functional = true;
-  }
-  if (scopeId) {
-    options._scopeId = "data-v-" + scopeId;
-  }
-  var hook;
-  if (moduleIdentifier) {
-    hook = function(context) {
-      context = context || this.$vnode && this.$vnode.ssrContext || this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext;
-      if (!context && typeof __VUE_SSR_CONTEXT__ !== "undefined") {
-        context = __VUE_SSR_CONTEXT__;
-      }
-      if (injectStyles) {
-        injectStyles.call(this, context);
-      }
-      if (context && context._registeredComponents) {
-        context._registeredComponents.add(moduleIdentifier);
-      }
-    };
-    options._ssrRegister = hook;
-  } else if (injectStyles) {
-    hook = shadowMode ? function() {
-      injectStyles.call(this, (options.functional ? this.parent : this).$root.$options.shadowRoot);
-    } : injectStyles;
-  }
-  if (hook) {
-    if (options.functional) {
-      options._injectStyles = hook;
-      var originalRender = options.render;
-      options.render = function renderWithStyleInjection(h, context) {
-        hook.call(context);
-        return originalRender(h, context);
-      };
-    } else {
-      var existing = options.beforeCreate;
-      options.beforeCreate = existing ? [].concat(existing, hook) : [hook];
-    }
-  }
-  return {
-    exports: scriptExports,
-    options
-  };
-}
-const __vue2_script$2$1 = {
+}, tn = (e, t) => {
+  const r = e.__vccOpts || e;
+  for (const [n, o] of t)
+    r[n] = o;
+  return r;
+}, rn = {
   name: "BtnGroup",
-  mixins: [Sizeable],
+  mixins: [en],
   props: {
     sizePrefix: {
       type: String,
@@ -1589,172 +1115,84 @@ const __vue2_script$2$1 = {
       };
     }
   }
-};
-const __cssModules$2$1 = {};
-var __component__$2$1 = /* @__PURE__ */ normalizeComponent$1(__vue2_script$2$1, render$2$1, staticRenderFns$2$1, false, __vue2_injectStyles$2$1, null, null, null);
-function __vue2_injectStyles$2$1(context) {
-  for (let o in __cssModules$2$1) {
-    this[o] = __cssModules$2$1[o];
-  }
+}, nn = ["data-toggle"];
+function on(e, t, r, n, o, i) {
+  return W(), Xe("div", {
+    class: F(i.classes),
+    "data-toggle": r.toggle ? "buttons" : !1,
+    role: "group"
+  }, [P(e.$slots, "default")], 10, nn);
 }
-var BtnGroup = /* @__PURE__ */ function() {
-  return __component__$2$1.exports;
-}();
-function normalizeComponent(scriptExports, render2, staticRenderFns2, functionalTemplate, injectStyles, scopeId, moduleIdentifier, shadowMode) {
-  var options = typeof scriptExports === "function" ? scriptExports.options : scriptExports;
-  if (render2) {
-    options.render = render2;
-    options.staticRenderFns = staticRenderFns2;
-    options._compiled = true;
-  }
-  if (functionalTemplate) {
-    options.functional = true;
-  }
-  if (scopeId) {
-    options._scopeId = "data-v-" + scopeId;
-  }
-  var hook;
-  if (moduleIdentifier) {
-    hook = function(context) {
-      context = context || this.$vnode && this.$vnode.ssrContext || this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext;
-      if (!context && typeof __VUE_SSR_CONTEXT__ !== "undefined") {
-        context = __VUE_SSR_CONTEXT__;
-      }
-      if (injectStyles) {
-        injectStyles.call(this, context);
-      }
-      if (context && context._registeredComponents) {
-        context._registeredComponents.add(moduleIdentifier);
-      }
-    };
-    options._ssrRegister = hook;
-  } else if (injectStyles) {
-    hook = shadowMode ? function() {
-      injectStyles.call(this, (options.functional ? this.parent : this).$root.$options.shadowRoot);
-    } : injectStyles;
-  }
-  if (hook) {
-    if (options.functional) {
-      options._injectStyles = hook;
-      var originalRender = options.render;
-      options.render = function renderWithStyleInjection(h, context) {
-        hook.call(context);
-        return originalRender(h, context);
-      };
-    } else {
-      var existing = options.beforeCreate;
-      options.beforeCreate = existing ? [].concat(existing, hook) : [hook];
-    }
-  }
-  return {
-    exports: scriptExports,
-    options
+const an = /* @__PURE__ */ tn(rn, [["render", on]]);
+function Ve(e, t) {
+  e.props.class = `${e.props.class || ""} ${t}`.trim();
+}
+function bt(e, t) {
+  return (r) => {
+    typeof t == "function" && t(r), r.cancelBubble || e(r);
   };
 }
-function appendClass(vnode, str) {
-  vnode.data.staticClass = `${vnode.data.staticClass || ""} ${str}`.trim();
+function yt(e, t) {
+  return e.attrs.on[t] || e.type && e.type.listeners && e.componentOptions.listeners[t];
 }
-function wrap(wrapper, fn2) {
-  return (e) => {
-    if (typeof fn2 === "function") {
-      fn2(e);
-    }
-    if (!e.cancelBubble) {
-      wrapper(e);
-    }
-  };
+function sn(e) {
+  return e && e.type && (e.type === "fragment" || typeof e.type == "symbol");
 }
-function listener(vnode, key) {
-  return vnode.data.on[key] || vnode.componentOptions && vnode.componentOptions.listeners && vnode.componentOptions.listeners[key];
-}
-const __vue2_script$5 = {
-  functional: true,
-  render(h, context) {
-    context.children.filter((vnode) => !!vnode.tag).forEach((vnode, i) => {
-      vnode.data = Object.assign({ staticClass: void 0 }, vnode.data);
-      if (!vnode.data.on) {
-        vnode.data.on = {};
-      }
-      const isDropdownItem = vnode.data.staticClass && vnode.data.staticClass.match(/dropdown-item/);
-      const isDropdownDivider = vnode.data.staticClass && vnode.data.staticClass.match(/dropdown-divider/);
-      vnode.data.on.click = wrap((e) => {
-        context.parent.$emit("click-item", e, vnode);
-      }, listener(vnode, "click"));
-      vnode.data.on.blur = wrap((e) => {
-        context.parent.$emit("blur-item", e, vnode);
-      }, listener(vnode, "blur"));
-      if (vnode.tag.match(/^h\d$/)) {
-        appendClass(vnode, "dropdown-header");
-      } else if (vnode.tag === "hr" && !isDropdownDivider) {
-        vnode.tag = "div";
-        appendClass(vnode, "dropdown-divider");
-      } else if (!isDropdownItem && !isDropdownDivider) {
-        appendClass(vnode, "dropdown-item");
-      }
-    });
-    return context.children;
+function Bt(e) {
+  for (const t of e) {
+    if (sn(t))
+      return Bt(t.children);
+    t.props = Object.assign({ class: void 0 }, t.props), t.attrs = Object.assign({}, t.attrs), t.attrs.on || (t.attrs.on = {});
+    const r = t.props.class && t.props.class.match(/dropdown-item/), n = t.props.class && t.props.class.match(/dropdown-divider/);
+    t.attrs.on.click = bt((o) => {
+      context.parent.$emit("click-item", o, t);
+    }, yt(t, "click")), t.attrs.on.blur = bt((o) => {
+      context.parent.$emit("blur-item", o, t);
+    }, yt(t, "blur")), typeof t.type == "string" && t.type.match(/^h\d$/) ? Ve(t, "dropdown-header") : t.type === "hr" && !n ? (t.type = "div", Ve(t, "dropdown-divider")) : !r && !n && Ve(t, "dropdown-item");
   }
-};
-let __vue2_render, __vue2_staticRenderFns;
-const __cssModules$5 = {};
-var __component__$5 = /* @__PURE__ */ normalizeComponent(__vue2_script$5, __vue2_render, __vue2_staticRenderFns, false, __vue2_injectStyles$5, null, null, null);
-function __vue2_injectStyles$5(context) {
-  for (let o in __cssModules$5) {
-    this[o] = __cssModules$5[o];
-  }
+  return e;
 }
-var DropdownMenuItems = /* @__PURE__ */ function() {
-  return __component__$5.exports;
-}();
-var render$4 = function() {
-  var _vm = this;
-  var _h = _vm.$createElement;
-  var _c = _vm._self._c || _h;
-  return _c("div", { staticClass: "dropdown-menu", class: {
-    "dropdown-menu-left": _vm.align === "left",
-    "dropdown-menu-right": _vm.align === "right",
-    "show": _vm.show
-  }, attrs: { "aria-labelledby": _vm.$attrs.id } }, [_c("dropdown-menu-items", [_vm._t("default")], 2)], 1);
-};
-var staticRenderFns$4 = [];
-const __vue2_script$4 = {
+const ln = (e, t) => Nt("div", {}, Bt(t.slots.default())), pn = ln, fn = {
   name: "DropdownMenu",
   components: {
-    DropdownMenuItems
+    DropdownMenuItems: pn
   },
   props: {
     align: {
       type: String,
       default: "left",
-      validate(value) {
-        return ["left", "right"].indexOf(value.toLowerCase()) !== -1;
+      validate(e) {
+        return ["left", "right"].indexOf(e.toLowerCase()) !== -1;
       }
     },
     show: Boolean
   }
-};
-const __cssModules$4 = {};
-var __component__$4 = /* @__PURE__ */ normalizeComponent(__vue2_script$4, render$4, staticRenderFns$4, false, __vue2_injectStyles$4, null, null, null);
-function __vue2_injectStyles$4(context) {
-  for (let o in __cssModules$4) {
-    this[o] = __cssModules$4[o];
-  }
+}, un = ["aria-labelledby"];
+function cn(e, t, r, n, o, i) {
+  const a = te("dropdown-menu-items");
+  return W(), Xe("div", {
+    class: F(["dropdown-menu", {
+      "dropdown-menu-left": r.align === "left",
+      "dropdown-menu-right": r.align === "right",
+      show: r.show
+    }]),
+    "aria-labelledby": e.$attrs.id
+  }, [
+    we(a, null, {
+      default: B(() => [
+        P(e.$slots, "default", {
+          onClick: t[0] || (t[0] = (...l) => e.onItemClick && e.onItemClick(...l))
+        })
+      ]),
+      _: 3
+    })
+  ], 10, un);
 }
-var DropdownMenu = /* @__PURE__ */ function() {
-  return __component__$4.exports;
-}();
-var render$3 = function() {
-  var _vm = this;
-  var _h = _vm.$createElement;
-  var _c = _vm._self._c || _h;
-  return _c(_vm.is, _vm._b({ tag: "component", attrs: { "id": _vm.id, "aria-haspopup": "true", "aria-expanded": _vm.expanded, "type": _vm.is === "button" ? "button" : void 0 } }, "component", _vm.to ? { to: _vm.to } : { href: _vm.href }, false), [_vm._t("default")], 2);
-};
-var staticRenderFns$3 = [];
-const __vue2_script$3 = {
+const dn = /* @__PURE__ */ fe(fn, [["render", cn]]), vn = {
   props: {
     expanded: {
       type: Boolean,
-      default: false
+      default: !1
     },
     id: String,
     href: String,
@@ -1762,61 +1200,57 @@ const __vue2_script$3 = {
   },
   computed: {
     is() {
-      if (this.to) {
-        return "router-link";
-      }
-      if (this.href) {
-        return "a";
-      }
-      return "button";
+      return this.to ? "router-link" : this.href ? "a" : "button";
     }
   }
 };
-const __cssModules$3 = {};
-var __component__$3 = /* @__PURE__ */ normalizeComponent(__vue2_script$3, render$3, staticRenderFns$3, false, __vue2_injectStyles$3, null, null, null);
-function __vue2_injectStyles$3(context) {
-  for (let o in __cssModules$3) {
-    this[o] = __cssModules$3[o];
-  }
+function hn(e, t, r, n, o, i) {
+  return W(), ee(He(i.is), ge({ id: r.id }, r.to ? { to: r.to } : { href: r.href }, {
+    "aria-haspopup": "true",
+    "aria-expanded": r.expanded,
+    type: i.is === "button" ? "button" : void 0
+  }), {
+    default: B(() => [
+      P(e.$slots, "default")
+    ]),
+    _: 3
+  }, 16, ["id", "aria-expanded", "type"]);
 }
-var BtnDropdownAction = /* @__PURE__ */ function() {
-  return __component__$3.exports;
-}();
-var DropdownHandler = {
+const mn = /* @__PURE__ */ fe(vn, [["render", hn]]), Dt = {
   components: {
-    BtnDropdownAction,
-    BtnGroup,
-    DropdownMenu
+    BtnDropdownAction: mn,
+    BtnGroup: an,
+    DropdownMenu: dn
   },
-  extends: Btn,
+  extends: _r,
   props: {
     align: {
       type: String,
       default: "left",
-      validate(value) {
-        return ["left", "right"].indexOf(value.toLowerCase()) !== -1;
+      validate(e) {
+        return ["left", "right"].indexOf(e.toLowerCase()) !== -1;
       }
     },
     animated: {
       type: Boolean,
-      default: true
+      default: !0
     },
     buttonClass: [Object, String],
     caret: {
       type: Boolean,
-      default: true
+      default: !0
     },
     dropup: {
       type: Boolean,
-      default: false
+      default: !1
     },
     dropright: {
       type: Boolean,
-      default: false
+      default: !1
     },
     dropleft: {
       type: Boolean,
-      default: false
+      default: !1
     },
     height: String,
     href: String,
@@ -1828,11 +1262,11 @@ var DropdownHandler = {
     },
     rotate: {
       type: Boolean,
-      default: false
+      default: !1
     },
     split: {
       type: Boolean,
-      default: false
+      default: !1
     },
     to: [String, Object],
     type: {
@@ -1844,22 +1278,33 @@ var DropdownHandler = {
   data() {
     return {
       popper: null,
-      triggerAnimation: false,
-      expanded: false
+      triggerAnimation: !1,
+      expanded: !1
     };
   },
   computed: {
+    scope() {
+      return {
+        placement: this.placement,
+        variantClassPrefix: this.variantClassPrefix,
+        sizeableClassPrefix: this.sizeableClassPrefix,
+        classes: this.classes,
+        actionClasses: this.actionClasses,
+        toggleStyle: this.toggleStyle,
+        toggleClasses: this.toggleClasses,
+        focus: this.focus,
+        queryFocusable: this.queryFocusable,
+        isFocusable: this.isFocusable,
+        toggle: this.toggle,
+        show: this.show,
+        hide: this.hide,
+        onBlur: this.onBlur,
+        onClickItem: this.onClickItem,
+        onClickToggle: this.onClickToggle
+      };
+    },
     placement() {
-      if (this.dropup) {
-        return "top";
-      }
-      if (this.dropleft) {
-        return "left";
-      }
-      if (this.dropright) {
-        return "right";
-      }
-      return "bottom";
+      return this.dropup ? "top" : this.dropleft ? "left" : this.dropright ? "right" : "bottom";
     },
     variantClassPrefix() {
       return "btn" + (this.outline ? "-outline" : "");
@@ -1869,22 +1314,22 @@ var DropdownHandler = {
     },
     classes() {
       return {
-        "dropdown": this.dropup && this.dropright && this.dropleft,
-        "dropup": this.dropup,
-        "dropright": this.dropright,
-        "dropleft": this.dropleft,
+        dropdown: this.dropup && this.dropright && this.dropleft,
+        dropup: this.dropup,
+        dropright: this.dropright,
+        dropleft: this.dropleft,
         "icon-only": !this.nav && !this.split && !!this.$slots.icon && !this.$slots.label,
         "hide-caret": !this.caret,
-        "expanded": this.expanded,
+        expanded: this.expanded,
         "rotate-90": !this.nav && this.split && this.rotate && this.expanded
       };
     },
     actionClasses() {
       return Object.assign({
-        "btn": !this.nav,
+        btn: !this.nav,
         [this.variantClass]: !this.nav && !!this.variant,
         [this.sizeableClass]: !!this.size
-      }, typeof this.buttonClass === "object" ? this.buttonClass : {
+      }, typeof this.buttonClass == "object" ? this.buttonClass : {
         [this.buttonClass]: !!this.buttonClass
       });
     },
@@ -1896,16 +1341,16 @@ var DropdownHandler = {
     },
     toggleClasses() {
       return Object.assign({
-        "active": this.active,
-        "btn": !this.nav,
+        active: this.active,
+        btn: !this.nav,
         "btn-block": !!this.block,
         "nav-link": !!this.nav,
         "rotate-90": !this.split && this.rotate && this.expanded,
-        "dropdown-toggle": true,
+        "dropdown-toggle": !0,
         "dropdown-toggle-split": !this.nav && this.split,
         [this.variantClass]: !this.nav && !!this.variant,
         [this.sizeableClass]: !!this.size
-      }, typeof this.buttonClass === "object" ? this.buttonClass : {
+      }, typeof this.buttonClass == "object" ? this.buttonClass : {
         [this.buttonClass]: !!this.buttonClass
       });
     }
@@ -1920,209 +1365,233 @@ var DropdownHandler = {
     queryFocusable() {
       return this.$el.querySelector(".dropdown-menu").querySelectorAll('label, input, select, textarea, [tabindex]:not([tabindex="-1"])');
     },
-    isFocusable(element) {
-      const nodes = this.queryFocusable();
-      for (let i in nodes) {
-        if (element === nodes[i]) {
-          return true;
-        }
-      }
-      return false;
+    isFocusable(e) {
+      const t = this.queryFocusable();
+      for (let r in t)
+        if (e === t[r])
+          return !0;
+      return !1;
     },
     toggle(e) {
-      !this.expanded ? this.show() : this.hide();
+      this.expanded ? this.hide() : this.show();
     },
     show() {
-      this.expanded = true;
-      const target = this.$refs.split && this.$refs.split.$el || this.$el;
-      if (!this.nav && !this.popper) {
-        this.popper = createPopper(target, this.$refs.menu.$el, {
-          placement: `${this.placement}-${this.align === "left" ? "start" : "end"}`,
-          onFirstUpdate: () => {
-            this.triggerAnimation = this.animated;
-          },
-          modifiers: [{
-            name: "offset",
-            options: {
-              offset: [0, !this.nav ? this.offset : 1]
-            }
-          }]
-        });
-      } else if (this.popper) {
-        this.popper.update();
-      }
+      this.expanded = !0;
+      const e = this.$refs.split && this.$refs.split.$el || this.$el;
+      !this.nav && !this.popper ? this.popper = Gr(e, this.$refs.menu.$el, {
+        placement: `${this.placement}-${this.align === "left" ? "start" : "end"}`,
+        onFirstUpdate: () => {
+          this.triggerAnimation = this.animated;
+        },
+        modifiers: [{
+          name: "offset",
+          options: {
+            offset: [0, this.nav ? 1 : this.offset]
+          }
+        }]
+      }) : this.popper && this.popper.update();
     },
     hide() {
-      this.expanded = false;
+      this.expanded = !1;
     },
     onBlur(e) {
-      if (!this.$el.contains(e.relatedTarget)) {
-        this.hide();
-      }
+      this.$el.contains(e.relatedTarget) || this.hide();
     },
     onClickItem(e) {
-      if (!this.isFocusable(e.target)) {
-        this.hide();
-      }
+      this.isFocusable(e.target) || this.hide();
     },
     onClickToggle(e) {
-      e.target.focus();
-      this.$emit("click-toggle", e);
-      if (!e.defaultPrevented) {
-        this.toggle();
-      }
+      e.target.focus(), this.$emit("click-toggle", e), e.defaultPrevented || this.toggle();
     }
   },
   watch: {
-    expanded(value) {
+    expanded(e) {
       this.$nextTick(() => {
-        this.$emit(value ? "show" : "hide");
-        this.$emit("toggle", value);
+        this.$emit(e ? "show" : "hide"), this.$emit("toggle", e);
       });
     }
   }
-};
-var render$2 = function() {
-  var _vm = this;
-  var _h = _vm.$createElement;
-  var _c = _vm._self._c || _h;
-  return _c("btn-group", { staticClass: "btn-dropdown-split", class: _vm.classes, on: { "click": _vm.onClick } }, [!_vm.dropleft ? _vm._t("button", function() {
-    return [!_vm.dropleft ? _c("btn-dropdown-action", { ref: "button", class: _vm.actionClasses, attrs: { "id": _vm.$attrs.id, "expanded": _vm.expanded, "href": _vm.href, "to": _vm.to }, nativeOn: { "click": function($event) {
-      return function(e) {
-        return _vm.$emit("click", e);
-      }.apply(null, arguments);
-    } } }, [_vm._t("icon"), _vm._t("label", function() {
-      return [_vm._v(" " + _vm._s(_vm.label) + " ")];
-    })], 2) : _vm._e()];
-  }, null, this) : _vm._e(), _c("btn-group", { ref: "split" }, [_vm._t("split", function() {
-    return [_vm.split ? _c("button", { class: _vm.toggleClasses, attrs: { "id": _vm.$attrs.id, "type": "button", "aria-haspopup": "true", "aria-expanded": _vm.expanded }, on: { "blur": _vm.onBlur, "click": _vm.onClickToggle } }) : _vm._e()];
-  }, null, this), _c("dropdown-menu", { ref: "menu", class: { animated: _vm.triggerAnimation }, attrs: { "id": _vm.$attrs.id, "align": _vm.align, "show": _vm.expanded }, on: { "click-item": _vm.onClickItem, "blur-item": _vm.onBlur } }, [_vm._t("default")], 2)], 2), _vm.dropleft ? _vm._t("button", function() {
-    return [_vm.dropleft ? _c("btn-dropdown-action", { ref: "button", class: _vm.actionClasses, attrs: { "id": _vm.$attrs.id, "expanded": _vm.expanded, "href": _vm.href, "to": _vm.to }, nativeOn: { "click": function($event) {
-      return function(e) {
-        return _vm.$emit("click", e);
-      }.apply(null, arguments);
-    } } }, [_vm._t("icon"), _vm._t("label", function() {
-      return [_vm._v(" " + _vm._s(_vm.label) + " ")];
-    })], 2) : _vm._e()];
-  }, null, this) : _vm._e()], 2);
-};
-var staticRenderFns$2 = [];
-const __vue2_script$2 = {
+}, gn = {
   mixins: [
-    DropdownHandler
+    Dt
+  ]
+}, bn = ["id", "aria-expanded"];
+function yn(e, t, r, n, o, i) {
+  const a = te("btn-dropdown-action"), l = te("dropdown-menu"), s = te("btn-group");
+  return W(), ee(s, {
+    class: F([e.classes, "btn-dropdown-split"]),
+    onClick: e.onClick
+  }, {
+    default: B(() => [
+      e.dropleft ? de("", !0) : P(e.$slots, "button", ie(ge({ key: 0 }, e.scope)), () => [
+        e.dropleft ? de("", !0) : (W(), ee(a, {
+          key: 0,
+          id: e.$attrs.id,
+          ref: "button",
+          expanded: e.expanded,
+          href: e.href,
+          to: e.to,
+          class: F(e.actionClasses),
+          onClick: t[0] || (t[0] = (f) => e.$emit("click", f))
+        }, {
+          default: B(() => [
+            P(e.$slots, "icon"),
+            P(e.$slots, "label", {}, () => [
+              be(ye(e.label), 1)
+            ])
+          ]),
+          _: 3
+        }, 8, ["id", "expanded", "href", "to", "class"]))
+      ]),
+      we(s, { ref: "split" }, {
+        default: B(() => [
+          P(e.$slots, "split", ie(Re(e.scope)), () => [
+            e.split ? (W(), Xe("button", {
+              key: 0,
+              id: e.$attrs.id,
+              type: "button",
+              "aria-haspopup": "true",
+              "aria-expanded": e.expanded,
+              class: F(e.toggleClasses),
+              onBlur: t[1] || (t[1] = (...f) => e.onBlur && e.onBlur(...f)),
+              onClick: t[2] || (t[2] = (...f) => e.onClickToggle && e.onClickToggle(...f))
+            }, null, 42, bn)) : de("", !0)
+          ]),
+          we(l, {
+            id: e.$attrs.id,
+            ref: "menu",
+            align: e.align,
+            show: e.expanded,
+            class: F({ animated: e.triggerAnimation }),
+            onClickItem: e.onClickItem,
+            onBlurItem: e.onBlur
+          }, {
+            default: B(() => [
+              P(e.$slots, "default")
+            ]),
+            _: 3
+          }, 8, ["id", "align", "show", "class", "onClickItem", "onBlurItem"])
+        ]),
+        _: 3
+      }, 512),
+      e.dropleft ? P(e.$slots, "button", ie(ge({ key: 1 }, e.scope)), () => [
+        e.dropleft ? (W(), ee(a, {
+          key: 0,
+          id: e.$attrs.id,
+          ref: "button",
+          expanded: e.expanded,
+          href: e.href,
+          to: e.to,
+          class: F(e.actionClasses),
+          onClick: t[3] || (t[3] = (f) => e.$emit("click", f))
+        }, {
+          default: B(() => [
+            P(e.$slots, "icon"),
+            P(e.$slots, "label", {}, () => [
+              be(ye(e.label), 1)
+            ])
+          ]),
+          _: 3
+        }, 8, ["id", "expanded", "href", "to", "class"])) : de("", !0)
+      ]) : de("", !0)
+    ]),
+    _: 3
+  }, 8, ["class", "onClick"]);
+}
+const wn = /* @__PURE__ */ fe(gn, [["render", yn]]), xn = {
+  mixins: [
+    Dt
   ]
 };
-const __cssModules$2 = {};
-var __component__$2 = /* @__PURE__ */ normalizeComponent(__vue2_script$2, render$2, staticRenderFns$2, false, __vue2_injectStyles$2, null, null, null);
-function __vue2_injectStyles$2(context) {
-  for (let o in __cssModules$2) {
-    this[o] = __cssModules$2[o];
-  }
+function On(e, t, r, n, o, i) {
+  const a = te("btn-dropdown-action"), l = te("dropdown-menu"), s = te("btn-group");
+  return W(), ee(s, {
+    class: F(e.classes)
+  }, {
+    default: B(() => [
+      P(e.$slots, "button", ie(Re(e.scope)), () => [
+        we(a, {
+          id: e.$attrs.id,
+          ref: "button",
+          expanded: e.expanded,
+          href: e.href,
+          to: e.to,
+          style: Mt(e.toggleStyle),
+          class: F(e.toggleClasses),
+          onBlur: e.onBlur,
+          onClick: e.onClickToggle
+        }, {
+          default: B(() => [
+            P(e.$slots, "icon"),
+            P(e.$slots, "label", {}, () => [
+              be(ye(e.label), 1)
+            ])
+          ]),
+          _: 3
+        }, 8, ["id", "expanded", "href", "to", "style", "class", "onBlur", "onClick"])
+      ]),
+      we(l, {
+        id: e.$attrs.id,
+        ref: "menu",
+        align: e.align,
+        show: e.expanded,
+        class: F({ animated: e.triggerAnimation }),
+        onBlurItem: e.onBlur,
+        onClickItem: e.onClickItem
+      }, {
+        default: B(() => [
+          P(e.$slots, "default")
+        ]),
+        _: 3
+      }, 8, ["id", "align", "show", "class", "onBlurItem", "onClickItem"])
+    ]),
+    _: 3
+  }, 8, ["class"]);
 }
-var BtnDropdownSplit = /* @__PURE__ */ function() {
-  return __component__$2.exports;
-}();
-var render$1 = function() {
-  var _vm = this;
-  var _h = _vm.$createElement;
-  var _c = _vm._self._c || _h;
-  return _c("btn-group", { class: _vm.classes }, [_vm._t("button", function() {
-    return [_c("btn-dropdown-action", { ref: "button", class: _vm.toggleClasses, style: _vm.toggleStyle, attrs: { "id": _vm.$attrs.id, "expanded": _vm.expanded, "href": _vm.href, "to": _vm.to }, nativeOn: { "blur": function($event) {
-      return _vm.onBlur.apply(null, arguments);
-    }, "click": function($event) {
-      return _vm.onClickToggle.apply(null, arguments);
-    } } }, [_vm._t("icon"), _vm._t("label", function() {
-      return [_vm._v(" " + _vm._s(_vm.label) + " ")];
-    })], 2)];
-  }, null, this), _c("dropdown-menu", { ref: "menu", class: { animated: _vm.triggerAnimation }, attrs: { "id": _vm.$attrs.id, "align": _vm.align, "show": _vm.expanded }, on: { "blur-item": _vm.onBlur, "click-item": _vm.onClickItem } }, [_vm._t("default")], 2)], 2);
-};
-var staticRenderFns$1 = [];
-const __vue2_script$1 = {
-  mixins: [
-    DropdownHandler
-  ]
-};
-const __cssModules$1 = {};
-var __component__$1 = /* @__PURE__ */ normalizeComponent(__vue2_script$1, render$1, staticRenderFns$1, false, __vue2_injectStyles$1, null, null, null);
-function __vue2_injectStyles$1(context) {
-  for (let o in __cssModules$1) {
-    this[o] = __cssModules$1[o];
-  }
-}
-var BtnDropdownSingle = /* @__PURE__ */ function() {
-  return __component__$1.exports;
-}();
-var render = function() {
-  var this$1$1 = this;
-  var _vm = this;
-  var _h = _vm.$createElement;
-  var _c = _vm._self._c || _h;
-  return _c(_vm.$attrs.split === void 0 || !!_vm.$attrs.nav ? "btn-dropdown-single" : "btn-dropdown-split", _vm._b({ tag: "component", staticClass: "btn-dropdown", on: { "click": function() {
-    var ref;
-    var args = [], len = arguments.length;
-    while (len--)
-      args[len] = arguments[len];
-    return (ref = this$1$1).$emit.apply(ref, ["click"].concat(args));
-  }, "click-toggle": function() {
-    var ref;
-    var args = [], len = arguments.length;
-    while (len--)
-      args[len] = arguments[len];
-    return (ref = this$1$1).$emit.apply(ref, ["click-toggle"].concat(args));
-  }, "dropdown": function() {
-    var ref;
-    var args = [], len = arguments.length;
-    while (len--)
-      args[len] = arguments[len];
-    return (ref = this$1$1).$emit.apply(ref, ["dropdown"].concat(args));
-  }, "show": function() {
-    var ref;
-    var args = [], len = arguments.length;
-    while (len--)
-      args[len] = arguments[len];
-    return (ref = this$1$1).$emit.apply(ref, ["show"].concat(args));
-  }, "hide": function() {
-    var ref;
-    var args = [], len = arguments.length;
-    while (len--)
-      args[len] = arguments[len];
-    return (ref = this$1$1).$emit.apply(ref, ["hide"].concat(args));
-  }, "toggle": function() {
-    var ref;
-    var args = [], len = arguments.length;
-    while (len--)
-      args[len] = arguments[len];
-    return (ref = this$1$1).$emit.apply(ref, ["toggle"].concat(args));
-  } }, scopedSlots: _vm._u([{ key: "icon", fn: function() {
-    return [_vm._t("icon")];
-  }, proxy: true }, _vm.$attrs.label || this.$slots.label ? { key: "label", fn: function() {
-    return [_vm._t("label", function() {
-      return [_vm._v(" " + _vm._s(_vm.$attrs.label) + " ")];
-    })];
-  }, proxy: true } : null, { key: "button", fn: function(slot) {
-    return [_vm._t("button", null, null, slot)];
-  } }, { key: "split", fn: function(slot) {
-    return [_vm._t("split", null, null, slot)];
-  } }], null, true) }, "component", _vm.$attrs, false), [_vm._t("default")], 2);
-};
-var staticRenderFns = [];
-var BtnDropdown_vue_vue_type_style_index_0_lang = "";
-const __vue2_script = {
+const $n = /* @__PURE__ */ fe(xn, [["render", On]]);
+const Cn = {
   name: "BtnDropdown",
   components: {
-    BtnDropdownSplit,
-    BtnDropdownSingle
+    BtnDropdownSplit: wn,
+    BtnDropdownSingle: $n
   },
-  inheritAttrs: false
+  inheritAttrs: !1
 };
-const __cssModules = {};
-var __component__ = /* @__PURE__ */ normalizeComponent(__vue2_script, render, staticRenderFns, false, __vue2_injectStyles, null, null, null);
-function __vue2_injectStyles(context) {
-  for (let o in __cssModules) {
-    this[o] = __cssModules[o];
-  }
+function Pn(e, t, r, n, o, i) {
+  return W(), ee(He(e.$attrs.split === void 0 || !!e.$attrs.nav ? "btn-dropdown-single" : "btn-dropdown-split"), ge({ class: "btn-dropdown" }, e.$attrs, {
+    onClick: t[0] || (t[0] = (...a) => this.$emit("click", ...a)),
+    onClickToggle: t[1] || (t[1] = (...a) => this.$emit("click-toggle", ...a)),
+    onDropdown: t[2] || (t[2] = (...a) => this.$emit("dropdown", ...a)),
+    onShow: t[3] || (t[3] = (...a) => this.$emit("show", ...a)),
+    onHide: t[4] || (t[4] = (...a) => this.$emit("hide", ...a)),
+    onToggle: t[5] || (t[5] = (...a) => this.$emit("toggle", ...a))
+  }), Lt({
+    icon: B(() => [
+      P(e.$slots, "icon")
+    ]),
+    button: B((a) => [
+      P(e.$slots, "button", ie(Re(a)))
+    ]),
+    split: B((a) => [
+      P(e.$slots, "split", ie(Re(a)))
+    ]),
+    default: B(() => [
+      P(e.$slots, "default")
+    ]),
+    _: 2
+  }, [
+    e.$attrs.label || this.$slots.label ? {
+      name: "label",
+      fn: B(() => [
+        P(e.$slots, "label", {}, () => [
+          be(ye(e.$attrs.label), 1)
+        ])
+      ]),
+      key: "0"
+    } : void 0
+  ]), 1040);
 }
-var BtnDropdown = /* @__PURE__ */ function() {
-  return __component__.exports;
-}();
-export { BtnDropdown };
+const Sn = /* @__PURE__ */ fe(Cn, [["render", Pn]]);
+export {
+  Sn as BtnDropdown
+};
