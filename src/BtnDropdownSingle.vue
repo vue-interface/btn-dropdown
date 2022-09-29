@@ -1,6 +1,6 @@
 <template>
     <btn-group :class="classes">
-        <slot name="button" v-bind="this">
+        <slot name="button" v-bind="scope">
             <btn-dropdown-action
                 :id="$attrs.id"
                 ref="button"
