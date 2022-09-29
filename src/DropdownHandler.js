@@ -188,6 +188,30 @@ export default {
     },
 
     computed: {
+        scope() {
+            return {
+                // Pass the computed props.
+                placement: this.placement,
+                variantClassPrefix: this.variantClassPrefix,
+                sizeableClassPrefix: this.sizeableClassPrefix,
+                classes: this.classes,
+                actionClasses: this.actionClasses,
+                toggleStyle: this.toggleStyle,
+                toggleClasses: this.toggleClasses,
+                
+                // Pass the methods                
+                focus: this.focus,
+                queryFocusable: this.queryFocusable,
+                isFocusable: this.isFocusable,
+                toggle: this.toggle,
+                show: this.show,
+                hide: this.hide,
+                onBlur: this.onBlur,
+                onClickItem: this.onClickItem,
+                onClickToggle: this.onClickToggle
+            };
+        },
+
         placement() {
             if(this.dropup) {
                 return 'top';

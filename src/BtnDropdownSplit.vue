@@ -1,6 +1,6 @@
 <template>
     <btn-group :class="classes" class="btn-dropdown-split" @click="onClick">
-        <slot v-if="!dropleft" name="button" v-bind="this">
+        <slot v-if="!dropleft" name="button" v-bind="scope">
             <btn-dropdown-action
                 v-if="!dropleft"
                 :id="$attrs.id"
@@ -18,7 +18,7 @@
         </slot>
 
         <btn-group ref="split">
-            <slot name="split" v-bind="this">
+            <slot name="split" v-bind="scope">
                 <button
                     v-if="split"
                     :id="$attrs.id"
@@ -41,7 +41,7 @@
                 <slot />
             </dropdown-menu>
         </btn-group>
-        <slot v-if="dropleft" name="button" v-bind="this">
+        <slot v-if="dropleft" name="button" v-bind="scope">
             <btn-dropdown-action
                 v-if="dropleft"
                 :id="$attrs.id"
