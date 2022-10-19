@@ -32,8 +32,8 @@
             </btn-dropdown>
 
             <btn-dropdown class="ml-3">
-                <template #button="{ onBlur, onClickToggle }">
-                    <button class="bg-gray-100 p-2 rounded-full outline-none active:ring-4 focus:ring-4 ring-blue-500/50" @blur="onBlur" @click="onClickToggle">
+                <template #button="{ onBlur, onClickToggle, expanded }">
+                    <button class="bg-gray-100 p-2 rounded-full outline-none active:ring-4 focus:ring-4 ring-blue-500/50" :class="{'rotate-90': expanded}" @blur="onBlur" @click="onClickToggle">
                         <svg version="1.0" class="w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512.000000 512.000000" preserveAspectRatio="xMidYMid meet">
                             <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" fill="#000" stroke="none">
                                 <path d="M570 3243 c-71 -12 -189 -60 -255 -104 -194 -130 -315 -353 -315
@@ -79,9 +79,37 @@
                         </svg>
                     </button>
                 </template>
-                <a href="#/test" @click="onClickItem">Action</a>
+                <a href="https://google.com" @click="onClickItem">Action</a>
                 <a href="#">Another Action</a>
                 <a href="#">Something else here</a>
+            </btn-dropdown>
+
+            <btn-dropdown>
+                <template #button="{ onBlur, onClickToggle, expanded }">
+                    <button
+                        class="flex items-center justify-center rounded-full outline-none focus:ring ring-pink-500 p-0 w-10 h-10 text-center transition-transform"
+                        :class="{'rotate-90': expanded}"
+                        @blur="onBlur"
+                        @click="onClickToggle">
+                        <svg version="1.0" class="w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512.000000 512.000000" preserveAspectRatio="xMidYMid meet">
+                            <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" :fill="expanded ? 'red' : '#000'" stroke="none">
+                                <path d="M570 3243 c-71 -12 -189 -60 -255 -104 -194 -130 -315 -353 -315
+                                -580 0 -288 202 -567 473 -655 110 -36 263 -44 372 -19 341 76 582 414 536
+                                754 -48 358 -338 615 -690 610 -53 -1 -107 -4 -121 -6z"/>
+                                <path d="M2395 3234 c-243 -59 -452 -270 -509 -514 -20 -83 -20 -237 0 -320
+                                45 -195 188 -372 369 -460 104 -51 187 -70 305 -70 118 0 201 19 305 70 137
+                                66 249 178 315 315 51 104 70 187 70 305 0 118 -19 201 -70 305 -87 180 -253
+                                316 -446 365 -93 24 -249 26 -339 4z"/>
+                                <path d="M4254 3231 c-198 -54 -360 -186 -448 -366 -51 -104 -69 -183 -69
+                                -305 0 -122 18 -201 69 -306 68 -139 186 -253 334 -323 204 -97 472 -77 664
+                                49 190 124 316 355 316 580 0 290 -200 567 -474 656 -111 37 -287 43 -392 15z"/>
+                            </g>
+                        </svg>
+                    </button>
+                </template>
+                <a href="#">a tag</a>
+                <div>div tag</div>
+                <button @click="onClickItem">button</button>
             </btn-dropdown>
 
             <h2 class="text-2xl mt-6 mb-3">Variants</h2>
@@ -490,10 +518,10 @@
                 },
                 methods: {
                     onClickItem() {
-                        console.log('dropdown item clicked!')
+                        console.log('item clicked');
                     },
                     onToggle() {
-                        console.log('dropdown menu toggled!')
+                        console.log('toggle');
                     }
                 }
             })

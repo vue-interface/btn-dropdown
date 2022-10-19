@@ -1,20 +1,13 @@
 module.exports = {
     extends: [
-        'plugin:vue/recommended'
+        'plugin:vue/vue3-recommended',
     ],
-    parserOptions: {
-        'parser': 'babel-eslint'
-    },
-    // add your custom rules here
     rules: {
         'vue/no-v-html': 0,
         'vue/require-default-prop': 0,
         "vue/max-attributes-per-line": ["error", {
             "singleline": 5,
-            "multiline": {
-                "max": 1,
-                "allowFirstLine": true
-            }
+            "multiline": 1
         }],
         "vue/html-indent": ["error", 4, {
             "attribute": 1,

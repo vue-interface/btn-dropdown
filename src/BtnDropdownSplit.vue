@@ -1,5 +1,21 @@
+<script>
+import DropdownHandler from './DropdownHandler';
+
+export default {
+
+    mixins: [
+        DropdownHandler
+    ],
+
+    emits: [
+        'click'
+    ]
+
+};
+</script>
+
 <template>
-    <btn-group :class="classes" class="btn-dropdown-split" @click="onClick">
+    <btn-group :class="classes" class="btn-dropdown-split">
         <slot v-if="!dropleft" name="button" v-bind="scope">
             <btn-dropdown-action
                 v-if="!dropleft"
@@ -9,7 +25,7 @@
                 :href="href"
                 :to="to"
                 :class="actionClasses"
-                @click.native="e => $emit('click', e)">
+                @click="e => $emit('click', e)">
                 <slot name="icon" />
                 <slot name="label">
                     {{ label }}
@@ -50,7 +66,7 @@
                 :href="href"
                 :to="to"
                 :class="actionClasses"
-                @click.native="e => $emit('click', e)">
+                @click="e => $emit('click', e)">
                 <slot name="icon" />
                 <slot name="label">
                     {{ label }}
@@ -59,15 +75,3 @@
         </slot>
     </btn-group>
 </template>
-
-<script>
-import DropdownHandler from './DropdownHandler';
-
-export default {
-
-    mixins: [
-        DropdownHandler
-    ]
-
-};
-</script>

@@ -1,15 +1,3 @@
-<template>
-    <component
-        :is="is"
-        :id="id"
-        v-bind="to ? { to } : { href }"
-        aria-haspopup="true"
-        :aria-expanded="expanded"
-        :type="is === 'button' ? 'button': undefined">
-        <slot />
-    </component>
-</template>
-
 <script>
 export default {
     props: {
@@ -36,3 +24,15 @@ export default {
     }
 };
 </script>
+
+<template>
+    <component
+        :is="is"
+        :id="id"
+        v-bind="to ? { to } : { href }"
+        aria-haspopup="true"
+        :aria-expanded="expanded"
+        :type="is === 'button' ? 'button': undefined">
+        <slot />
+    </component>
+</template>

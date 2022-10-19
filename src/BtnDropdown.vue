@@ -1,32 +1,3 @@
-<template>
-    <component
-        :is="$attrs.split === undefined || !!$attrs.nav ? 'btn-dropdown-single' : 'btn-dropdown-split'"
-        class="btn-dropdown"
-        v-bind="$attrs"
-        @click="(...args) => this.$emit('click', ...args)"
-        @click-toggle="(...args) => this.$emit('click-toggle', ...args)"
-        @dropdown="(...args) => this.$emit('dropdown', ...args)"
-        @show="(...args) => this.$emit('show', ...args)"
-        @hide="(...args) => this.$emit('hide', ...args)"
-        @toggle="(...args) => this.$emit('toggle', ...args)">
-        <template #icon>
-            <slot name="icon" />
-        </template>
-        <template v-if="$attrs.label || this.$slots.label" #label>
-            <slot name="label">
-                {{ $attrs.label }}
-            </slot>
-        </template>
-        <template #button="slot">
-            <slot name="button" v-bind="slot" />
-        </template>
-        <template #split="slot">
-            <slot name="split" v-bind="slot" />
-        </template>
-        <slot />
-    </component>
-</template>
-
 <script>
 import BtnDropdownSplit from './BtnDropdownSplit.vue';
 import BtnDropdownSingle from './BtnDropdownSingle.vue';
@@ -40,10 +11,48 @@ export default {
         BtnDropdownSingle
     },
 
-    inheritAttrs: false
+    inheritAttrs: false,
+
+    emits: [
+        'click',
+        'click-toggle',
+        'dropdown',
+        'show',
+        'hide',
+        'toggle'
+    ]
 
 };
 </script>
+
+<template>
+    <component
+        :is="$attrs.split === undefined || !!$attrs.nav ? 'btn-dropdown-single' : 'btn-dropdown-split'"
+        class="btn-dropdown"
+        v-bind="$attrs"
+        @click="(...args) => $emit('click', ...args)"
+        @click-toggle="(...args) => $emit('click-toggle', ...args)"
+        @dropdown="(...args) => $emit('dropdown', ...args)"
+        @show="(...args) => $emit('show', ...args)"
+        @hide="(...args) => $emit('hide', ...args)"
+        @toggle="(...args) => $emit('toggle', ...args)">
+        <template #icon>
+            <slot name="icon" />
+        </template>
+        <template v-if="$attrs.label || $slots.label" #label>
+            <slot name="label">
+                {{ $attrs.label }}
+            </slot>
+        </template>
+        <template #button="slot">
+            <slot name="button" v-bind="slot" />
+        </template>
+        <template #split="slot">
+            <slot name="split" v-bind="slot" />
+        </template>
+        <slot />
+    </component>
+</template>
 
 <style>
 @keyframes btnDropdownZoomIn {

@@ -16,6 +16,13 @@ export default {
 
     extends: Btn,
 
+    emits: [
+        'click-toggle',
+        'show',
+        'hide',
+        'toggle'
+    ],
+
     props: {
 
         /**
@@ -208,7 +215,8 @@ export default {
                 hide: this.hide,
                 onBlur: this.onBlur,
                 onClickItem: this.onClickItem,
-                onClickToggle: this.onClickToggle
+                onClickToggle: this.onClickToggle,
+                expanded: this.expanded
             };
         },
 
@@ -283,7 +291,7 @@ export default {
         }
     },
 
-    beforeDestroy() {
+    beforeUnmount() {
         this.popper && this.popper.destroy();
     },
 
@@ -406,8 +414,6 @@ export default {
          * @return void
          */
         onClickToggle(e) {
-            e.target.focus();
-            
             this.$emit('click-toggle', e);
 
             if(!e.defaultPrevented) {

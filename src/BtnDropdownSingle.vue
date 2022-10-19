@@ -1,3 +1,15 @@
+<script>
+import DropdownHandler from './DropdownHandler';
+
+export default {
+
+    mixins: [
+        DropdownHandler
+    ]
+
+};
+</script>
+
 <template>
     <btn-group :class="classes">
         <slot name="button" v-bind="scope">
@@ -9,8 +21,8 @@
                 :to="to"
                 :style="toggleStyle"
                 :class="toggleClasses"
-                @blur.native="onBlur"
-                @click.native="onClickToggle">
+                @blur="onBlur"
+                @click="onClickToggle">
                 <slot name="icon" />
                 <slot name="label">
                     {{ label }}
@@ -29,15 +41,3 @@
         </dropdown-menu>
     </btn-group>
 </template>
-
-<script>
-import DropdownHandler from './DropdownHandler';
-
-export default {
-
-    mixins: [
-        DropdownHandler
-    ]
-
-};
-</script>
