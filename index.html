@@ -107,8 +107,7 @@
                         </svg>
                     </button>
                 </template>
-                <a href="#">a tag</a>
-                <div>div tag</div>
+                <a href="#" @click="onClickItem">a tag</a>
                 <button @click="onClickItem">button</button>
             </btn-dropdown>
 
@@ -518,10 +517,10 @@
                 },
                 methods: {
                     onClickItem() {
-                        console.log('item clicked');
+                        console.log('clicked');
                     },
                     onToggle() {
-                        console.log('toggle');
+                        console.log('toggled');
                     }
                 }
             })

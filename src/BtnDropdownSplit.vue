@@ -52,8 +52,8 @@ export default {
                 :align="align"
                 :show="expanded"
                 :class="{animated: triggerAnimation}"
-                @click-item="onClickItem"
-                @blur-item="onBlur">
+                @click="onClickItem"
+                @blur="onBlur">
                 <slot />
             </dropdown-menu>
         </btn-group>
