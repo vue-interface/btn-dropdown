@@ -392,8 +392,14 @@ export default {
          * @return void
          */
         onBlur(e) {
-            if(!this.$el.contains(e.relatedTarget)) {
+            if (!this.$refs.menu.$el.contains(e.relatedTarget) || !this.$el.contains(e.relatedTarget)) {
                 this.hide();
+            }
+        },
+
+        onClickDocument(e) {
+            if (!this.$el.contains(e.target)) {
+                this.hide()
             }
         },
 
@@ -414,10 +420,18 @@ export default {
          * @return void
          */
         onClickToggle(e) {
+            e.target.dispatchEvent(new Event('focus', e));
+            
             this.$emit('click-toggle', e);
 
             if(!e.defaultPrevented) {
                 this.toggle();
+            }
+        },
+
+        onKeydown(e) {
+            if (e.target.parentElement.lastElementChild === e.target) {
+                this.hide();
             }
         }
 
@@ -429,6 +443,15 @@ export default {
                 this.$emit(value ? 'show' : 'hide');
                 this.$emit('toggle', value);
             });
+            
+            setTimeout(() => {
+                if (value) {
+                    document.addEventListener('click', this.onClickDocument)
+                }
+                else {
+                    document.removeEventListener('click', this.onClickDocument)
+                }
+            })
         }
     }
 
