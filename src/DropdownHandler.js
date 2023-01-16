@@ -392,14 +392,14 @@ export default {
          * @return void
          */
         onBlur(e) {
-            if (!this.$refs.menu.$el.contains(e.relatedTarget) || !this.$el.contains(e.relatedTarget)) {
+            if((this.$refs.menu && !this.$refs.menu.$el.contains(e.relatedTarget)) || !this.$el.contains(e.relatedTarget)) {
                 this.hide();
             }
         },
 
         onClickDocument(e) {
-            if (!this.$el.contains(e.target)) {
-                this.hide()
+            if(!this.$el.contains(e.target)) {
+                this.hide();
             }
         },
 
@@ -430,7 +430,7 @@ export default {
         },
 
         onKeydown(e) {
-            if (e.target.parentElement.lastElementChild === e.target) {
+            if(e.target.parentElement.lastElementChild === e.target) {
                 this.hide();
             }
         }
@@ -445,13 +445,13 @@ export default {
             });
             
             setTimeout(() => {
-                if (value) {
-                    document.addEventListener('click', this.onClickDocument)
+                if(value) {
+                    document.addEventListener('click', this.onClickDocument);
                 }
                 else {
-                    document.removeEventListener('click', this.onClickDocument)
+                    document.removeEventListener('click', this.onClickDocument);
                 }
-            })
+            });
         }
     }
 
