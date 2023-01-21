@@ -131,13 +131,26 @@ function rr(e) {
   return ["table", "td", "th"].indexOf(H(e)) >= 0;
 }
 function Y(e) {
-  return ((ne(e) ? e.ownerDocument : e.document) || window.document).documentElement;
+  return ((ne(e) ? e.ownerDocument : (
+    // $FlowFixMe[prop-missing]
+    e.document
+  )) || window.document).documentElement;
 }
 function ze(e) {
-  return H(e) === "html" ? e : e.assignedSlot || e.parentNode || (Xe(e) ? e.host : null) || Y(e);
+  return H(e) === "html" ? e : (
+    // this is a quicker (but less type safe) way to save quite some bytes from the bundle
+    // $FlowFixMe[incompatible-return]
+    // $FlowFixMe[prop-missing]
+    e.assignedSlot || // step into the shadow DOM of the parent of a slotted node
+    e.parentNode || // DOM Element detected
+    (Xe(e) ? e.host : null) || // ShadowRoot detected
+    // $FlowFixMe[incompatible-call]: HTMLElement is a Node
+    Y(e)
+  );
 }
 function lt(e) {
-  return !z(e) || q(e).position === "fixed" ? null : e.offsetParent;
+  return !z(e) || // https://github.com/popperjs/popper-core/issues/837
+  q(e).position === "fixed" ? null : e.offsetParent;
 }
 function nr(e) {
   var t = /firefox/i.test(Fe()), r = /Trident/i.test(Fe());
@@ -247,12 +260,18 @@ function pt(e) {
     var c = $e(r), x = "clientHeight", E = "clientWidth";
     if (c === I(r) && (c = Y(r), q(c).position !== "static" && l === "absolute" && (x = "scrollHeight", E = "scrollWidth")), c = c, o === R || (o === j || o === M) && i === we) {
       d = N;
-      var S = h && c === g && g.visualViewport ? g.visualViewport.height : c[x];
+      var S = h && c === g && g.visualViewport ? g.visualViewport.height : (
+        // $FlowFixMe[prop-missing]
+        c[x]
+      );
       m -= S - n.height, m *= s ? 1 : -1;
     }
     if (o === j || (o === R || o === N) && i === we) {
       $ = M;
-      var k = h && c === g && g.visualViewport ? g.visualViewport.width : c[E];
+      var k = h && c === g && g.visualViewport ? g.visualViewport.width : (
+        // $FlowFixMe[prop-missing]
+        c[E]
+      );
       u -= k - n.width, u *= s ? 1 : -1;
     }
   }
@@ -398,7 +417,10 @@ function he(e, t) {
   var r;
   t === void 0 && (t = []);
   var n = St(e), o = n === ((r = e.ownerDocument) == null ? void 0 : r.body), i = I(n), a = o ? [i].concat(i.visualViewport || [], Qe(n) ? n : []) : n, l = t.concat(a);
-  return o ? l : l.concat(he(ze(a)));
+  return o ? l : (
+    // $FlowFixMe[incompatible-call]: isBody tells us target will be an HTMLElement here
+    l.concat(he(ze(a)))
+  );
 }
 function We(e) {
   return Object.assign({}, e, {
@@ -683,7 +705,7 @@ function Tr(e) {
     x: 0,
     y: 0
   };
-  if (!!c) {
+  if (c) {
     if (i) {
       var A, K = d === "y" ? R : j, G = d === "y" ? N : M, T = d === "y" ? "height" : "width", L = c[d], Pe = L + v[K], J = L - v[G], Ee = u ? -E[T] / 2 : 0, Ne = C === ae ? x[T] : E[T], fe = C === ae ? -E[T] : -x[T], Se = t.elements.arrow, oe = u && Se ? Ye(Se) : {
         width: 0,
@@ -727,7 +749,8 @@ function Lr(e, t, r) {
     x: 0,
     y: 0
   };
-  return (n || !n && !r) && ((H(t) !== "body" || Qe(i)) && (l = Mr(t)), z(t) ? (s = le(t, !0), s.x += t.clientLeft, s.y += t.clientTop) : i && (s.x = Je(i))), {
+  return (n || !n && !r) && ((H(t) !== "body" || // https://github.com/popperjs/popper-core/issues/1078
+  Qe(i)) && (l = Mr(t)), z(t) ? (s = le(t, !0), s.x += t.clientLeft, s.y += t.clientTop) : i && (s.x = Je(i))), {
     x: a.left + l.scrollLeft - s.x,
     y: a.top + l.scrollTop - s.y,
     width: a.width,
@@ -900,6 +923,11 @@ function Kr(e) {
         }
         return O(), u.update();
       },
+      // Sync update – it will always be executed, even if not necessary. This
+      // is useful for low frequency updates where sync behavior simplifies the
+      // logic.
+      // For high frequency updates (e.g. `resize` and `scroll` events), always
+      // prefer the async Popper#update method
       forceUpdate: function() {
         if (!y) {
           var w = p.elements, C = w.reference, $ = w.popper;
@@ -932,6 +960,8 @@ function Kr(e) {
           }
         }
       },
+      // Async and optimistically optimized update – it will not be executed if
+      // not necessary (debounced to run at most once-per-tick)
       update: Fr(function() {
         return new Promise(function(v) {
           u.forceUpdate(), v(p);
@@ -1127,6 +1157,11 @@ const fn = (e, t) => It("div", {}, Bt(t.slots.default())), un = fn, Ce = (e, t) 
     DropdownMenuItems: un
   },
   props: {
+    /**
+     * Display the dropdown menu aligned left or right
+     *
+     * @property String
+     */
     align: {
       type: String,
       default: "left",
@@ -1134,6 +1169,11 @@ const fn = (e, t) => It("div", {}, Bt(t.slots.default())), un = fn, Ce = (e, t) 
         return ["left", "right"].indexOf(e.toLowerCase()) !== -1;
       }
     },
+    /**
+     * The default visibility of the dropdown menu.
+     *
+     * @property Object
+     */
     show: Boolean
   }
 }, cn = ["aria-labelledby"];
@@ -1194,6 +1234,11 @@ const bn = /* @__PURE__ */ Ce(mn, [["render", gn]]), Dt = {
   extends: rn,
   emits: ["click-toggle", "show", "hide", "toggle"],
   props: {
+    /**
+     * Display the dropdown menu aligned left or right
+     *
+     * @property String
+     */
     align: {
       type: String,
       default: "left",
@@ -1201,48 +1246,133 @@ const bn = /* @__PURE__ */ Ce(mn, [["render", gn]]), Dt = {
         return ["left", "right"].indexOf(e.toLowerCase()) !== -1;
       }
     },
+    /**
+     * Should animate the dropdown opening.
+     *
+     * @property {Boolean}
+     */
     animated: {
       type: Boolean,
       default: !0
     },
+    /**
+     * Additional button classes.
+     * 
+     * @property {Object|String}
+     */
     buttonClass: [Object, String],
+    /**
+     * Show the caret.
+     *
+     * @property {Boolean}
+     */
     caret: {
       type: Boolean,
       default: !0
     },
+    /**
+     * Should display the toggle button as a circle.
+     *
+     * @property Boolean
+     */
+    // circle: {
+    //     type: Boolean,
+    //     default: false
+    // },
+    /**
+     * Display as a dropup instead of a dropdown.
+     *
+     * @property Boolean
+     */
     dropup: {
       type: Boolean,
       default: !1
     },
+    /**
+     * Display as a dropright instead of a dropdown.
+     *
+     * @property Boolean
+     */
     dropright: {
       type: Boolean,
       default: !1
     },
+    /**
+     * Display as a dropleft instead of a dropdown.
+     *
+     * @property Boolean
+     */
     dropleft: {
       type: Boolean,
       default: !1
     },
+    /**
+     * The action height.
+     *
+     * @property {String}
+     */
     height: String,
+    /**
+     * The href action.
+     *
+     * @property {String}
+     */
     href: String,
+    /**
+     * Is the dropdown a nav item?
+     *
+     * @property {Boolean}
+     */
     nav: Boolean,
+    /**
+     * The toggle button's label. If not defined as an attribute,
+     * you can override with the component's slot (inner html).
+     *
+     * @property {String}
+     */
     label: String,
     offset: {
       type: Number,
       default: 5
     },
+    /**
+     * Should rotate the toggle button when opened.
+     *
+     * @property {Boolean}
+     */
     rotate: {
       type: Boolean,
       default: !1
     },
+    /**
+     * Display the dropdown button with a split toggle button.
+     *
+     * @property {Boolean}
+     */
     split: {
       type: Boolean,
       default: !1
     },
+    /**
+     * The "to" path, used for vue-router.
+     *
+     * @property {String|Object}
+     */
     to: [String, Object],
+    /**
+     * The button type attribute.
+     *
+     * @property {String}
+     */
     type: {
       type: String,
       default: "button"
     },
+    /**
+     * The action width.
+     *
+     * @property {String}
+     */
     width: String
   },
   data() {
@@ -1255,6 +1385,7 @@ const bn = /* @__PURE__ */ Ce(mn, [["render", gn]]), Dt = {
   computed: {
     scope() {
       return {
+        // Pass the computed props.
         placement: this.placement,
         variantClassPrefix: this.variantClassPrefix,
         sizeableClassPrefix: this.sizeableClassPrefix,
@@ -1262,6 +1393,7 @@ const bn = /* @__PURE__ */ Ce(mn, [["render", gn]]), Dt = {
         actionClasses: this.actionClasses,
         toggleStyle: this.toggleStyle,
         toggleClasses: this.toggleClasses,
+        // Pass the methods                
         focus: this.focus,
         queryFocusable: this.queryFocusable,
         isFocusable: this.isFocusable,
@@ -1330,12 +1462,27 @@ const bn = /* @__PURE__ */ Ce(mn, [["render", gn]]), Dt = {
     this.popper && this.popper.destroy();
   },
   methods: {
+    /**
+     * Focus on the the dropdown toggle button
+     *
+     * @return void
+     */
     focus() {
       this.$el.querySelector(".dropdown-toggle").focus();
     },
+    /**
+     * Focus on the the dropdown toggle button
+     *
+     * @return void
+     */
     queryFocusable() {
       return this.$el.querySelector(".dropdown-menu").querySelectorAll('label, input, select, textarea, [tabindex]:not([tabindex="-1"])');
     },
+    /**
+     * Method to check if the given element is focusable.
+     *
+     * @return void
+     */
     isFocusable(e) {
       const t = this.queryFocusable();
       for (let r in t)
@@ -1343,9 +1490,19 @@ const bn = /* @__PURE__ */ Ce(mn, [["render", gn]]), Dt = {
           return !0;
       return !1;
     },
+    /**
+     * Toggle the dropdown menu
+     *
+     * @return void
+     */
     toggle(e) {
       this.expanded ? this.hide() : this.show();
     },
+    /**
+     * Show the dropdown menu
+     *
+     * @return void
+     */
     show() {
       this.expanded = !0;
       const e = this.$refs.split && this.$refs.split.$el || this.$el;
@@ -1358,22 +1515,43 @@ const bn = /* @__PURE__ */ Ce(mn, [["render", gn]]), Dt = {
           name: "offset",
           options: {
             offset: [0, this.nav ? 1 : this.offset]
+            // offset: ['.125rem', !this.nav ? 4 : 1],
           }
         }]
       }) : this.popper && this.popper.update();
     },
+    /**
+     * Hide the dropdown menu
+     *
+     * @return void
+     */
     hide() {
       this.expanded = !1;
     },
+    /**
+     * A callback function for the `blur-item` event.
+     *
+     * @return void
+     */
     onBlur(e) {
-      (!this.$refs.menu.$el.contains(e.relatedTarget) || !this.$el.contains(e.relatedTarget)) && this.hide();
+      (this.$refs.menu && !this.$refs.menu.$el.contains(e.relatedTarget) || !this.$el.contains(e.relatedTarget)) && this.hide();
     },
     onClickDocument(e) {
       this.$el.contains(e.target) || this.hide();
     },
+    /**
+     * A callback function for the `click-item` event.
+     *
+     * @return void
+     */
     onClickItem(e) {
       this.isFocusable(e.target) || this.hide();
     },
+    /**
+     * A callback function for the `click-toggle` event.
+     *
+     * @return void
+     */
     onClickToggle(e) {
       e.target.dispatchEvent(new Event("focus", e)), this.$emit("click-toggle", e), e.defaultPrevented || this.toggle();
     },
@@ -1553,7 +1731,7 @@ const En = {
   ]
 };
 function Sn(e, t, r, n, o, i) {
-  return W(), ee(He(e.$attrs.split === void 0 || !!e.$attrs.nav ? "btn-dropdown-single" : "btn-dropdown-split"), me({ class: "btn-dropdown" }, e.$attrs, {
+  return W(), ee(He(e.$attrs.split === void 0 || e.$attrs.nav ? "btn-dropdown-single" : "btn-dropdown-split"), me({ class: "btn-dropdown" }, e.$attrs, {
     onClick: t[0] || (t[0] = (...a) => e.$emit("click", ...a)),
     onClickToggle: t[1] || (t[1] = (...a) => e.$emit("click-toggle", ...a)),
     onDropdown: t[2] || (t[2] = (...a) => e.$emit("dropdown", ...a)),
