@@ -1,7 +1,8 @@
-<script>
+<script lang="ts">
+import { defineComponent } from 'vue';
 import DropdownHandler from './DropdownHandler';
 
-export default {
+export default defineComponent({
 
     mixins: [
         DropdownHandler
@@ -11,12 +12,17 @@ export default {
         'click'
     ]
 
-};
+});
 </script>
 
 <template>
-    <btn-group :class="classes" class="btn-dropdown-split">
-        <slot v-if="!dropleft" name="button" v-bind="scope">
+    <btn-group
+        :class="classes"
+        class="btn-dropdown-split">
+        <slot
+            v-if="!dropleft"
+            name="button"
+            v-bind="scope">
             <btn-dropdown-action
                 v-if="!dropleft"
                 :id="$attrs.id"
@@ -25,7 +31,7 @@ export default {
                 :href="href"
                 :to="to"
                 :class="actionClasses"
-                @click="e => $emit('click', e)">
+                @click="$emit('click', $event)">
                 <slot name="icon" />
                 <slot name="label">
                     {{ label }}
@@ -34,7 +40,9 @@ export default {
         </slot>
 
         <btn-group ref="split">
-            <slot name="split" v-bind="scope">
+            <slot
+                name="split"
+                v-bind="scope">
                 <button
                     v-if="split"
                     :id="$attrs.id"
@@ -59,7 +67,10 @@ export default {
                 <slot />
             </dropdown-menu>
         </btn-group>
-        <slot v-if="dropleft" name="button" v-bind="scope">
+        <slot
+            v-if="dropleft"
+            name="button"
+            v-bind="scope">
             <btn-dropdown-action
                 v-if="dropleft"
                 :id="$attrs.id"
@@ -68,7 +79,7 @@ export default {
                 :href="href"
                 :to="to"
                 :class="actionClasses"
-                @click="e => $emit('click', e)">
+                @click="$emit('click', $event)">
                 <slot name="icon" />
                 <slot name="label">
                     {{ label }}

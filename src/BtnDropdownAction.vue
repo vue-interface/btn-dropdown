@@ -1,13 +1,24 @@
-<script>
-export default {
+<script lang="ts">
+import { defineComponent } from 'vue';
+
+export default defineComponent({
     props: {
         expanded: {
             type: Boolean,
             default: false
         },
-        id: String,
-        href: String,
-        to: [String, Object]
+        id: {
+            type: String,
+            default: undefined
+        },
+        href: {
+            type: String,
+            default: undefined
+        },
+        to: {
+            type: [String, Object],
+            default: undefined
+        }
     },
     computed: {
         is() {
@@ -22,7 +33,7 @@ export default {
             return 'button';
         },
     }
-};
+});
 </script>
 
 <template>

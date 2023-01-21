@@ -1,8 +1,9 @@
-<script>
-import BtnDropdownSplit from './BtnDropdownSplit.vue';
+<script lang="ts">
+import { defineComponent } from 'vue';
 import BtnDropdownSingle from './BtnDropdownSingle.vue';
+import BtnDropdownSplit from './BtnDropdownSplit.vue';
 
-export default {
+export default defineComponent({
 
     name: 'BtnDropdown',
 
@@ -22,7 +23,7 @@ export default {
         'toggle'
     ]
 
-};
+});
 </script>
 
 <template>
@@ -30,25 +31,31 @@ export default {
         :is="$attrs.split === undefined || !!$attrs.nav ? 'btn-dropdown-single' : 'btn-dropdown-split'"
         class="btn-dropdown"
         v-bind="$attrs"
-        @click="(...args) => $emit('click', ...args)"
-        @click-toggle="(...args) => $emit('click-toggle', ...args)"
-        @dropdown="(...args) => $emit('dropdown', ...args)"
-        @show="(...args) => $emit('show', ...args)"
-        @hide="(...args) => $emit('hide', ...args)"
-        @toggle="(...args) => $emit('toggle', ...args)">
+        @click="(...args: any[]) => $emit('click', ...args)"
+        @click-toggle="(...args: any[]) => $emit('click-toggle', ...args)"
+        @dropdown="(...args: any[]) => $emit('dropdown', ...args)"
+        @show="(...args: any[]) => $emit('show', ...args)"
+        @hide="(...args: any[]) => $emit('hide', ...args)"
+        @toggle="(...args: any[]) => $emit('toggle', ...args)">
         <template #icon>
             <slot name="icon" />
         </template>
-        <template v-if="$attrs.label || $slots.label" #label>
+        <template
+            v-if="$attrs.label || $slots.label"
+            #label>
             <slot name="label">
                 {{ $attrs.label }}
             </slot>
         </template>
         <template #button="slot">
-            <slot name="button" v-bind="slot" />
+            <slot
+                name="button"
+                v-bind="slot" />
         </template>
         <template #split="slot">
-            <slot name="split" v-bind="slot" />
+            <slot
+                name="split"
+                v-bind="slot" />
         </template>
         <slot />
     </component>

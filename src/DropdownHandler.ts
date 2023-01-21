@@ -1,10 +1,8 @@
-import { createPopper } from '@popperjs/core';
+import { createPopper, Placement } from '@popperjs/core';
 import { Btn } from '@vue-interface/btn';
 import { BtnGroup } from '@vue-interface/btn-group';
 import { DropdownMenu } from '@vue-interface/dropdown-menu';
 import BtnDropdownAction from './BtnDropdownAction.vue';
-
-const TAB_KEYCODE = 9;
 
 export default {
 
@@ -33,7 +31,7 @@ export default {
         align: {
             type: String,
             default: 'left',
-            validate(value) {
+            validate(value: any) {
                 return ['left', 'right'].indexOf(value.toLowerCase()) !== -1;
             }
         },
@@ -320,10 +318,10 @@ export default {
          *
          * @return void
          */
-        isFocusable(element) {
+        isFocusable(element: any) {
             const nodes = this.queryFocusable();
 
-            for(let i in nodes) {
+            for(const i in nodes) {
                 if(element === nodes[i]) {
                     return true;
                 }
@@ -337,7 +335,7 @@ export default {
          *
          * @return void
          */
-        toggle(e) {
+        toggle() {
             !this.expanded ? this.show() : this.hide();
         },
 
@@ -357,7 +355,7 @@ export default {
 
             if(!this.nav && !this.popper) {
                 this.popper = createPopper(target, this.$refs.menu.$el, {
-                    placement: `${this.placement}-${this.align === 'left' ? 'start' : 'end'}`,
+                    placement: <Placement> `${this.placement}-${this.align === 'left' ? 'start' : 'end'}`,
                     onFirstUpdate: () => {
                         this.triggerAnimation = this.animated;
                     },
@@ -391,13 +389,13 @@ export default {
          *
          * @return void
          */
-        onBlur(e) {
-            if((this.$refs.menu && !this.$refs.menu.$el.contains(e.relatedTarget)) || !this.$el.contains(e.relatedTarget)) {
+        onBlur(e: any) {
+            if(!this.$refs.menu.$el.contains(e.relatedTarget) || !this.$el.contains(e.relatedTarget)) {
                 this.hide();
             }
         },
 
-        onClickDocument(e) {
+        onClickDocument(e: Event) {
             if(!this.$el.contains(e.target)) {
                 this.hide();
             }
@@ -408,7 +406,7 @@ export default {
          *
          * @return void
          */
-        onClickItem(e) {
+        onClickItem(e: any) {
             if(!this.isFocusable(e.target)) {
                 this.hide();
             }
@@ -419,7 +417,7 @@ export default {
          *
          * @return void
          */
-        onClickToggle(e) {
+        onClickToggle(e: any) {
             e.target.dispatchEvent(new Event('focus', e));
             
             this.$emit('click-toggle', e);
@@ -429,7 +427,7 @@ export default {
             }
         },
 
-        onKeydown(e) {
+        onKeydown(e: any) {
             if(e.target.parentElement.lastElementChild === e.target) {
                 this.hide();
             }
@@ -438,7 +436,7 @@ export default {
     },
 
     watch: {
-        expanded(value) {
+        expanded(value: any) {
             this.$nextTick(() => {
                 this.$emit(value ? 'show' : 'hide');
                 this.$emit('toggle', value);

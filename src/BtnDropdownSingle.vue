@@ -1,18 +1,21 @@
-<script>
+<script lang="ts">
+import { defineComponent } from 'vue';
 import DropdownHandler from './DropdownHandler';
 
-export default {
+export default defineComponent({
 
     mixins: [
         DropdownHandler
     ]
 
-};
+});
 </script>
 
 <template>
     <btn-group :class="classes">
-        <slot name="button" v-bind="scope">
+        <slot
+            name="button"
+            v-bind="scope">
             <btn-dropdown-action
                 :id="$attrs.id"
                 ref="button"
