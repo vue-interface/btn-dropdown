@@ -2,9 +2,10 @@ import { createPopper, Placement } from '@popperjs/core';
 import { Btn } from '@vue-interface/btn';
 import { BtnGroup } from '@vue-interface/btn-group';
 import { DropdownMenu } from '@vue-interface/dropdown-menu';
+import { defineComponent } from 'vue';
 import BtnDropdownAction from './BtnDropdownAction.vue';
 
-export default {
+export default defineComponent({
 
     components: {
         BtnDropdownAction,
@@ -13,13 +14,6 @@ export default {
     },
 
     extends: Btn,
-
-    emits: [
-        'click-toggle',
-        'show',
-        'hide',
-        'toggle'
-    ],
 
     props: {
 
@@ -184,6 +178,13 @@ export default {
 
     },
 
+    emits: [
+        'click-toggle',
+        'show',
+        'hide',
+        'toggle'
+    ],
+
     data() {
         return {
             popper: null,
@@ -289,6 +290,24 @@ export default {
         }
     },
 
+    watch: {
+        expanded(value: any) {
+            this.$nextTick(() => {
+                this.$emit(value ? 'show' : 'hide');
+                this.$emit('toggle', value);
+            });
+            
+            setTimeout(() => {
+                if(value) {
+                    document.addEventListener('click', this.onClickDocument);
+                }
+                else {
+                    document.removeEventListener('click', this.onClickDocument);
+                }
+            });
+        }
+    },
+
     beforeUnmount() {
         this.popper && this.popper.destroy();
     },
@@ -301,7 +320,7 @@ export default {
          * @return void
          */
         focus() {
-            this.$el.querySelector('.dropdown-toggle').focus();
+            this.$el?.querySelector('.dropdown-toggle').focus();
         },
 
         /**
@@ -310,7 +329,7 @@ export default {
          * @return void
          */
         queryFocusable() {
-            return this.$el.querySelector('.dropdown-menu').querySelectorAll('label, input, select, textarea, [tabindex]:not([tabindex="-1"])');
+            return this.$el?.querySelector('.dropdown-menu').querySelectorAll('label, input, select, textarea, [tabindex]:not([tabindex="-1"])');
         },
 
         /**
@@ -347,14 +366,10 @@ export default {
         show() {
             this.expanded = true;
 
-            const target = this.$refs.split && this.$refs.split.$el || this.$el;
-
-            // Hack for popper for align="right"
-            // this.$refs.menu.$el.style.left = 'auto';
-            // this.$refs.menu.$el.style.right = 'auto';
+            const target = this.$refs.split && this.$refs.split?.$el || this.$el;
 
             if(!this.nav && !this.popper) {
-                this.popper = createPopper(target, this.$refs.menu.$el, {
+                this.popper = createPopper(target, this.$refs.menu?.$el, {
                     placement: <Placement> `${this.placement}-${this.align === 'left' ? 'start' : 'end'}`,
                     onFirstUpdate: () => {
                         this.triggerAnimation = this.animated;
@@ -390,13 +405,13 @@ export default {
          * @return void
          */
         onBlur(e: any) {
-            if(!this.$refs.menu.$el.contains(e.relatedTarget) || !this.$el.contains(e.relatedTarget)) {
+            if(!this.$refs.menu?.$el.contains(e.relatedTarget) || !this?.$el.contains(e.relatedTarget)) {
                 this.hide();
             }
         },
 
         onClickDocument(e: Event) {
-            if(!this.$el.contains(e.target)) {
+            if(!this?.$el.contains(e.target)) {
                 this.hide();
             }
         },
@@ -433,24 +448,6 @@ export default {
             }
         }
 
-    },
-
-    watch: {
-        expanded(value: any) {
-            this.$nextTick(() => {
-                this.$emit(value ? 'show' : 'hide');
-                this.$emit('toggle', value);
-            });
-            
-            setTimeout(() => {
-                if(value) {
-                    document.addEventListener('click', this.onClickDocument);
-                }
-                else {
-                    document.removeEventListener('click', this.onClickDocument);
-                }
-            });
-        }
     }
 
-};
+});
