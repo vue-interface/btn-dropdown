@@ -405,7 +405,7 @@ export default defineComponent({
          * @return void
          */
         onBlur(e: any) {
-            if(!this.$refs.menu?.$el.contains(e.relatedTarget) || !this?.$el.contains(e.relatedTarget)) {
+            if(this.$refs.menu && !this.$refs.menu?.$el.contains(e.relatedTarget) || !this?.$el.contains(e.relatedTarget)) {
                 this.hide();
             }
         },

@@ -1,5 +1,6 @@
 .DS_Store
 node_modules
+.turbo
 
 # local env files
 .env.local

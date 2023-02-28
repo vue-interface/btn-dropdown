@@ -503,7 +503,30 @@
                 <a href="#">Action</a>
                 <a href="#">Another Action</a>
                 <a href="#">Something else here</a>
-            </btn-dropdown>            
+            </btn-dropdown>   
+            
+            
+            <h2 class="text-2xl mb-3 mt-6">Testing</h2>
+
+            <btn-dropdown
+                ref="menu"
+                align="right">
+                <template #button="{ onBlur, onClickToggle, expanded }">
+                    <button
+                        class="flex items-center justify-center rounded-full p-0 text-center outline-none ring-pink-500 transition-transform focus:ring"
+                        :class="{'rotate-90': expanded}"
+                        @blur="onBlur"
+                        @click="onClickToggle">
+                    asdf
+                    </button>
+                </template>
+                <div v-if="false">
+                    asdf
+                </div>
+                <div v-if="true">
+                    asdf
+                </div>
+            </btn-dropdown>
         </div>
 
         <script type="module">

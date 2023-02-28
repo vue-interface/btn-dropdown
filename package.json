@@ -46,7 +46,7 @@
   "bugs": {
     "url": "https://github.com/vue-interface/btn-dropdown/issues"
   },
-  "homepage": "https://github.com/vue-interface/btn-dropdown/docs#readme",
+  "homepage": "https://github.com/vue-interface/btn-dropdown/docs",
   "dependencies": {
     "@popperjs/core": "^2.11.2",
     "@vue-interface/btn": "^3.0.0-beta.1",
@@ -57,19 +57,14 @@
     "vue": "^3.0.0"
   },
   "devDependencies": {
-    "@rollup/plugin-babel": "^6.0.0",
     "@vitejs/plugin-vue": "^4.0.0",
-    "@vue/eslint-config-typescript": "^11.0.2",
+    "@vue-interface/eslint-config": "1.0.0-beta.1",
     "autoprefixer": "^10.4.2",
-    "babel-eslint": "^10.1.0",
-    "babel-preset-vue": "^2.0.2",
     "change-case": "^4.1.2",
     "eslint": "^8.25.0",
-    "eslint-plugin-vue": "^9.6.0",
     "pascalcase": "^2.0.0",
     "postcss": "^8.4.6",
     "tailwindcss": "^3.1.0",
-    "ts-vue": "^0.1.0",
     "typescript": "^4.9.4",
     "vite": "^4.0.0",
     "vite-plugin-dts": "^1.7.1",
