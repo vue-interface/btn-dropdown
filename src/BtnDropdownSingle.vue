@@ -12,11 +12,11 @@ export default defineComponent({
 </script>
 
 <template>
-    <btn-group :class="classes">
+    <BtnGroup :class="classes">
         <slot
             name="button"
             v-bind="scope">
-            <btn-dropdown-action
+            <BtnDropdownAction
                 :id="$attrs.id"
                 ref="button"
                 :expanded="expanded"
@@ -30,9 +30,9 @@ export default defineComponent({
                 <slot name="label">
                     {{ label }}
                 </slot>
-            </btn-dropdown-action>
+            </BtnDropdownAction>
         </slot>
-        <dropdown-menu
+        <DropdownMenu
             :id="$attrs.id"
             ref="menu"
             :align="align"
@@ -43,6 +43,6 @@ export default defineComponent({
             @keydown.tab="onKeydown"
             @mousedown.prevent="">
             <slot />
-        </dropdown-menu>
-    </btn-group>
+        </DropdownMenu>
+    </BtnGroup>
 </template>

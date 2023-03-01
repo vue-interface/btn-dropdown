@@ -27,7 +27,7 @@ export default defineComponent({
 </script>
 
 <template>
-    <component
+    <Component
         :is="$attrs.split === undefined || !!$attrs.nav ? 'btn-dropdown-single' : 'btn-dropdown-split'"
         class="btn-dropdown"
         v-bind="$attrs"
@@ -58,7 +58,7 @@ export default defineComponent({
                 v-bind="slot" />
         </template>
         <slot />
-    </component>
+    </Component>
 </template>
 
 <style>

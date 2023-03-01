@@ -37,7 +37,7 @@ export default defineComponent({
 </script>
 
 <template>
-    <component
+    <Component
         :is="is"
         :id="id"
         v-bind="to ? { to } : { href }"
@@ -45,5 +45,5 @@ export default defineComponent({
         :aria-expanded="expanded"
         :type="is === 'button' ? 'button': undefined">
         <slot />
-    </component>
+    </Component>
 </template>

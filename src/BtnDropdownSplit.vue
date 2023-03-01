@@ -16,14 +16,14 @@ export default defineComponent({
 </script>
 
 <template>
-    <btn-group
+    <BtnGroup
         :class="classes"
         class="btn-dropdown-split">
         <slot
             v-if="!dropleft"
             name="button"
             v-bind="scope">
-            <btn-dropdown-action
+            <BtnDropdownAction
                 v-if="!dropleft"
                 :id="$attrs.id"
                 ref="button"
@@ -36,10 +36,10 @@ export default defineComponent({
                 <slot name="label">
                     {{ label }}
                 </slot>
-            </btn-dropdown-action>
+            </BtnDropdownAction>
         </slot>
 
-        <btn-group ref="split">
+        <BtnGroup ref="split">
             <slot
                 name="split"
                 v-bind="scope">
@@ -54,7 +54,7 @@ export default defineComponent({
                     @click="onClickToggle" />
             </slot>
             
-            <dropdown-menu
+            <DropdownMenu
                 :id="$attrs.id"
                 ref="menu"
                 :align="align"
@@ -65,13 +65,13 @@ export default defineComponent({
                 @keydown.tab="onKeydown"
                 @mousedown.prevent="">
                 <slot />
-            </dropdown-menu>
-        </btn-group>
+            </DropdownMenu>
+        </BtnGroup>
         <slot
             v-if="dropleft"
             name="button"
             v-bind="scope">
-            <btn-dropdown-action
+            <BtnDropdownAction
                 v-if="dropleft"
                 :id="$attrs.id"
                 ref="button"
@@ -84,7 +84,7 @@ export default defineComponent({
                 <slot name="label">
                     {{ label }}
                 </slot>
-            </btn-dropdown-action>
+            </BtnDropdownAction>
         </slot>
-    </btn-group>
+    </BtnGroup>
 </template>
