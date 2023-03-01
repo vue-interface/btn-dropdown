@@ -1004,19 +1004,38 @@ var Kr = [vr, Rr, cr, tr, Dr, Pr, zr, lr, Sr], Jr = /* @__PURE__ */ Yr({
 });
 const Qr = F({
   props: {
+    /**
+     * The generic component prefix.
+     */
     componentPrefix: String,
+    /**
+     * The size name.
+     */
     size: String,
+    /**
+     * The sizable prefix. Should use to component prefix, unless the
+     * sizeable prefix is different than the component prefix.
+     */
     sizePrefix: String
   },
   computed: {
+    /**
+     * The computed sizeable class prefix.
+     */
     sizeableClassPrefix() {
       return this.sizePrefix || this.componentPrefix;
     },
+    /**
+     * Determines if the size already has the prefix.
+     */
     hasSizeablePrefix() {
       return this.size === void 0 ? !1 : !!this.size.match(
         new RegExp(`^${this.sizeableClassPrefix}`)
       );
     },
+    /**
+     * The size classes that get injected into the DOM.
+     */
     sizeableClass() {
       return this.size ? !this.sizeableClassPrefix || this.hasSizeablePrefix ? this.size : `${this.sizeableClassPrefix}-${this.size}` : "";
     }
