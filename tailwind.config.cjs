@@ -9,12 +9,12 @@ module.exports = {
     },
     plugins: [
         require('@vue-interface/dropdown-menu/tailwindcss'),
-        require('@vue-interface/btn/tailwindcss'),
+        require('@vue-interface/btn/tailwindcss')(),
         require('@vue-interface/btn-group/tailwindcss'),
     ],
     safelist: [
-        ...require('@vue-interface/btn/tailwindcss/safelist')(),
-        ...require('@vue-interface/btn-group/tailwindcss/safelist')(),
-        ...require('@vue-interface/dropdown-menu/tailwindcss/safelist')(),
+        // ...require('@vue-interface/btn/tailwindcss/safelist')(),
+        // ...require('@vue-interface/btn-group/tailwindcss/safelist')(),
+        // ...require('@vue-interface/dropdown-menu/tailwindcss/safelist')(),
     ]
 };

@@ -157,7 +157,10 @@ export default defineComponent({
          *
          * @property {String|Object}
          */
-        to: [String, Object],
+        to: {
+            type: [String, Object],
+            default: undefined
+        },
 
         /**
          * The button type attribute.
@@ -282,8 +285,8 @@ export default defineComponent({
                 'rotate-90': !this.split && this.rotate && this.expanded,
                 'dropdown-toggle': true,
                 'dropdown-toggle-split': !this.nav && this.split,
-                [this.variantClass]: !this.nav && !!this.variant,
-                [this.sizeableClass]: !!this.size,
+                [this.variant]: !this.nav && !!this.variant,
+                [this.size]: !!this.size,
             }, typeof this.buttonClass === 'object' ? this.buttonClass : {
                 [this.buttonClass]: !!this.buttonClass
             });

@@ -1,53 +1,51 @@
-<script setup lang="ts">
-import { BtnGroup } from '@vue-interface/btn-group';
-import { DropdownMenu } from '@vue-interface/dropdown-menu';
-import BtnDropdownAction from './BtnDropdownAction.vue';
-import { BtnDropdownEmits, BtnDropdownProps, useBtnDropdown } from './dropdown.js';
+<script lang="ts">
+import { defineComponent } from 'vue';
+import DropdownHandler from './DropdownHandler';
 
-const props = defineProps<BtnDropdownProps>();
-const emit = defineEmits<BtnDropdownEmits>();
+export default defineComponent({
 
-const {
-    actionClasses,
-    classes,
-    expanded,
-    menu,
-    target,
-    toggleClasses,
-    triggerAnimation,
-    onBlur,
-    onClickToggle,
-    onClickItem,
-    onKeydown
-} = useBtnDropdown(props, emit);
+    mixins: [
+        DropdownHandler
+    ],
+
+    emits: [
+        'click'
+    ]
+
+});
 </script>
 
 <template>
     <BtnGroup
         :class="classes"
         class="btn-dropdown-split">
-
         <slot
             v-if="!dropleft"
-            v-bind="{ expanded, onBlur, onClickToggle, onClickItem, onKeydown }"
-            name="button">
+            name="button"
+            v-bind="scope">
             <BtnDropdownAction
-                :id="($attrs.id as string)"
+                v-if="!dropleft"
+                :id="$attrs.id"
+                ref="button"
                 :expanded="expanded"
+                :href="href"
+                :to="to"
                 :class="actionClasses"
-                @click="emit('click', $event)">
+                @click="$emit('click', $event)">
                 <slot name="icon" />
                 <slot name="label">
                     {{ label }}
                 </slot>
             </BtnDropdownAction>
         </slot>
-   
-        <BtnGroup ref="target">
+
+        <BtnGroup ref="split">
             <slot
-                name="split">
+                name="split"
+                v-bind="scope">
                 <button
-                    :id="($attrs.id as string)"
+                    v-if="split"
+                    :id="$attrs.id"
                     type="button"
                     aria-haspopup="true"
                     :aria-expanded="expanded"
@@ -57,6 +55,7 @@ const {
             </slot>
             
             <DropdownMenu
+                :id="$attrs.id"
                 ref="menu"
                 :align="align"
                 :show="expanded"
@@ -68,16 +67,19 @@ const {
                 <slot />
             </DropdownMenu>
         </BtnGroup>
-
         <slot
             v-if="dropleft"
-            v-bind="{ expanded, onBlur, onClickToggle, onClickItem, onKeydown }"
-            name="button">
+            name="button"
+            v-bind="scope">
             <BtnDropdownAction
-                :id="($attrs.id as string)"
+                v-if="dropleft"
+                :id="$attrs.id"
+                ref="button"
                 :expanded="expanded"
+                :href="href"
+                :to="to"
                 :class="actionClasses"
-                @click="emit('click', $event)">
+                @click="$emit('click', $event)">
                 <slot name="icon" />
                 <slot name="label">
                     {{ label }}
