@@ -1,3 +1,10 @@
+# [2.0.0-beta.15](https://github.com/vue-interface/btn-dropdown/compare/v2.0.0-beta.14...v2.0.0-beta.15) (2023-09-23)
+
+
+### Bug Fixes
+
+* issues with JIT parsing ([0ec5a37](https://github.com/vue-interface/btn-dropdown/commit/0ec5a37d21898ecd3df8a418b65ac22cdc08f915))
+
 # [2.0.0-beta.14](https://github.com/vue-interface/btn-dropdown/compare/v2.0.0-beta.13...v2.0.0-beta.14) (2023-09-22)
 
 
