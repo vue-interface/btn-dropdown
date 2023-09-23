@@ -2,11 +2,7 @@
 import { useSlots } from 'vue';
 import BtnDropdownSingle from './BtnDropdownSingle.vue';
 import BtnDropdownSplit from './BtnDropdownSplit.vue';
-
-export type BtnDropdownProps = {
-    label?: string,
-    split?: boolean
-}
+import { BtnDropdownProps } from './dropdown.js';
 
 const props = defineProps<BtnDropdownProps>();
 

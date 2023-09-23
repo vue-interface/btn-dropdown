@@ -19,6 +19,6 @@
       "sourceRoot": "./src",
       "outDir": "./dist"
     },
-    "include": ["index.ts", "src"]
+    "include": ["index.ts", "src", "demo"]
   }
   

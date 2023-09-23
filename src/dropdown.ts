@@ -67,7 +67,7 @@ export function useBtnDropdown<Props extends BtnDropdownProps, Emits extends Btn
 
         return {
             btn: true,
-            [props.buttonClass]: true
+            [props.buttonClass]: !!props.buttonClass
         }
     });
 
