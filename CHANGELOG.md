@@ -1,3 +1,11 @@
+# [2.0.0-beta.16](https://github.com/vue-interface/btn-dropdown/compare/v2.0.0-beta.15...v2.0.0-beta.16) (2023-11-17)
+
+
+### Bug Fixes
+
+* latest issues ([90d1fd5](https://github.com/vue-interface/btn-dropdown/commit/90d1fd5b26165c0c3da54a7a4e3b8cb0060773de))
+* updated tsconfig ([431539f](https://github.com/vue-interface/btn-dropdown/commit/431539f7a63e4528252cef0a089c4a8e37d5616f))
+
 # [2.0.0-beta.15](https://github.com/vue-interface/btn-dropdown/compare/v2.0.0-beta.14...v2.0.0-beta.15) (2023-09-23)
 
 
