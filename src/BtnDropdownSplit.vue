@@ -26,7 +26,6 @@ const {
     <BtnGroup
         :class="classes"
         class="btn-dropdown-split">
-
         <slot
             v-if="!dropleft"
             v-bind="{ expanded, onBlur, onClickToggle, onClickItem, onKeydown }"

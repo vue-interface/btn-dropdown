@@ -29,9 +29,6 @@ const {
         <slot
             name="button"
             v-bind="{ expanded, target, toggle, onBlur, onClickToggle, onClickItem, onKeydown }">
-
-            <!-- :href="href"
-                :to="to" -->
             <BtnDropdownAction
                 :id="($attrs.id as string)"
                 :expanded="expanded"

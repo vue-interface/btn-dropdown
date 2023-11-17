@@ -18,7 +18,7 @@ export type BtnDropdownProps = {
 
 export type BtnDropdownEmits = {
     (name: 'click', e: PointerEvent): void,
-    (name: 'click-toggle', e: PointerEvent): void
+    (name: 'click-toggle', e: MouseEvent): void
 }
 
 export function useBtnDropdown<Props extends BtnDropdownProps, Emits extends BtnDropdownEmits>(props: Props, emit: Emits) {
@@ -68,7 +68,7 @@ export function useBtnDropdown<Props extends BtnDropdownProps, Emits extends Btn
         return {
             btn: true,
             [props.buttonClass]: !!props.buttonClass
-        }
+        };
     });
 
     const toggleClasses = computed(() => ({
@@ -118,7 +118,7 @@ export function useBtnDropdown<Props extends BtnDropdownProps, Emits extends Btn
             return props.align === 'right' ? 'end' : 'start';
         }
 
-        return 'start'
+        return 'start';
     });
     
     function show() {
@@ -183,7 +183,7 @@ export function useBtnDropdown<Props extends BtnDropdownProps, Emits extends Btn
         }
     }
 
-    function onClickToggle(e: PointerEvent) {
+    function onClickToggle(e: MouseEvent) {
         e.target.dispatchEvent(new Event('focus', e));
             
         emit('click-toggle', e);
@@ -218,5 +218,5 @@ export function useBtnDropdown<Props extends BtnDropdownProps, Emits extends Btn
         onClickItem,
         onClickToggle,
         onKeydown
-    }
+    };
 }

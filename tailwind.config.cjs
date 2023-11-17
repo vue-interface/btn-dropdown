@@ -3,7 +3,9 @@ const plugin = require('tailwindcss/plugin');
 module.exports = {
     content: [
         './index.html',
-        './demo/**/*/.{html,vue}'
+        './demo/**/*/.{html,vue}',
+        './src/*.{vue}',
+        './node_modules/@vue-interface/*/{src,tailwindcss}/*.{vue,ts,js,cjs,mjs}',
     ],
     theme: {
         extend: {},
