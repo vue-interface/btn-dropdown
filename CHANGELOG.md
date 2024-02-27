@@ -1,3 +1,10 @@
+# [2.0.0-beta.17](https://github.com/vue-interface/btn-dropdown/compare/v2.0.0-beta.16...v2.0.0-beta.17) (2024-02-27)
+
+
+### Bug Fixes
+
+* fix focus/blur for safari ([1b57ba0](https://github.com/vue-interface/btn-dropdown/commit/1b57ba0191529194da7c59012f24e8f1c29fd66c))
+
 # [2.0.0-beta.16](https://github.com/vue-interface/btn-dropdown/compare/v2.0.0-beta.15...v2.0.0-beta.16) (2023-11-17)
 
 
