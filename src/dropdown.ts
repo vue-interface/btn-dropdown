@@ -174,6 +174,11 @@ export function useBtnDropdown<Props extends BtnDropdownProps, Emits extends Btn
 
     function onBlur(e: FocusEvent) {
         emit('blur', e);
+
+        if(e.defaultPrevented) {
+            return;
+        }
+
         if(menuEl.value && !menuEl.value.contains(e.relatedTarget) || !menuEl.value.contains(e.relatedTarget)) {
             hide();
         }
