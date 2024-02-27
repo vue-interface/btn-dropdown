@@ -8,6 +8,8 @@ const props = defineProps<BtnDropdownProps>();
 const emit = defineEmits<BtnDropdownEmits>();
 
 const {
+    button,
+    $button,
     target,
     classes,
     expanded,
@@ -28,9 +30,10 @@ const {
         :class="classes">
         <slot
             name="button"
-            v-bind="{ expanded, target, toggle, onBlur, onClickToggle, onClickItem, onKeydown }">
+            v-bind="{ button, $button, expanded, target, toggle, onBlur, onClickToggle, onClickItem, onKeydown }">
             <BtnDropdownAction
                 :id="($attrs.id as string)"
+                ref="button"
                 :expanded="expanded"
                 :class="toggleClasses"
                 @blur="onBlur"

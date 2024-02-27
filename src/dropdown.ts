@@ -26,8 +26,19 @@ export function useBtnDropdown<Props extends BtnDropdownProps, Emits extends Btn
     const expanded = ref(false);
     const triggerAnimation = ref(false);
     const popper = ref<Instance>();
+    const button = ref<HTMLElement|ComponentPublicInstance>();
     const target = ref<HTMLElement|ComponentPublicInstance>();
     const menu = ref<HTMLElement|ComponentPublicInstance>();
+
+    function $button(value: HTMLElement|ComponentPublicInstance) {
+        button.value = value;
+    }
+
+    const buttonEl = computed(() => 
+        button.value instanceof HTMLElement
+            ? button.value
+            : button.value?.$el
+    );
 
     const targetEl = computed(() => 
         target.value instanceof HTMLElement
@@ -123,6 +134,8 @@ export function useBtnDropdown<Props extends BtnDropdownProps, Emits extends Btn
     });
     
     function show() {
+        buttonEl.value?.focus();
+        
         expanded.value = true;
 
         if(!popper.value) {
@@ -191,10 +204,6 @@ export function useBtnDropdown<Props extends BtnDropdownProps, Emits extends Btn
     }
 
     function onClickToggle(e: MouseEvent) {
-        const targetElement = e.target as HTMLElement;
-        targetElement.dispatchEvent(new Event('focus', e));
-        targetElement.focus();
-            
         emit('click-toggle', e);
 
         if(!e.defaultPrevented) {
@@ -214,6 +223,8 @@ export function useBtnDropdown<Props extends BtnDropdownProps, Emits extends Btn
 
     return {
         actionClasses,
+        button,
+        $button,
         classes,
         expanded,
         menu,
