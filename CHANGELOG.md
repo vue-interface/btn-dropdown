@@ -1,3 +1,10 @@
+# [2.0.0-beta.18](https://github.com/vue-interface/btn-dropdown/compare/v2.0.0-beta.17...v2.0.0-beta.18) (2024-02-27)
+
+
+### Bug Fixes
+
+* slight change to onBlur ([dd35e1d](https://github.com/vue-interface/btn-dropdown/commit/dd35e1ddf6e41ab3245a9094ddb2855f944beb35))
+
 # [2.0.0-beta.17](https://github.com/vue-interface/btn-dropdown/compare/v2.0.0-beta.16...v2.0.0-beta.17) (2024-02-27)
 
 
