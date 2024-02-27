@@ -10,6 +10,10 @@ const emit = defineEmits<{
     click: [e: Event]
 }>();
 
+function onClick(e: Event) {
+    return emit('click', e);
+}
+
 const slots = useSlots();
 </script>
 
@@ -18,7 +22,7 @@ const slots = useSlots();
         :is="split ? BtnDropdownSplit : BtnDropdownSingle"
         v-bind="props"
         class="btn-dropdown"
-        @click="(e: Event) => emit('click', e)">
+        @click="onClick">
         <!-- @click-toggle="(...args: any[]) => $emit('click-toggle', ...args)"
         @dropdown="(...args: any[]) => $emit('dropdown', ...args)"
         @show="(...args: any[]) => $emit('show', ...args)"

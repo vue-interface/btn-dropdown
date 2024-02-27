@@ -12,7 +12,7 @@
             <h2 class="text-2xl mb-3">Basic Usage</h2>
 
             <div class="flex gap-2">
-                <btn-dropdown variant="btn-primary" label="Regular Button" @click-toggle="onToggle">
+                <btn-dropdown variant="btn-primary" label="Regular Button" @blur="onBlur" @click-toggle="onToggle">
                     <a href="#/test" @click="onClickItem" class="dropdown-item">Action</a>
                     <a href="#" class="dropdown-item">Another Action</a>
                     <hr>
@@ -510,6 +510,9 @@
                     },
                     onToggle() {
                         console.log('onToggle');
+                    },
+                    onBlur() {
+                        console.log('onBlur');
                     }
                 }
             })

@@ -18,7 +18,8 @@ export type BtnDropdownProps = {
 
 export type BtnDropdownEmits = {
     (name: 'click', e: PointerEvent): void,
-    (name: 'click-toggle', e: MouseEvent): void
+    (name: 'click-toggle', e: MouseEvent): void,
+    (name: 'blur', e: FocusEvent): void
 }
 
 export function useBtnDropdown<Props extends BtnDropdownProps, Emits extends BtnDropdownEmits>(props: Props, emit: Emits) {
@@ -171,7 +172,8 @@ export function useBtnDropdown<Props extends BtnDropdownProps, Emits extends Btn
         return false;
     }
 
-    function onBlur(e: any) {
+    function onBlur(e: FocusEvent) {
+        emit('blur', e);
         if(menuEl.value && !menuEl.value.contains(e.relatedTarget) || !menuEl.value.contains(e.relatedTarget)) {
             hide();
         }
@@ -184,7 +186,9 @@ export function useBtnDropdown<Props extends BtnDropdownProps, Emits extends Btn
     }
 
     function onClickToggle(e: MouseEvent) {
-        e.target.dispatchEvent(new Event('focus', e));
+        const targetElement = e.target as HTMLElement;
+        targetElement.dispatchEvent(new Event('focus', e));
+        targetElement.focus();
             
         emit('click-toggle', e);
 
