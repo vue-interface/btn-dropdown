@@ -1,3 +1,10 @@
+# [2.0.0-beta.19](https://github.com/vue-interface/btn-dropdown/compare/v2.0.0-beta.18...v2.0.0-beta.19) (2024-02-27)
+
+
+### Bug Fixes
+
+* issue with on blur not working properly ([be75452](https://github.com/vue-interface/btn-dropdown/commit/be75452d18aae6d33a2aa20cb530f1e270487c2a))
+
 # [2.0.0-beta.18](https://github.com/vue-interface/btn-dropdown/compare/v2.0.0-beta.17...v2.0.0-beta.18) (2024-02-27)
 
 
