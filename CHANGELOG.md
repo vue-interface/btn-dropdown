@@ -1,3 +1,10 @@
+# [2.0.0-beta.20](https://github.com/vue-interface/btn-dropdown/compare/v2.0.0-beta.19...v2.0.0-beta.20) (2024-05-28)
+
+
+### Bug Fixes
+
+* fix typescript issues with vue 3.4 ([f0372fe](https://github.com/vue-interface/btn-dropdown/commit/f0372fe38d6650a6a5e6ac713c9da379e9de5175))
+
 # [2.0.0-beta.19](https://github.com/vue-interface/btn-dropdown/compare/v2.0.0-beta.18...v2.0.0-beta.19) (2024-02-27)
 
 
