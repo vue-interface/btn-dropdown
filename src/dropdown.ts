@@ -1,5 +1,5 @@
 import { Instance, Placement, createPopper } from '@popperjs/core';
-import { ComponentPublicInstance, computed, onBeforeMount, ref } from 'vue';
+import { ComponentPublicInstance, ComputedRef, computed, onBeforeMount, ref } from 'vue';
 
 export type BtnDropdownProps = {
     active?: boolean,
@@ -30,7 +30,7 @@ export function useBtnDropdown<Props extends BtnDropdownProps, Emits extends Btn
     const target = ref<Element|ComponentPublicInstance>();
     const menu = ref<Element|ComponentPublicInstance>();
 
-    const $button: (ref: Element | ComponentPublicInstance | null, refs: Record<string, any>) => void = (ref) => {
+    const $button: any = (ref) => {
         button.value = ref;
     }
 
@@ -53,33 +53,30 @@ export function useBtnDropdown<Props extends BtnDropdownProps, Emits extends Btn
     );
 
     const classes = computed(() => ({
-        [props.size]: !!props.size,
-        
+        [props.size]: !!props.size,        
         'dropdown': props.dropdown || !(props.dropright || props.dropleft || props.dropup),
         'dropup': props.dropup,
         'dropright': props.dropright,
         'dropleft': props.dropleft,
-        // 'icon-only': !this.nav && !this.split && !!this.$slots.icon && !this.$slots.label,
-        // 'hide-caret': !this.caret,
         'expanded': expanded.value,
-        // 'rotate-90': !this.nav && this.split && this.rotate && this.expanded,
     }));
 
     const actionClasses = computed(() => ({
-        // [props.size]: !!props.size,
         [props.variant]: !!props.variant,
-        
         ...buttonsClasses.value,
     }));
 
-    const buttonsClasses = computed(() => {
-        if(typeof props.buttonClass === 'object') {
-            return { btn: true, ...props.buttonClass };
-        }
-
+    const buttonsClasses: ComputedRef<{
+        btn: true,
+        [x: string]: boolean
+    }> = computed(() => {
+        const buttonClass = typeof props.buttonClass === 'object'
+            ? props.buttonClass
+            : {[props.buttonClass]: !!props.buttonClass};
+            
         return {
             btn: true,
-            [props.buttonClass]: !!props.buttonClass
+            ...buttonClass
         };
     });
 
@@ -87,9 +84,7 @@ export function useBtnDropdown<Props extends BtnDropdownProps, Emits extends Btn
         'active': props.active,
         'dropdown-toggle': true,
         'dropdown-toggle-split': props.split,
-        // [props.size]: !!props.size,
         [props.variant]: !!props.variant,
-        
         ...buttonsClasses.value,
     }));
 
