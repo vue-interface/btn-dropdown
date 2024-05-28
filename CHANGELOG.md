@@ -1,3 +1,10 @@
+# [2.0.0-beta.22](https://github.com/vue-interface/btn-dropdown/compare/v2.0.0-beta.21...v2.0.0-beta.22) (2024-05-28)
+
+
+### Bug Fixes
+
+* more ts updates ([02e4ac1](https://github.com/vue-interface/btn-dropdown/commit/02e4ac14c3e419a5014741e0d79399f66974c4e5))
+
 # [2.0.0-beta.21](https://github.com/vue-interface/btn-dropdown/compare/v2.0.0-beta.20...v2.0.0-beta.21) (2024-05-28)
 
 
