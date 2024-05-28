@@ -1,5 +1,5 @@
 import { Instance, Placement, createPopper } from '@popperjs/core';
-import { ComponentPublicInstance, VNodeRef, computed, onBeforeMount, ref } from 'vue';
+import { ComponentPublicInstance, computed, onBeforeMount, ref } from 'vue';
 
 export type BtnDropdownProps = {
     active?: boolean,
@@ -26,11 +26,11 @@ export function useBtnDropdown<Props extends BtnDropdownProps, Emits extends Btn
     const expanded = ref(false);
     const triggerAnimation = ref(false);
     const popper = ref<Instance>();
-    const button = ref<Element|ComponentPublicInstance|null>();
+    const button = ref<Element|ComponentPublicInstance>();
     const target = ref<Element|ComponentPublicInstance>();
     const menu = ref<Element|ComponentPublicInstance>();
 
-    const $button: VNodeRef = (ref: Element | ComponentPublicInstance | null) => {
+    const $button: (ref: Element | ComponentPublicInstance | null, refs: Record<string, any>) => void = (ref) => {
         button.value = ref;
     }
 
@@ -91,22 +91,6 @@ export function useBtnDropdown<Props extends BtnDropdownProps, Emits extends Btn
         [props.variant]: !!props.variant,
         
         ...buttonsClasses.value,
-
-        // toggleClasses() {
-        //     return Object.assign({
-        //         'active': this.active,
-        //         'btn': !this.nav,
-        //         'btn-block': !!this.block,
-        //         'nav-link': !!this.nav,
-        //         'rotate-90': !this.split && this.rotate && this.expanded,
-        //         'dropdown-toggle': true,
-        //         'dropdown-toggle-split': !this.nav && this.split,
-        //         [this.variant]: !this.nav && !!this.variant,
-        //         [this.size]: !!this.size,
-        //     }, typeof this.buttonClass === 'object' ? this.buttonClass : {
-        //         [this.buttonClass]: !!this.buttonClass
-        //     });
-        // }
     }));
 
     const placement = computed(() => {
