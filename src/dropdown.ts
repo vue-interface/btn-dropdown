@@ -1,5 +1,5 @@
 import { Instance, Placement, createPopper } from '@popperjs/core';
-import { ComponentPublicInstance, computed, onBeforeMount, ref } from 'vue';
+import { ComponentPublicInstance, VNodeRef, computed, onBeforeMount, ref } from 'vue';
 
 export type BtnDropdownProps = {
     active?: boolean,
@@ -26,28 +26,28 @@ export function useBtnDropdown<Props extends BtnDropdownProps, Emits extends Btn
     const expanded = ref(false);
     const triggerAnimation = ref(false);
     const popper = ref<Instance>();
-    const button = ref<HTMLElement|ComponentPublicInstance>();
-    const target = ref<HTMLElement|ComponentPublicInstance>();
-    const menu = ref<HTMLElement|ComponentPublicInstance>();
+    const button = ref<Element|ComponentPublicInstance|null>();
+    const target = ref<Element|ComponentPublicInstance>();
+    const menu = ref<Element|ComponentPublicInstance>();
 
-    function $button(value: HTMLElement|ComponentPublicInstance) {
-        button.value = value;
+    const $button: VNodeRef = (ref: Element | ComponentPublicInstance | null) => {
+        button.value = ref;
     }
 
     const buttonEl = computed(() => 
-        button.value instanceof HTMLElement
+        button.value instanceof Element
             ? button.value
             : button.value?.$el
     );
 
     const targetEl = computed(() => 
-        target.value instanceof HTMLElement
+        target.value instanceof Element
             ? target.value
             : target.value.$el
     );
 
     const menuEl = computed(() => 
-        menu.value instanceof HTMLElement
+        menu.value instanceof Element
             ? menu.value
             : menu.value.$el
     );
