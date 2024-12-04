@@ -171,7 +171,7 @@ export function useBtnDropdown<Props extends BtnDropdownProps, Emits extends Btn
             return;
         }
 
-        if(menuEl.value && !menuEl.value.contains(e.relatedTarget) || !menuEl.value.contains(e.relatedTarget)) {
+        if(menuEl.value && !menuEl.value.contains((e as any).relatedTarget) || !menuEl.value.contains((e as any).relatedTarget)) {
             hide();
         }
     }
