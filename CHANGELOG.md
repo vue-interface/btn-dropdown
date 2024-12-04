@@ -1,3 +1,10 @@
+# [2.0.0-beta.24](https://github.com/vue-interface/btn-dropdown/compare/v2.0.0-beta.23...v2.0.0-beta.24) (2024-12-04)
+
+
+### Bug Fixes
+
+* fixed some more JS errors ([f23f59f](https://github.com/vue-interface/btn-dropdown/commit/f23f59f109e4f3550f540b79e4c26e86ea6918db))
+
 # [2.0.0-beta.23](https://github.com/vue-interface/btn-dropdown/compare/v2.0.0-beta.22...v2.0.0-beta.23) (2024-12-04)
 
 
