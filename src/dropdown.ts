@@ -34,22 +34,22 @@ export function useBtnDropdown<Props extends BtnDropdownProps, Emits extends Btn
         button.value = ref;
     }
 
-    const buttonEl = computed(() => 
+    const buttonEl = computed<HTMLButtonElement|undefined>(() => 
         button.value instanceof Element
             ? button.value
             : button.value?.$el
     );
 
-    const targetEl = computed(() => 
+    const targetEl = computed<Element|undefined>(() => 
         target.value instanceof Element
             ? target.value
-            : target.value.$el
+            : target.value?.$el
     );
 
-    const menuEl = computed(() => 
+    const menuEl = computed<Element|undefined>(() => 
         menu.value instanceof Element
             ? menu.value
-            : menu.value.$el
+            : menu.value?.$el
     );
 
     const classes = computed(() => ({
